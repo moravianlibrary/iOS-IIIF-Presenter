@@ -1,0 +1,8 @@
+# Uncomment the next line to define a global platform for your project
+source 'https://github.com/Fiser33/iOSTiledViewerSpec.git'
+platform :ios, '8.0'
+use_frameworks!
+
+target 'IIIF Presenter' do
+  pod 'iOSTiledViewer'
+end
