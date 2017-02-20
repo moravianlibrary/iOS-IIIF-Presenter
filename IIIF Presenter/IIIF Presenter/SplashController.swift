@@ -24,13 +24,13 @@ class SplashController: UIViewController {
         errorView.isHidden = true
         spinner.startAnimating()
         
-        var c: Collection?
+        var c: IIIFCollection?
         if let url = URL(string: urlString) {
             let semaphore = DispatchSemaphore(value: 0)
             URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
                 if data != nil,
                     let serialization = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments),
-                    let collection = Collection(serialization as! [String:Any]) {
+                    let collection = IIIFCollection(serialization as! [String:Any]) {
                     c = collection
                 }
                 semaphore.signal()
@@ -48,7 +48,7 @@ class SplashController: UIViewController {
         }
     }
     
-    func showCollection(_ c: Collection) {
+    func showCollection(_ c: IIIFCollection) {
         guard Thread.current.isMainThread else {
             DispatchQueue.main.async {
                 self.showCollection(c)

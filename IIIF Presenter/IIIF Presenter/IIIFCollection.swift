@@ -1,5 +1,5 @@
 //
-//  Collection.swift
+//  IIIFCollection.swift
 //  IIIF Presenter
 //
 //  Created by Jakub Fiser on 02/02/2017.
@@ -8,14 +8,14 @@
 
 import Foundation
 
-struct Collection {
+struct IIIFCollection {
 
     static let type = "sc:Collection"
     
     // required
     let id: URL
     let title: MultiProperty
-    let manifests: [Manifest]
+    let manifests: [IIIFManifest]
     
     // should have
     let metadata: MultiProperty?
@@ -44,15 +44,23 @@ struct Collection {
     
     init?(_ json: [String:Any]) {
         
-        id = URL(string: json["@id"] as! String)!
-        title = MultiProperty(json["label"])!
-        var array = [Manifest]()
-        for item in json["manifests"] as! [[String:Any]] {
-            if let m = Manifest(item) {
+        guard let idString = json["@id"] as? String,
+            let id = URL(string: idString),
+            let title = MultiProperty(json["label"]),
+            let manifests = json["manifests"] as? [[String:Any]] else {
+                return nil
+        }
+        
+        var array = [IIIFManifest]()
+        for item in manifests {
+            if let m = IIIFManifest(item) {
                 array.append(m)
             }
         }
-        manifests = array
+        
+        self.id = id
+        self.title = title
+        self.manifests = array
         
         // should have
         metadata = MultiProperty(json["metadata"])
@@ -86,11 +94,11 @@ struct Collection {
         }
     }
     
-    static func createCollectionWith(_ manifests: [Manifest]) -> Collection {
-        return Collection(manifests: manifests)
+    static func createCollectionWith(_ manifests: [IIIFManifest]) -> IIIFCollection {
+        return IIIFCollection(manifests: manifests)
     }
     
-    fileprivate init(manifests: [Manifest]) {
+    fileprivate init(manifests: [IIIFManifest]) {
         id = URL(string: "www.google.com")!
         title = MultiProperty(["":"Title"])!
         self.manifests = manifests

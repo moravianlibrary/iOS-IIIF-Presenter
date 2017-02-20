@@ -1,5 +1,5 @@
 //
-//  Image.swift
+//  IIIFImage.swift
 //  IIIF Presenter
 //
 //  Created by Jakub Fiser on 02/02/2017.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Image {
+struct IIIFImage {
     
     // required
     let id: String
@@ -17,16 +17,20 @@ struct Image {
     let format: String?
     let width: Int?
     let height: Int?
-    let service: Service?
+    let service: IIIFService?
     
     
     init?(_ json: [String:Any]) {
         
-        id = json["@id"] as! String
+        guard let id = json["@id"] as? String else {
+            return nil
+        }
+        
+        self.id = id
         
         format = json["format"] as? String
         width = json["width"] as? Int
         height = json["height"] as? Int
-        service = Service(json["service"] as? [String:Any])
+        service = IIIFService(json["service"] as? [String:Any])
     }
 }

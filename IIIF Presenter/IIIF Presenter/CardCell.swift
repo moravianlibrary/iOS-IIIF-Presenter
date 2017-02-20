@@ -34,6 +34,10 @@ class CardCell: UICollectionViewCell {
         super.init(coder: aDecoder)
         backgroundColor = UIColor.white
     }
+    
+    @IBAction func showManifestDetail() {
+        viewModel?.showDetail()
+    }
 }
 
 extension CardCell: CardDelegate {

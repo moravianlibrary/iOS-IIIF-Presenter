@@ -1,5 +1,5 @@
 //
-//  Layer.swift
+//  IIIFManifest.swift
 //  IIIF Presenter
 //
 //  Created by Jakub Fiser on 02/02/2017.
@@ -8,37 +8,54 @@
 
 import Foundation
 
-struct Layer {
+class IIIFManifest {
 
-    static let type = "sc:Layer"
+    static let type = "sc:Manifest"
     
-    // required
+    // required fields
     let id: URL
-    let title: MultiProperty
+    var title: MultiProperty
+    var sequences: [IIIFSequence]?
     
-    // optional
+    // should have
     let metadata: MultiProperty?
     let description: MultiProperty?
     let thumbnail: MultiProperty?
+    
+    // optional fields
     let attribution: MultiProperty?
     let license: MultiProperty?
     let logo: MultiProperty?
     let viewingDirection: String?
     let viewingHint: MultiProperty?
+    let date: Date?
     let related: MultiProperty?
     let rendering: MultiProperty?
     let service: MultiProperty?
     let seeAlso: MultiProperty?
     let within: MultiProperty?
-    let first: String?
-    let last: String?
-    let total: Int?
     
-    
-    init?(_ json: [String:Any]) {
-
-        id = URL(string: json["@id"] as! String)!
-        title = MultiProperty(json["label"])!
+    init?(_ json: [String: Any]) {
+        
+        guard let idString = json["@id"] as? String,
+            let id = URL(string: idString),
+            let title = MultiProperty(json["label"]) else {
+                return nil
+        }
+        
+        self.id = id
+        self.title = title
+        
+        // may be nil if present only as a reference
+        if let seq = json["sequences"] as? [[String:Any]] {
+            var array = [IIIFSequence]()
+            for s in seq {
+                if let seq = IIIFSequence(s) {
+                    array.append(seq)
+                }
+            }
+            sequences = array
+        }
         
         // optional fields
         description = MultiProperty(json["description"])
@@ -54,8 +71,13 @@ struct Layer {
         service = MultiProperty(json["service"])
         seeAlso = MultiProperty(json["seeAlso"])
         within = MultiProperty(json["within"])
-        first = json["first"] as? String
-        last = json["last"] as? String
-        total = json["total"] as? Int
+        
+        if let dateString = json["navDate"] as? String {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "YYYY-MM-DDThh:mm:ssZ"
+            date = formatter.date(from: dateString)
+        } else {
+            date = nil
+        }
     }
 }

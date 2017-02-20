@@ -1,5 +1,5 @@
 //
-//  Annotation.swift
+//  IIIFAnnotation.swift
 //  IIIF Presenter
 //
 //  Created by Jakub Fiser on 02/02/2017.
@@ -8,14 +8,14 @@
 
 import Foundation
 
-struct Annotation {
+struct IIIFAnnotation {
 
     static let type = "oa:Annotation"
     static let motivationImage = "sc:painting"
     
     // required
     let motivation: String
-    let resource: Image
+    let resource: IIIFImage
     let on: String
     
     // optional
@@ -24,9 +24,16 @@ struct Annotation {
     
     init?(_ json: [String:Any]) {
         
-        motivation = json["motivation"] as! String
-        on = json["on"] as! String
-        resource = Image(json["resource"] as! [String:Any])!
+        guard let motivation = json["motivation"] as? String,
+            let on = json["on"] as? String,
+            let resourceObj = json["resource"] as? [String:Any],
+            let resource = IIIFImage(resourceObj) else {
+                return nil
+        }
+        
+        self.motivation = motivation
+        self.on = on
+        self.resource = resource
         
         if let value = json["@id"] as? String {
             id = URL(string: value)

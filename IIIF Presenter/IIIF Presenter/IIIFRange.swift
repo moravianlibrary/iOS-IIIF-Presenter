@@ -1,5 +1,5 @@
 //
-//  Manifest.swift
+//  IIIFRange.swift
 //  IIIF Presenter
 //
 //  Created by Jakub Fiser on 02/02/2017.
@@ -8,50 +8,44 @@
 
 import Foundation
 
-struct Manifest {
+struct IIIFRange {
 
-    static let type = "sc:Manifest"
+    static let type = "sc:Range"
     
-    // required fields
+    // required
     let id: URL
     let title: MultiProperty
-    let sequences: [Sequence]?
     
     // should have
+    
+    // optional
     let metadata: MultiProperty?
     let description: MultiProperty?
     let thumbnail: MultiProperty?
-    
-    // optional fields
     let attribution: MultiProperty?
     let license: MultiProperty?
     let logo: MultiProperty?
     let viewingDirection: String?
     let viewingHint: MultiProperty?
-    let date: Date?
     let related: MultiProperty?
     let rendering: MultiProperty?
     let service: MultiProperty?
     let seeAlso: MultiProperty?
     let within: MultiProperty?
+    let startCanvas: String?
+    let contentLayer: String?
     
-    init?(_ json: [String: Any]) {
+    
+    init?(_ json: [String:Any]) {
         
-        id = URL(string: json["@id"] as! String)!
-        title = MultiProperty(json["label"])!
-        
-        // may be nil if present only as a reference
-        if let seq = json["sequences"] as? [[String:Any]] {
-            var array = [Sequence]()
-            for s in seq {
-                if let seq = Sequence(s) {
-                    array.append(seq)
-                }
-            }
-            sequences = array
-        } else {
-            sequences = nil
+        guard let idString = json["@id"] as? String,
+            let id = URL(string: idString),
+            let title = MultiProperty(json["label"]) else {
+                return nil
         }
+        
+        self.id = id
+        self.title = title
         
         // optional fields
         description = MultiProperty(json["description"])
@@ -67,13 +61,7 @@ struct Manifest {
         service = MultiProperty(json["service"])
         seeAlso = MultiProperty(json["seeAlso"])
         within = MultiProperty(json["within"])
-        
-        if let dateString = json["navDate"] as? String {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "YYYY-MM-DDThh:mm:ssZ"
-            date = formatter.date(from: dateString)
-        } else {
-            date = nil
-        }
+        startCanvas = json["startCanvas"] as? String
+        contentLayer = json["contentLayer"] as? String
     }
 }

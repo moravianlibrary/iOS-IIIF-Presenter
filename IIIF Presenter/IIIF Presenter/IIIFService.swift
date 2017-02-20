@@ -1,5 +1,5 @@
 //
-//  Service.swift
+//  IIIFService.swift
 //  IIIF Presenter
 //
 //  Created by Jakub Fiser on 02/02/2017.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Service {
+struct IIIFService {
 
     let id: String
     let profile: String?
@@ -16,11 +16,12 @@ struct Service {
     
     init?(_ json: [String:Any]?) {
         
-        guard let json = json else {
+        guard let json = json,
+            let id = json["@id"] as? String else {
             return nil
         }
         
-        id = json["@id"] as! String
+        self.id = id
         profile = json["profile"] as? String
     }
 }

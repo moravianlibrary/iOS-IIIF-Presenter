@@ -1,5 +1,5 @@
 //
-//  Range.swift
+//  IIIFSequence.swift
 //  IIIF Presenter
 //
 //  Created by Jakub Fiser on 02/02/2017.
@@ -8,20 +8,21 @@
 
 import Foundation
 
-struct Range {
-
-    static let type = "sc:Range"
+struct IIIFSequence {
     
-    // required
-    let id: URL
-    let title: MultiProperty
+    static let type = "sc:Sequence"
+
+    // required fields
+    let canvases: [IIIFCanvas]
     
     // should have
     
-    // optional
-    let metadata: MultiProperty?
+    // optional fields
+    let id: String?
+    let title: MultiProperty?
     let description: MultiProperty?
     let thumbnail: MultiProperty?
+    let metadata: MultiProperty?
     let attribution: MultiProperty?
     let license: MultiProperty?
     let logo: MultiProperty?
@@ -33,15 +34,24 @@ struct Range {
     let seeAlso: MultiProperty?
     let within: MultiProperty?
     let startCanvas: String?
-    let contentLayer: String?
-    
     
     init?(_ json: [String:Any]) {
         
-        id = URL(string: json["@id"] as! String)!
-        title = MultiProperty(json["label"])!
+        guard let canv = json["canvases"] as? [[String:Any]] else {
+            return nil
+        }
+        
+        id = json["@id"] as? String
+        var array = [IIIFCanvas]()
+        for obj in canv {
+            if let c = IIIFCanvas(obj) {
+                array.append(c)
+            }
+        }
+        canvases = array
         
         // optional fields
+        title = MultiProperty(json["label"])
         description = MultiProperty(json["description"])
         metadata = MultiProperty(json["metadata"])
         thumbnail = MultiProperty(json["thumbnail"])
@@ -56,6 +66,5 @@ struct Range {
         seeAlso = MultiProperty(json["seeAlso"])
         within = MultiProperty(json["within"])
         startCanvas = json["startCanvas"] as? String
-        contentLayer = json["contentLayer"] as? String
     }
 }

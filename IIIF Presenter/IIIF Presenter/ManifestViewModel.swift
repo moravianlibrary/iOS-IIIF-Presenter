@@ -10,30 +10,35 @@ import Foundation
 
 class ManifestViewModel {
     
-    var manifest: Manifest
+    var manifest: IIIFManifest
+    var listDelegate: CardListDelegate?
     var delegate: CardDelegate? {
         didSet {
             self.notifyDelegate()
         }
     }
     
-    init(_ manifest: Manifest) {
+    init(_ manifest: IIIFManifest, listDelegate: CardListDelegate?=nil) {
         self.manifest = manifest
+        self.listDelegate = listDelegate
         if manifest.sequences == nil {
             self.downloadManifestData(manifest.id)
         }
+    }
+    
+    func showDetail() {
+        listDelegate?.showDetail(manifest: manifest)
     }
     
     fileprivate func downloadManifestData(_ url: URL) {
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             if data != nil,
                 let serialization = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments),
-                let manifest = Manifest(serialization as! [String:Any]) {
+                let manifest = IIIFManifest(serialization as! [String:Any]) {
                 
-                self.manifest = manifest
-                DispatchQueue.main.async {
-                    self.notifyDelegate()
-                }
+                self.manifest.title = manifest.title
+                self.manifest.sequences = manifest.sequences
+                self.notifyDelegate()
             }
         }.resume()
     }
@@ -41,7 +46,11 @@ class ManifestViewModel {
     fileprivate func getThumbnail() {
         if let urlString = manifest.thumbnail?.getValueList()?.first, let url = URL(string: urlString) {
             URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
-                self.delegate?.setImage(data: data!)
+                if data != nil {
+                    DispatchQueue.main.async {
+                        self.delegate?.setImage(data: data!)
+                    }
+                }
             }).resume()
         } else {
             self.delegate?.setImage(data: nil)
@@ -49,6 +58,13 @@ class ManifestViewModel {
     }
     
     fileprivate func notifyDelegate() {
+        guard Thread.current.isMainThread else {
+            DispatchQueue.main.async {
+                self.notifyDelegate()
+            }
+            return
+        }
+        
         delegate?.setTitle(title: manifest.title.getValueList()!.first!)
         getThumbnail()
     }

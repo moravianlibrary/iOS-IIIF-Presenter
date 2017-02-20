@@ -10,23 +10,23 @@ import Foundation
 
 struct CollectionViewModel {
     
-    let collection: Collection
+    let collection: IIIFCollection
     var delegate: CardListDelegate?
     
     var manifestCount: Int {
         return collection.manifests.count
     }
     
-    init(_ collection: Collection) {
+    init(_ collection: IIIFCollection) {
         self.collection = collection
     }
     
-    func getManifestAtPosition(_ i: Int) -> Manifest {
+    func getManifestAtPosition(_ i: Int) -> IIIFManifest {
         return collection.manifests[i]
     }
     
     func selectManifestAt(_ index: Int) {
         let manifest = getManifestAtPosition(index)
-        delegate?.showDetail(manifest: manifest)
+        delegate?.showViewer(manifest: manifest)
     }
 }

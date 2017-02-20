@@ -1,5 +1,5 @@
 //
-//  Sequence.swift
+//  IIIFCanvas.swift
 //  IIIF Presenter
 //
 //  Created by Jakub Fiser on 02/02/2017.
@@ -8,59 +8,81 @@
 
 import Foundation
 
-struct Sequence {
-    
-    static let type = "sc:Sequence"
+struct IIIFCanvas {
 
+    static let type = "sc:Canvas"
+    
     // required fields
-    let canvases: [Canvas]
+    let id: URL
+    let title: MultiProperty
+    let height: Int
+    let width: Int
     
     // should have
     
     // optional fields
-    let id: String?
-    let title: MultiProperty?
     let description: MultiProperty?
     let thumbnail: MultiProperty?
     let metadata: MultiProperty?
     let attribution: MultiProperty?
     let license: MultiProperty?
     let logo: MultiProperty?
-    let viewingDirection: String?
     let viewingHint: MultiProperty?
     let related: MultiProperty?
     let rendering: MultiProperty?
     let service: MultiProperty?
     let seeAlso: MultiProperty?
     let within: MultiProperty?
-    let startCanvas: String?
+    let images: [IIIFAnnotation]?
+    let otherContent: [IIIFAnnotationList]?
     
-    init?(_ json: [String:Any]) {
+    
+    init?(_ json: [String: Any]) {
         
-        id = json["@id"] as? String
-        var array = [Canvas]()
-        for obj in json["canvases"] as! [[String:Any]] {
-            if let c = Canvas(obj) {
-                array.append(c)
-            }
+        guard let idString = json["@id"] as? String,
+            let id = URL(string: idString),
+            let title = MultiProperty(json["label"]),
+            let height = json["height"] as? Int,
+            let width = json["width"] as? Int else {
+                return nil
         }
-        canvases = array
+        
+        self.id = id
+        self.title = title
+        self.height = height
+        self.width = width
         
         // optional fields
-        title = MultiProperty(json["label"])
         description = MultiProperty(json["description"])
         metadata = MultiProperty(json["metadata"])
         thumbnail = MultiProperty(json["thumbnail"])
         attribution = MultiProperty(json["attribution"])
         license = MultiProperty(json["license"])
         logo = MultiProperty(json["logo"])
-        viewingDirection = json["viewingDirection"] as? String
         viewingHint = MultiProperty(json["viewingHint"])
         related = MultiProperty(json["related"])
         rendering = MultiProperty(json["rendering"])
         service = MultiProperty(json["service"])
         seeAlso = MultiProperty(json["seeAlso"])
         within = MultiProperty(json["within"])
-        startCanvas = json["startCanvas"] as? String
+        
+        if let imgs = json["images"] as? [[String:Any]] {
+            var array = [IIIFAnnotation]()
+            for img in imgs {
+                if let a = IIIFAnnotation(img) {
+                    array.append(a)
+                }
+            }
+            images = array
+        } else {
+            images = nil
+        }
+        
+        if let other = json["otherContent"] as? [[String:Any]] {
+            // Annotation List
+            otherContent = nil
+        } else {
+            otherContent = nil
+        }
     }
 }

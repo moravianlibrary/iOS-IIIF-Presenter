@@ -9,14 +9,16 @@
 import UIKit
 
 protocol CardListDelegate {
-    func showDetail(manifest: Manifest)
+    func showDetail(manifest: IIIFManifest)
+    func showViewer(manifest: IIIFManifest)
 }
 
 class CardListController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    fileprivate let manifestDetail = "showDetail"
+    fileprivate let manifestDetail = "ManifestDetail"
+    fileprivate let manifestViewer = "ManifestViewer"
     fileprivate let sectionInsets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
     fileprivate let itemsPerRow: CGFloat = 1
     
@@ -38,8 +40,11 @@ class CardListController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let controller = segue.destination as! ManifestController
-        controller.viewModel = ManifestViewModel(sender as! Manifest)
+        if let controller = segue.destination as? ManifestController {
+            controller.viewModel = ManifestViewModel(sender as! IIIFManifest)
+        } else if let controller = segue.destination as? ViewerController {
+            controller.viewModel = ManifestViewModel(sender as! IIIFManifest)
+        }
     }
 }
 
@@ -58,7 +63,7 @@ extension CardListController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardCell.reuseId, for: indexPath) as! CardCell
         
         let manifest = viewModel!.getManifestAtPosition(indexPath.item)
-        let manifestViewModel = ManifestViewModel(manifest)
+        let manifestViewModel = ManifestViewModel(manifest, listDelegate: self)
         cell.viewModel = manifestViewModel
         
         return cell
@@ -95,7 +100,11 @@ extension CardListController: UICollectionViewDelegateFlowLayout {
 
 extension CardListController: CardListDelegate {
     
-    func showDetail(manifest: Manifest) {
+    func showDetail(manifest: IIIFManifest) {
         performSegue(withIdentifier: manifestDetail, sender: manifest)
+    }
+    
+    func showViewer(manifest: IIIFManifest) {
+        performSegue(withIdentifier: manifestViewer, sender: manifest)
     }
 }

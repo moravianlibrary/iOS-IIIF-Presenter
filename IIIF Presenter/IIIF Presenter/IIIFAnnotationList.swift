@@ -1,5 +1,5 @@
 //
-//  AnnotationList.swift
+//  IIIFAnnotationList.swift
 //  IIIF Presenter
 //
 //  Created by Jakub Fiser on 02/02/2017.
@@ -8,12 +8,12 @@
 
 import Foundation
 
-struct AnnotationList {
+struct IIIFAnnotationList {
 
     static let type = "sc:AnnotationList"
     
     // required
-    let resources: [Annotation]
+    let resources: [IIIFAnnotation]
     
     // should have
     
