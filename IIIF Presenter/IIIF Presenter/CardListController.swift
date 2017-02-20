@@ -9,13 +9,14 @@
 import UIKit
 
 protocol CardListDelegate {
-    func showDetail(manifest: Manifest, segue: String)
+    func showDetail(manifest: Manifest)
 }
 
 class CardListController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    fileprivate let manifestDetail = "showDetail"
     fileprivate let sectionInsets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
     fileprivate let itemsPerRow: CGFloat = 1
     
@@ -34,6 +35,11 @@ class CardListController: UIViewController {
         
         collectionView.backgroundColor = UIColor.clear
         view.backgroundColor = UIColor.lightGray
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let controller = segue.destination as! ManifestController
+        controller.viewModel = ManifestViewModel(sender as! Manifest)
     }
 }
 
@@ -63,7 +69,7 @@ extension CardListController: UICollectionViewDataSource {
 extension CardListController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Did select item at \(indexPath).")
+        viewModel?.selectManifestAt(indexPath.item)
     }
 }
 
@@ -89,8 +95,7 @@ extension CardListController: UICollectionViewDelegateFlowLayout {
 
 extension CardListController: CardListDelegate {
     
-    func showDetail(manifest: Manifest, segue: String) {
-        print("show detail \(segue) with \(manifest).")
-//        performSegue(withIdentifier: segue, sender: manifest)
+    func showDetail(manifest: Manifest) {
+        performSegue(withIdentifier: manifestDetail, sender: manifest)
     }
 }

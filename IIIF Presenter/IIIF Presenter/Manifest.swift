@@ -15,7 +15,7 @@ struct Manifest {
     // required fields
     let id: URL
     let title: MultiProperty
-    let sequences: [Sequence]
+    let sequences: [Sequence]?
     
     // should have
     let metadata: MultiProperty?
@@ -39,13 +39,19 @@ struct Manifest {
         
         id = URL(string: json["@id"] as! String)!
         title = MultiProperty(json["label"])!
-        var array = [Sequence]()
-        for s in json["sequences"] as! [[String:Any]] {
-            if let seq = Sequence(s) {
-                array.append(seq)
+        
+        // may be nil if present only as a reference
+        if let seq = json["sequences"] as? [[String:Any]] {
+            var array = [Sequence]()
+            for s in seq {
+                if let seq = Sequence(s) {
+                    array.append(seq)
+                }
             }
+            sequences = array
+        } else {
+            sequences = nil
         }
-        sequences = array
         
         // optional fields
         description = MultiProperty(json["description"])

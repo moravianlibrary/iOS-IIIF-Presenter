@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0855C4A68F5755E555565A4F /* Pods_IIIF_Presenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B80C97625F9BD361AEA8003 /* Pods_IIIF_Presenter.framework */; };
+		3B3E41541E59A03600969D6C /* SplashController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E41531E59A03600969D6C /* SplashController.swift */; };
+		3B3E41561E59EE3800969D6C /* ManifestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E41551E59EE3800969D6C /* ManifestController.swift */; };
 		3BA737161E51BB0700241FBF /* ManifestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA737151E51BB0700241FBF /* ManifestViewModel.swift */; };
 		3BA7371A1E52029D00241FBF /* CollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA737191E52029D00241FBF /* CollectionViewModel.swift */; };
 		3BB8F25C1E449BD10073FBD1 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB8F25B1E449BD10073FBD1 /* Metadata.swift */; };
@@ -31,6 +33,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3B3E41531E59A03600969D6C /* SplashController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashController.swift; sourceTree = "<group>"; };
+		3B3E41551E59EE3800969D6C /* ManifestController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManifestController.swift; sourceTree = "<group>"; };
 		3BA737151E51BB0700241FBF /* ManifestViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManifestViewModel.swift; sourceTree = "<group>"; };
 		3BA737191E52029D00241FBF /* CollectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewModel.swift; sourceTree = "<group>"; };
 		3BB8F25B1E449BD10073FBD1 /* Metadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metadata.swift; sourceTree = "<group>"; };
@@ -82,6 +86,8 @@
 		3BA737181E51BB3B00241FBF /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3B3E41531E59A03600969D6C /* SplashController.swift */,
+				3B3E41551E59EE3800969D6C /* ManifestController.swift */,
 				3BBE78FA1E434C4E00F15CF1 /* CardListController.swift */,
 				3BBE79101E4387D400F15CF1 /* CardCell.swift */,
 			);
@@ -289,6 +295,8 @@
 				3BBE78FB1E434C4E00F15CF1 /* CardListController.swift in Sources */,
 				3BA737161E51BB0700241FBF /* ManifestViewModel.swift in Sources */,
 				3BBE791C1E4398FE00F15CF1 /* Range.swift in Sources */,
+				3B3E41561E59EE3800969D6C /* ManifestController.swift in Sources */,
+				3B3E41541E59A03600969D6C /* SplashController.swift in Sources */,
 				3BBE79161E43981700F15CF1 /* Sequence.swift in Sources */,
 				3BB8F25C1E449BD10073FBD1 /* Metadata.swift in Sources */,
 				3BBE79261E43BAA800F15CF1 /* Image.swift in Sources */,

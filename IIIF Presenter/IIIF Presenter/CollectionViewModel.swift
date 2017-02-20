@@ -27,6 +27,6 @@ struct CollectionViewModel {
     
     func selectManifestAt(_ index: Int) {
         let manifest = getManifestAtPosition(index)
-//        delegate?.showDetail(manifest: manifest, segue: "showDetail")
+        delegate?.showDetail(manifest: manifest)
     }
 }

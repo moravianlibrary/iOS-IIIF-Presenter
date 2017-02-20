@@ -16,27 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
-        let urlString = "http://kramerius.mzk.cz/search/api/v5.0/iiif/uuid:9ebcb206-24b7-4dc7-b367-3d9ad7179c23/manifest"
-        var m = [Manifest]()
-        if let url = URL(string: urlString) {
-            let semaphore = DispatchSemaphore(value: 0)
-            URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
-                if data != nil, let serialization = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments), let manifest = Manifest(serialization as! [String:Any]) {
-                    m.append(manifest)
-                }
-                semaphore.signal()
-                
-            }).resume()
-            semaphore.wait()
-        }
-        
-        let testCollection = Collection.createCollectionWith(m)
-        let viewModel = CollectionViewModel(testCollection)
-        let navigationController = window?.rootViewController as! UINavigationController
-        let listController = navigationController.topViewController as! CardListController
-        listController.viewModel = viewModel
-        
         return true
     }
 

@@ -8,18 +8,34 @@
 
 import Foundation
 
-struct ManifestViewModel {
+class ManifestViewModel {
     
-    let manifest: Manifest
+    var manifest: Manifest
     var delegate: CardDelegate? {
         didSet {
-            delegate?.setTitle(title: manifest.title.getValueList()!.first!)
-            getThumbnail()
+            self.notifyDelegate()
         }
     }
     
     init(_ manifest: Manifest) {
         self.manifest = manifest
+        if manifest.sequences == nil {
+            self.downloadManifestData(manifest.id)
+        }
+    }
+    
+    fileprivate func downloadManifestData(_ url: URL) {
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if data != nil,
+                let serialization = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments),
+                let manifest = Manifest(serialization as! [String:Any]) {
+                
+                self.manifest = manifest
+                DispatchQueue.main.async {
+                    self.notifyDelegate()
+                }
+            }
+        }.resume()
     }
     
     fileprivate func getThumbnail() {
@@ -30,5 +46,10 @@ struct ManifestViewModel {
         } else {
             self.delegate?.setImage(data: nil)
         }
+    }
+    
+    fileprivate func notifyDelegate() {
+        delegate?.setTitle(title: manifest.title.getValueList()!.first!)
+        getThumbnail()
     }
 }
