@@ -13,6 +13,7 @@
 		3B5CC5C71E5AF88300A84A99 /* PageThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5CC5C61E5AF88300A84A99 /* PageThumbnailCell.swift */; };
 		3B5CC5C91E5AFF7A00A84A99 /* CanvasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5CC5C81E5AFF7A00A84A99 /* CanvasViewModel.swift */; };
 		3B5CC5CB1E5B39E900A84A99 /* ViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5CC5CA1E5B39E900A84A99 /* ViewerController.swift */; };
+		3B9ED52A1E6337B100712ECB /* ViewerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9ED5291E6337B100712ECB /* ViewerCell.swift */; };
 		3BA737161E51BB0700241FBF /* ManifestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA737151E51BB0700241FBF /* ManifestViewModel.swift */; };
 		3BA7371A1E52029D00241FBF /* CollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA737191E52029D00241FBF /* CollectionViewModel.swift */; };
 		3BB8F25C1E449BD10073FBD1 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB8F25B1E449BD10073FBD1 /* Metadata.swift */; };
@@ -41,6 +42,7 @@
 		3B5CC5C61E5AF88300A84A99 /* PageThumbnailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageThumbnailCell.swift; sourceTree = "<group>"; };
 		3B5CC5C81E5AFF7A00A84A99 /* CanvasViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewModel.swift; sourceTree = "<group>"; };
 		3B5CC5CA1E5B39E900A84A99 /* ViewerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewerController.swift; sourceTree = "<group>"; };
+		3B9ED5291E6337B100712ECB /* ViewerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewerCell.swift; sourceTree = "<group>"; };
 		3BA737151E51BB0700241FBF /* ManifestViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManifestViewModel.swift; sourceTree = "<group>"; };
 		3BA737191E52029D00241FBF /* CollectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewModel.swift; sourceTree = "<group>"; };
 		3BB8F25B1E449BD10073FBD1 /* Metadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metadata.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				3B5CC5CA1E5B39E900A84A99 /* ViewerController.swift */,
 				3BBE79101E4387D400F15CF1 /* CardCell.swift */,
 				3B5CC5C61E5AF88300A84A99 /* PageThumbnailCell.swift */,
+				3B9ED5291E6337B100712ECB /* ViewerCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 				3B3E41561E59EE3800969D6C /* ManifestController.swift in Sources */,
 				3B3E41541E59A03600969D6C /* SplashController.swift in Sources */,
 				3BBE79161E43981700F15CF1 /* IIIFSequence.swift in Sources */,
+				3B9ED52A1E6337B100712ECB /* ViewerCell.swift in Sources */,
 				3BB8F25C1E449BD10073FBD1 /* Metadata.swift in Sources */,
 				3BBE79261E43BAA800F15CF1 /* IIIFImage.swift in Sources */,
 				3B5CC5CB1E5B39E900A84A99 /* ViewerController.swift in Sources */,

@@ -46,6 +46,10 @@ class CardListController: UIViewController {
             controller.viewModel = ManifestViewModel(sender as! IIIFManifest)
         }
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        collectionView.collectionViewLayout.invalidateLayout()
+    }
 }
 
 
@@ -82,9 +86,10 @@ extension CardListController: UICollectionViewDelegate {
 extension CardListController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
+        let items = itemsPerRow + (view.frame.width > view.frame.height ? 1.0 : 0.0)
+        let paddingSpace = sectionInsets.left * (items + 1)
         let availableWidth = view.frame.width - paddingSpace
-        let widthPerItem = availableWidth / itemsPerRow
+        let widthPerItem = (availableWidth / items) - 1
         let aspectRatio: CGFloat = 5/8
         return CGSize(width: widthPerItem, height: widthPerItem * aspectRatio)
     }

@@ -11,28 +11,57 @@ import iOSTiledViewer
 
 class ViewerController: UIViewController {
 
-    @IBOutlet weak var viewer: ITVScrollView? {
+    @IBOutlet weak var collection: UICollectionView!
+    
+    var viewModel: ManifestViewModel? {
         didSet {
-            viewer?.itvDelegate = self
+            collection?.reloadData()
         }
     }
     
-    var viewModel: ManifestViewModel?
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        if let url = viewModel?.manifest.sequences?.first?.canvases.first?.images?.first?.resource.service?.id {
-            viewer?.loadImage(url, api: .IIIF)
-        }
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        collection.collectionViewLayout.invalidateLayout()
     }
 }
 
-extension ViewerController: ITVScrollViewDelegate {
+
+extension ViewerController: UICollectionViewDataSource {
     
-    func didFinishLoading(error: NSError?) {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        let number = viewModel?.manifest.sequences?.count
+        return number != nil ? number! : 0
     }
     
-    func errorDidOccur(error: NSError) {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel!.manifest.sequences![section].canvases.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ViewerCell.reuseId, for: indexPath) as! ViewerCell
+        
+        let canvas = viewModel!.manifest.sequences![indexPath.section].canvases[indexPath.item]
+        cell.viewModel = CanvasViewModel(canvas)
+        
+        return cell
+    }
+}
+
+
+extension ViewerController: UICollectionViewDelegate {
+}
+
+
+extension ViewerController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return collectionView.frame.size
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return .zero
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0.0
     }
 }

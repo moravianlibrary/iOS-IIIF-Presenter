@@ -192,20 +192,55 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fmO-Hl-9yc" customClass="ITVScrollView" customModule="iOSTiledViewer">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3hd-5Q-QJN">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                            </scrollView>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="l6t-tP-fMw">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="viewer" id="zT6-ng-gCv" customClass="ViewerCell" customModule="IIIF_Presenter" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" canCancelContentTouches="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fmO-Hl-9yc" customClass="ITVScrollView" customModule="iOSTiledViewer">
+                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                </scrollView>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="fmO-Hl-9yc" firstAttribute="leading" secondItem="zT6-ng-gCv" secondAttribute="leading" id="NKd-8W-6aE"/>
+                                            <constraint firstAttribute="trailing" secondItem="fmO-Hl-9yc" secondAttribute="trailing" id="fHn-e4-prD"/>
+                                            <constraint firstItem="fmO-Hl-9yc" firstAttribute="top" secondItem="zT6-ng-gCv" secondAttribute="top" id="rw7-kg-7kH"/>
+                                            <constraint firstAttribute="bottom" secondItem="fmO-Hl-9yc" secondAttribute="bottom" id="udf-2t-31l"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="viewer" destination="fmO-Hl-9yc" id="tXt-CG-lh6"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="oEd-OE-aIy" id="Aso-xK-b14"/>
+                                    <outlet property="delegate" destination="oEd-OE-aIy" id="2Xz-Q9-UZt"/>
+                                </connections>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="fmO-Hl-9yc" secondAttribute="trailing" id="2V8-Gw-hBO"/>
-                            <constraint firstItem="fmO-Hl-9yc" firstAttribute="leading" secondItem="9hc-Cz-7KF" secondAttribute="leading" id="F2F-Y0-xa0"/>
-                            <constraint firstItem="GZp-KP-g8F" firstAttribute="top" secondItem="fmO-Hl-9yc" secondAttribute="bottom" id="abO-Ra-JaA"/>
-                            <constraint firstItem="fmO-Hl-9yc" firstAttribute="top" secondItem="FaO-U8-Kgo" secondAttribute="bottom" id="bpE-RA-bhw"/>
+                            <constraint firstItem="GZp-KP-g8F" firstAttribute="top" secondItem="3hd-5Q-QJN" secondAttribute="bottom" id="1iF-DN-SbM"/>
+                            <constraint firstItem="3hd-5Q-QJN" firstAttribute="leading" secondItem="9hc-Cz-7KF" secondAttribute="leading" id="Mtf-0v-hbT"/>
+                            <constraint firstAttribute="trailing" secondItem="3hd-5Q-QJN" secondAttribute="trailing" id="Ouh-Mp-aq6"/>
+                            <constraint firstItem="3hd-5Q-QJN" firstAttribute="top" secondItem="FaO-U8-Kgo" secondAttribute="bottom" id="g8D-1m-xQF"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="viewer" destination="fmO-Hl-9yc" id="NJV-Tp-KzZ"/>
+                        <outlet property="collection" destination="3hd-5Q-QJN" id="DmE-sS-u7B"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K9j-ti-ZnF" userLabel="First Responder" sceneMemberID="firstResponder"/>
