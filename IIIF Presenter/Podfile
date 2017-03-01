@@ -4,5 +4,5 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'IIIF Presenter' do
-  pod 'iOSTiledViewer'
+    pod 'iOSTiledViewer', :git => 'https://github.com/moravianlibrary/iOSTiledViewer.git', :branch => 'master'
 end

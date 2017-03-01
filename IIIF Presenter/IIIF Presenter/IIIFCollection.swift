@@ -100,7 +100,7 @@ struct IIIFCollection {
     
     fileprivate init(manifests: [IIIFManifest]) {
         id = URL(string: "www.google.com")!
-        title = MultiProperty(["":"Title"])!
+        title = MultiProperty(["label":"Title"])!
         self.manifests = manifests
         
         metadata = nil

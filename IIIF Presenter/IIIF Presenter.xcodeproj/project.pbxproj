@@ -13,6 +13,10 @@
 		3B5CC5C71E5AF88300A84A99 /* PageThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5CC5C61E5AF88300A84A99 /* PageThumbnailCell.swift */; };
 		3B5CC5C91E5AFF7A00A84A99 /* CanvasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5CC5C81E5AFF7A00A84A99 /* CanvasViewModel.swift */; };
 		3B5CC5CB1E5B39E900A84A99 /* ViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5CC5CA1E5B39E900A84A99 /* ViewerController.swift */; };
+		3B6819111E66F020008157E8 /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6819101E66F020008157E8 /* ActionViewController.swift */; };
+		3B6819141E66F020008157E8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B6819121E66F020008157E8 /* MainInterface.storyboard */; };
+		3B6819181E66F020008157E8 /* Open in IIIF.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 3B68190E1E66F020008157E8 /* Open in IIIF.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		3B98FE691E6767EA0016C1C6 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B98FE681E6767EA0016C1C6 /* MenuController.swift */; };
 		3B9ED52A1E6337B100712ECB /* ViewerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9ED5291E6337B100712ECB /* ViewerCell.swift */; };
 		3BA737161E51BB0700241FBF /* ManifestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA737151E51BB0700241FBF /* ManifestViewModel.swift */; };
 		3BA7371A1E52029D00241FBF /* CollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA737191E52029D00241FBF /* CollectionViewModel.swift */; };
@@ -36,12 +40,41 @@
 		3BBE79281E43BF0300F15CF1 /* IIIFService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBE79271E43BF0300F15CF1 /* IIIFService.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3B6819161E66F020008157E8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3BBE78ED1E434C4E00F15CF1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3B68190D1E66F020008157E8;
+			remoteInfo = "Open in IIIF";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3B68191C1E66F020008157E8 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				3B6819181E66F020008157E8 /* Open in IIIF.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		3B3E41531E59A03600969D6C /* SplashController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashController.swift; sourceTree = "<group>"; };
 		3B3E41551E59EE3800969D6C /* ManifestController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManifestController.swift; sourceTree = "<group>"; };
 		3B5CC5C61E5AF88300A84A99 /* PageThumbnailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageThumbnailCell.swift; sourceTree = "<group>"; };
 		3B5CC5C81E5AFF7A00A84A99 /* CanvasViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewModel.swift; sourceTree = "<group>"; };
 		3B5CC5CA1E5B39E900A84A99 /* ViewerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewerController.swift; sourceTree = "<group>"; };
+		3B68190E1E66F020008157E8 /* Open in IIIF.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Open in IIIF.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B6819101E66F020008157E8 /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
+		3B6819131E66F020008157E8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		3B6819151E66F020008157E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3B98FE681E6767EA0016C1C6 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		3B9ED5291E6337B100712ECB /* ViewerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewerCell.swift; sourceTree = "<group>"; };
 		3BA737151E51BB0700241FBF /* ManifestViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManifestViewModel.swift; sourceTree = "<group>"; };
 		3BA737191E52029D00241FBF /* CollectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewModel.swift; sourceTree = "<group>"; };
@@ -71,6 +104,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3B68190B1E66F020008157E8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3BBE78F21E434C4E00F15CF1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -82,6 +122,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B68190F1E66F020008157E8 /* Open in IIIF */ = {
+			isa = PBXGroup;
+			children = (
+				3B6819101E66F020008157E8 /* ActionViewController.swift */,
+				3B6819121E66F020008157E8 /* MainInterface.storyboard */,
+				3B6819151E66F020008157E8 /* Info.plist */,
+			);
+			path = "Open in IIIF";
+			sourceTree = "<group>";
+		};
 		3BA737171E51BB0D00241FBF /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -96,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				3B3E41531E59A03600969D6C /* SplashController.swift */,
+				3B98FE681E6767EA0016C1C6 /* MenuController.swift */,
 				3B3E41551E59EE3800969D6C /* ManifestController.swift */,
 				3BBE78FA1E434C4E00F15CF1 /* CardListController.swift */,
 				3B5CC5CA1E5B39E900A84A99 /* ViewerController.swift */,
@@ -110,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				3BBE78F71E434C4E00F15CF1 /* IIIF Presenter */,
+				3B68190F1E66F020008157E8 /* Open in IIIF */,
 				3BBE78F61E434C4E00F15CF1 /* Products */,
 				B32F72FAEDDB1B9EBF276247 /* Pods */,
 				FF120450D87A68AC62A379BF /* Frameworks */,
@@ -120,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				3BBE78F51E434C4E00F15CF1 /* IIIF Presenter.app */,
+				3B68190E1E66F020008157E8 /* Open in IIIF.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -178,6 +231,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3B68190D1E66F020008157E8 /* Open in IIIF */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3B68191B1E66F020008157E8 /* Build configuration list for PBXNativeTarget "Open in IIIF" */;
+			buildPhases = (
+				3B68190A1E66F020008157E8 /* Sources */,
+				3B68190B1E66F020008157E8 /* Frameworks */,
+				3B68190C1E66F020008157E8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Open in IIIF";
+			productName = "Open in IIIF";
+			productReference = 3B68190E1E66F020008157E8 /* Open in IIIF.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		3BBE78F41E434C4E00F15CF1 /* IIIF Presenter */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3BBE79071E434C4E00F15CF1 /* Build configuration list for PBXNativeTarget "IIIF Presenter" */;
@@ -188,10 +258,12 @@
 				3BBE78F31E434C4E00F15CF1 /* Resources */,
 				828A66156BE8CB70A8315E39 /* [CP] Embed Pods Frameworks */,
 				DE142CA73F750CE22E21BB4F /* [CP] Copy Pods Resources */,
+				3B68191C1E66F020008157E8 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3B6819171E66F020008157E8 /* PBXTargetDependency */,
 			);
 			name = "IIIF Presenter";
 			productName = "IIIF Presenter";
@@ -208,10 +280,20 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Jakub Fiser";
 				TargetAttributes = {
+					3B68190D1E66F020008157E8 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 873S4GA3KJ;
+						ProvisioningStyle = Manual;
+					};
 					3BBE78F41E434C4E00F15CF1 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 873S4GA3KJ;
 						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.SafariKeychain = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -229,11 +311,20 @@
 			projectRoot = "";
 			targets = (
 				3BBE78F41E434C4E00F15CF1 /* IIIF Presenter */,
+				3B68190D1E66F020008157E8 /* Open in IIIF */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3B68190C1E66F020008157E8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B6819141E66F020008157E8 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3BBE78F31E434C4E00F15CF1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -295,6 +386,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3B68190A1E66F020008157E8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B6819111E66F020008157E8 /* ActionViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3BBE78F11E434C4E00F15CF1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -315,6 +414,7 @@
 				3BBE79261E43BAA800F15CF1 /* IIIFImage.swift in Sources */,
 				3B5CC5CB1E5B39E900A84A99 /* ViewerController.swift in Sources */,
 				3BBE79221E43997400F15CF1 /* IIIFAnnotationList.swift in Sources */,
+				3B98FE691E6767EA0016C1C6 /* MenuController.swift in Sources */,
 				3BBE78F91E434C4E00F15CF1 /* AppDelegate.swift in Sources */,
 				3BBE791E1E43993500F15CF1 /* IIIFLayer.swift in Sources */,
 				3BBE791A1E4398C700F15CF1 /* IIIFAnnotation.swift in Sources */,
@@ -327,7 +427,23 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		3B6819171E66F020008157E8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3B68190D1E66F020008157E8 /* Open in IIIF */;
+			targetProxy = 3B6819161E66F020008157E8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
+		3B6819121E66F020008157E8 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3B6819131E66F020008157E8 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		3BBE78FC1E434C4E00F15CF1 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -347,6 +463,37 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3B6819191E66F020008157E8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 873S4GA3KJ;
+				INFOPLIST_FILE = "Open in IIIF/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = cz.mzk.ios.iiif.presenter.extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "7a270d4e-8a9e-44bc-bfa6-b5b4235feffc";
+				PROVISIONING_PROFILE_SPECIFIER = "IIIF Development";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		3B68191A1E66F020008157E8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = 873S4GA3KJ;
+				INFOPLIST_FILE = "Open in IIIF/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = cz.mzk.ios.iiif.presenter.extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "e97c827d-2581-4145-ae4f-2fcd5ed68ce0";
+				PROVISIONING_PROFILE_SPECIFIER = "IIIF Distribution";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		3BBE79051E434C4E00F15CF1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -442,6 +589,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F888E2C2533E77C2561F7D65 /* Pods-IIIF Presenter.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 873S4GA3KJ;
 				INFOPLIST_FILE = "IIIF Presenter/Info.plist";
@@ -459,6 +607,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 765DA964D21E6E9BB79D35F6 /* Pods-IIIF Presenter.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = 873S4GA3KJ;
@@ -476,6 +625,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3B68191B1E66F020008157E8 /* Build configuration list for PBXNativeTarget "Open in IIIF" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3B6819191E66F020008157E8 /* Debug */,
+				3B68191A1E66F020008157E8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3BBE78F01E434C4E00F15CF1 /* Build configuration list for PBXProject "IIIF Presenter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

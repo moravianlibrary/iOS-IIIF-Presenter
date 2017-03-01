@@ -13,6 +13,8 @@ class SplashController: UIViewController {
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     @IBOutlet weak var errorView: UIView!
     
+    var launchOptions: [UIApplicationLaunchOptionsKey: Any]?
+    
     fileprivate let urlString = "https://drive.google.com/uc?id=0B1TdqMC3wGUJdS1VQ2tlZ0hudXM"
     
     override func viewDidAppear(_ animated: Bool) {
@@ -24,9 +26,10 @@ class SplashController: UIViewController {
         errorView.isHidden = true
         spinner.startAnimating()
         
+        let semaphore = DispatchSemaphore(value: 0)
+        
         var c: IIIFCollection?
         if let url = URL(string: urlString) {
-            let semaphore = DispatchSemaphore(value: 0)
             URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
                 if data != nil,
                     let serialization = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments),
@@ -39,28 +42,47 @@ class SplashController: UIViewController {
             semaphore.wait()
         }
         
+        var m: IIIFManifest?
+        if let text = (launchOptions?[.url] as? URL)?.absoluteString {
+            let urlString = String(text.characters.dropFirst(5))
+            if let url = URL(string: urlString) {
+                URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
+                    if data != nil,
+                        let serialization = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments),
+                        let manifest = IIIFManifest(serialization as! [String:Any]) {
+                        m = manifest
+                    }
+                    semaphore.signal()
+                    
+                }).resume()
+                semaphore.wait()
+            }
+        }
+        
         spinner.stopAnimating()
         
         if c != nil {
-            showCollection(c!)
+            showCollection(m, c!)
         } else {
             errorView.isHidden = false
         }
     }
     
-    func showCollection(_ c: IIIFCollection) {
+    func showCollection(_ m: IIIFManifest?, _ c: IIIFCollection) {
         guard Thread.current.isMainThread else {
             DispatchQueue.main.async {
-                self.showCollection(c)
+                self.showCollection(m, c)
             }
             return
         }
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewModel = CollectionViewModel(c)
         let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
-        let listController = navigationController.topViewController as! CardListController
-        listController.viewModel = viewModel
+        let tabController = navigationController.viewControllers.first as! MenuController
+        tabController.searchCollection = c
+        if m != nil {
+            tabController.historyCollection = IIIFCollection.createCollectionWith([m!])
+        }
         
         present(navigationController, animated: false, completion: nil)
     }

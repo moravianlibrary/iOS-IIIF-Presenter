@@ -16,6 +16,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        if launchOptions != nil {
+            print("Launch options: \(launchOptions!).")
+            let splashController = window?.rootViewController as? SplashController
+            splashController?.launchOptions = launchOptions
+        } else {
+            print("Launch options is empty.")
+        }
+        
+        return true
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        print("open url: \(url.absoluteString)")
+        print("options: \(options)")
+        
         return true
     }
 

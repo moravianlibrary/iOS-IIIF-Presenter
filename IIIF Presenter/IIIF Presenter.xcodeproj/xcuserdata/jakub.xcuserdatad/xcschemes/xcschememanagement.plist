@@ -9,9 +9,29 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>Open in IIIF.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>3B6818FB1E66E18F008157E8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3B68190D1E66F020008157E8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3B98FE5A1E675DDE0016C1C6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>3BBE78F41E434C4E00F15CF1</key>
 		<dict>
 			<key>primary</key>
