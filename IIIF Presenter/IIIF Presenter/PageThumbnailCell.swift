@@ -21,6 +21,7 @@ class PageThumbnailCell: UICollectionViewCell {
     var viewModel: CanvasViewModel? {
         willSet {
             viewModel?.delegate = nil
+            thumbnail?.image = nil
         }
         didSet {
             viewModel?.delegate = self

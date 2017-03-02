@@ -11,6 +11,8 @@ import iOSTiledViewer
 
 class ViewerController: UIViewController {
 
+    fileprivate let manifestDetail = "ManifestDetail"
+    
     @IBOutlet weak var collection: UICollectionView!
     
     var viewModel: ManifestViewModel? {
@@ -19,8 +21,26 @@ class ViewerController: UIViewController {
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let info = UIButton(type: .infoLight)
+        info.addTarget(self, action: #selector(showInfo), for: .primaryActionTriggered)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: info)
+    }
+    
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         collection.collectionViewLayout.invalidateLayout()
+    }
+    
+    @IBAction func showInfo() {
+        performSegue(withIdentifier: manifestDetail, sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let controller = segue.destination as? ManifestController {
+            controller.viewModel = viewModel
+        }
     }
 }
 

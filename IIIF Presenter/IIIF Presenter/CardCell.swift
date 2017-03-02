@@ -11,6 +11,7 @@ import UIKit
 protocol CardDelegate {
     func setTitle(title: String)
     func setImage(data: Data?)
+    func loadingDidFail()
 }
 
 
@@ -21,6 +22,7 @@ class CardCell: UICollectionViewCell {
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var title: UILabel!
     
+    weak var collection: CardListController?
     var viewModel: ManifestViewModel? {
         willSet {
             viewModel?.delegate = nil
@@ -33,10 +35,6 @@ class CardCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         backgroundColor = UIColor.white
-    }
-    
-    @IBAction func showManifestDetail() {
-        viewModel?.showDetail()
     }
 }
 
@@ -51,5 +49,9 @@ extension CardCell: CardDelegate {
         } else {
             self.image.backgroundColor = UIColor.black.withAlphaComponent(0.15)
         }
+    }
+    
+    func loadingDidFail() {
+        collection?.deleteCell(self)
     }
 }

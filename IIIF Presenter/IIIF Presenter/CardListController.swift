@@ -9,7 +9,6 @@
 import UIKit
 
 protocol CardListDelegate {
-    func showDetail(manifest: IIIFManifest)
     func showViewer(manifest: IIIFManifest)
 }
 
@@ -17,10 +16,8 @@ class CardListController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    fileprivate let manifestDetail = "ManifestDetail"
     fileprivate let manifestViewer = "ManifestViewer"
     fileprivate let sectionInsets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
-    fileprivate let itemsPerRow: CGFloat = 1
     
     var viewModel: CollectionViewModel? {
         willSet {
@@ -40,15 +37,21 @@ class CardListController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let controller = segue.destination as? ManifestController {
-            controller.viewModel = ManifestViewModel(sender as! IIIFManifest)
-        } else if let controller = segue.destination as? ViewerController {
+        if let controller = segue.destination as? ViewerController {
             controller.viewModel = ManifestViewModel(sender as! IIIFManifest)
         }
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         collectionView.collectionViewLayout.invalidateLayout()
+    }
+    
+    func deleteCell(_ cell: UICollectionViewCell) {
+        if let index = collectionView.indexPath(for: cell) {
+            viewModel?.deleteManifestAt(index.item)
+            collectionView.deleteItems(at: [index])
+//            collectionView.reloadData()
+        }
     }
 }
 
@@ -68,6 +71,7 @@ extension CardListController: UICollectionViewDataSource {
         
         let manifest = viewModel!.getManifestAtPosition(indexPath.item)
         let manifestViewModel = ManifestViewModel(manifest, listDelegate: self)
+        cell.collection = self
         cell.viewModel = manifestViewModel
         
         return cell
@@ -86,10 +90,10 @@ extension CardListController: UICollectionViewDelegate {
 extension CardListController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let items = itemsPerRow + (view.frame.width > view.frame.height ? 1.0 : 0.0)
-        let paddingSpace = sectionInsets.left * (items + 1)
+        let itemsPerRow = CGFloat(Constants.cardsPerRow + (view.frame.width > view.frame.height ? 1 : 0))
+        let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
         let availableWidth = view.frame.width - paddingSpace
-        let widthPerItem = (availableWidth / items) - 1
+        let widthPerItem = (availableWidth / itemsPerRow) - 1
         let aspectRatio: CGFloat = 5/8
         return CGSize(width: widthPerItem, height: widthPerItem * aspectRatio)
     }
@@ -104,10 +108,6 @@ extension CardListController: UICollectionViewDelegateFlowLayout {
 }
 
 extension CardListController: CardListDelegate {
-    
-    func showDetail(manifest: IIIFManifest) {
-        performSegue(withIdentifier: manifestDetail, sender: manifest)
-    }
     
     func showViewer(manifest: IIIFManifest) {
         performSegue(withIdentifier: manifestViewer, sender: manifest)

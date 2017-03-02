@@ -12,14 +12,21 @@ protocol CanvasThumbnailDelegate {
     func showImage(data: Data?)
 }
 
-struct CanvasViewModel {
+class CanvasViewModel {
     
     let canvas: IIIFCanvas
     var delegate: CanvasThumbnailDelegate? {
         didSet {
+            guard delegate != nil else {
+                request?.cancel()
+                return
+            }
+            
             notifyDelegate()
         }
     }
+    
+    fileprivate var request: URLSessionDataTask?
     
     init(_ canvas: IIIFCanvas) {
         self.canvas = canvas
@@ -27,11 +34,12 @@ struct CanvasViewModel {
     
     fileprivate func loadThumbnail() {
         if let imageUrl = canvas.images?.first?.resource.id, let url = getThumbnailUrl(imageUrl) {
-            URLSession.shared.dataTask(with: url) { (data, response, error) in
+            request = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 DispatchQueue.main.async {
                     self.delegate?.showImage(data: data)
                 }
-            }.resume()
+            }
+            request?.resume()
         } else {
             self.delegate?.showImage(data: nil)
         }

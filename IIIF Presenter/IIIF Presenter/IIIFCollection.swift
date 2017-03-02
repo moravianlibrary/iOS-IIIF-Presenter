@@ -15,7 +15,7 @@ struct IIIFCollection {
     // required
     let id: URL
     let title: MultiProperty
-    let manifests: [IIIFManifest]
+    var manifests: [IIIFManifest]
     
     // should have
     let metadata: MultiProperty?
@@ -100,7 +100,7 @@ struct IIIFCollection {
     
     fileprivate init(manifests: [IIIFManifest]) {
         id = URL(string: "www.google.com")!
-        title = MultiProperty(["label":"Title"])!
+        title = MultiProperty("Title")!
         self.manifests = manifests
         
         metadata = nil

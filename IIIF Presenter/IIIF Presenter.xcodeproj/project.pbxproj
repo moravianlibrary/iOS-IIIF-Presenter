@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0855C4A68F5755E555565A4F /* Pods_IIIF_Presenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B80C97625F9BD361AEA8003 /* Pods_IIIF_Presenter.framework */; };
+		3B1B73B51E688E91006F8E00 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B73B41E688E91006F8E00 /* Constants.swift */; };
 		3B3E41541E59A03600969D6C /* SplashController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E41531E59A03600969D6C /* SplashController.swift */; };
 		3B3E41561E59EE3800969D6C /* ManifestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E41551E59EE3800969D6C /* ManifestController.swift */; };
 		3B5CC5C71E5AF88300A84A99 /* PageThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5CC5C61E5AF88300A84A99 /* PageThumbnailCell.swift */; };
@@ -65,6 +66,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3B1B73B41E688E91006F8E00 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3B3E41531E59A03600969D6C /* SplashController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashController.swift; sourceTree = "<group>"; };
 		3B3E41551E59EE3800969D6C /* ManifestController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManifestController.swift; sourceTree = "<group>"; };
 		3B5CC5C61E5AF88300A84A99 /* PageThumbnailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageThumbnailCell.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 		3BBE78F71E434C4E00F15CF1 /* IIIF Presenter */ = {
 			isa = PBXGroup;
 			children = (
+				3B1B73B41E688E91006F8E00 /* Constants.swift */,
 				3BBE78F81E434C4E00F15CF1 /* AppDelegate.swift */,
 				3BA737181E51BB3B00241FBF /* View */,
 				3BA737171E51BB0D00241FBF /* ViewModel */,
@@ -403,6 +406,7 @@
 				3BBE79281E43BF0300F15CF1 /* IIIFService.swift in Sources */,
 				3BBE79201E43995300F15CF1 /* IIIFCollection.swift in Sources */,
 				3BBE79111E4387D400F15CF1 /* CardCell.swift in Sources */,
+				3B1B73B51E688E91006F8E00 /* Constants.swift in Sources */,
 				3BBE78FB1E434C4E00F15CF1 /* CardListController.swift in Sources */,
 				3BA737161E51BB0700241FBF /* ManifestViewModel.swift in Sources */,
 				3BBE791C1E4398FE00F15CF1 /* IIIFRange.swift in Sources */,

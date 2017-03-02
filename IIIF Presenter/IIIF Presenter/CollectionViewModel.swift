@@ -8,9 +8,11 @@
 
 import Foundation
 
-struct CollectionViewModel {
+class CollectionViewModel {
     
-    let collection: IIIFCollection
+    fileprivate let testUrl = "https://drive.google.com/uc?id=0B1TdqMC3wGUJdS1VQ2tlZ0hudXM"
+    
+    var collection: IIIFCollection
     var delegate: CardListDelegate?
     
     var manifestCount: Int {
@@ -28,5 +30,9 @@ struct CollectionViewModel {
     func selectManifestAt(_ index: Int) {
         let manifest = getManifestAtPosition(index)
         delegate?.showViewer(manifest: manifest)
+    }
+    
+    func deleteManifestAt(_ index: Int) {
+        collection.manifests.remove(at: index)
     }
 }

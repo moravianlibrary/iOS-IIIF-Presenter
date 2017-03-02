@@ -14,7 +14,6 @@ class ManifestController: UIViewController {
     @IBOutlet weak var collection: UICollectionView!
     
     fileprivate let sectionInsets = UIEdgeInsets(top: 4.0, left: 4.0, bottom: 4.0, right: 4.0)
-    fileprivate let itemsPerRow: CGFloat = 3
     
     var viewModel: ManifestViewModel? {
         willSet {
@@ -28,6 +27,10 @@ class ManifestController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel?.delegate = self
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        collection.collectionViewLayout.invalidateLayout()
     }
 }
 
@@ -60,6 +63,8 @@ extension ManifestController: UICollectionViewDelegate {
 extension ManifestController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let diff = view.frame.width > view.frame.height ? 1 : 0
+        let itemsPerRow = CGFloat((Constants.cardsPerRow + diff) * 3)
         let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
         let availableWidth = view.frame.width - paddingSpace
         let widthPerItem = (availableWidth / itemsPerRow) - 1
@@ -87,5 +92,8 @@ extension ManifestController: CardDelegate {
     }
     
     func setImage(data: Data?) {
+    }
+    
+    func loadingDidFail() {
     }
 }

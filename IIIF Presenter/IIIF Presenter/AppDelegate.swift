@@ -12,10 +12,12 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    fileprivate var urlString: String?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        initConstants()
         
         if launchOptions != nil {
             print("Launch options: \(launchOptions!).")
@@ -29,9 +31,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        print("open url: \(url.absoluteString)")
-        print("options: \(options)")
         
+        let regex = "^https?://.+?/manifest$"
+        let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
+        let urlString = String(url.absoluteString.characters.dropFirst(5))
+        
+        guard predicate.evaluate(with: urlString) else {
+            print("Regular expression does not match.")
+            return false
+        }
+        
+        self.urlString = urlString
         return true
     }
 
@@ -51,12 +61,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        if urlString != nil {
+            print("should open url \(urlString!)")
+            urlString = nil
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    fileprivate func initConstants() {
+        Constants.isIPhone = UIDevice.current.model.contains("iPhone")
+        
+        let screenWidth = UIScreen.main.bounds.width
+        Constants.cardsPerRow = screenWidth >= 1000.0 ? 3 : (screenWidth >= 500.0 ? 2 : 1)
+        
+        Constants.printDescription()
+    }
 }
 

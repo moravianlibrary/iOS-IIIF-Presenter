@@ -53,22 +53,14 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zPI-Ou-kpo">
-                                                    <rect key="frame" x="259" y="69" width="22" height="22"/>
-                                                    <connections>
-                                                        <action selector="showManifestDetail" destination="Okf-5d-9Sg" eventType="touchUpInside" id="ZOv-P1-eRc"/>
-                                                    </connections>
-                                                </button>
                                             </subviews>
                                         </view>
                                         <constraints>
                                             <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="CTT-QA-7nE" secondAttribute="bottom" constant="14" id="0n2-Ws-829"/>
-                                            <constraint firstAttribute="trailingMargin" secondItem="zPI-Ou-kpo" secondAttribute="trailing" constant="12" id="5Wd-Rj-MEx"/>
                                             <constraint firstItem="CTT-QA-7nE" firstAttribute="leading" secondItem="stG-CO-miM" secondAttribute="trailing" constant="14" id="FyA-VX-CL8"/>
                                             <constraint firstAttribute="trailing" secondItem="CTT-QA-7nE" secondAttribute="trailing" constant="14" id="JDB-dQ-2a6"/>
                                             <constraint firstItem="CTT-QA-7nE" firstAttribute="top" secondItem="stG-CO-miM" secondAttribute="top" id="LUE-eS-39f"/>
                                             <constraint firstItem="stG-CO-miM" firstAttribute="top" secondItem="Okf-5d-9Sg" secondAttribute="top" constant="14" id="QSk-ea-AR3"/>
-                                            <constraint firstAttribute="bottomMargin" secondItem="zPI-Ou-kpo" secondAttribute="bottom" constant="4" id="jZM-xv-mGu"/>
                                             <constraint firstItem="stG-CO-miM" firstAttribute="leading" secondItem="Okf-5d-9Sg" secondAttribute="leading" constant="14" id="rrY-cJ-CzR"/>
                                             <constraint firstAttribute="bottom" secondItem="stG-CO-miM" secondAttribute="bottom" constant="14" id="wHD-hA-qaj"/>
                                         </constraints>
@@ -96,7 +88,6 @@
                     <navigationItem key="navigationItem" id="bbB-8U-Qez"/>
                     <connections>
                         <outlet property="collectionView" destination="ZeL-m9-tzl" id="D1U-V4-e61"/>
-                        <segue destination="rqT-oy-6bC" kind="show" identifier="ManifestDetail" id="sDD-Nz-xr6"/>
                         <segue destination="oEd-OE-aIy" kind="show" identifier="ManifestViewer" id="ebf-l0-LRT"/>
                     </connections>
                 </viewController>
@@ -123,7 +114,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="d5Z-gf-sze">
-                                <rect key="frame" x="0.0" y="122.5" width="375" height="544.5"/>
+                                <rect key="frame" x="0.0" y="122.5" width="375" height="495.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="wa0-qA-juH">
                                     <size key="itemSize" width="122" height="142"/>
@@ -179,7 +170,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oy9-kV-f3I" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2738" y="139"/>
+            <point key="canvasLocation" x="3511" y="139"/>
         </scene>
         <!--Menu Controller-->
         <scene sceneID="lO4-Jz-fii">
@@ -213,7 +204,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3hd-5Q-QJN">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="l6t-tP-fMw">
                                     <size key="itemSize" width="50" height="50"/>
@@ -259,13 +250,16 @@
                             <constraint firstItem="3hd-5Q-QJN" firstAttribute="top" secondItem="FaO-U8-Kgo" secondAttribute="bottom" id="g8D-1m-xQF"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collection" destination="3hd-5Q-QJN" id="DmE-sS-u7B"/>
+                        <segue destination="rqT-oy-6bC" kind="show" identifier="ManifestDetail" id="KEJ-FM-dtM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K9j-ti-ZnF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2738" y="884"/>
+            <point key="canvasLocation" x="2721" y="139"/>
         </scene>
         <!--Splash Controller-->
         <scene sceneID="5og-fL-nYR">

@@ -26,10 +26,6 @@ class ManifestViewModel {
         }
     }
     
-    func showDetail() {
-        listDelegate?.showDetail(manifest: manifest)
-    }
-    
     fileprivate func downloadManifestData(_ url: URL) {
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             if data != nil,
@@ -39,6 +35,10 @@ class ManifestViewModel {
                 self.manifest.title = manifest.title
                 self.manifest.sequences = manifest.sequences
                 self.notifyDelegate()
+            } else {
+                DispatchQueue.main.async {
+                    self.delegate?.loadingDidFail()
+                }
             }
         }.resume()
     }
@@ -57,8 +57,15 @@ class ManifestViewModel {
         }
     }
     
+    // notify delegate with new data
     fileprivate func notifyDelegate() {
+        guard delegate != nil else {
+            // no need for any action when there is no delegate anymore
+            return
+        }
+        
         guard Thread.current.isMainThread else {
+            // ensure calling delegate on the main thread
             DispatchQueue.main.async {
                 self.notifyDelegate()
             }
