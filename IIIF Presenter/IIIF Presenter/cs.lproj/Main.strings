@@ -1,0 +1,15 @@
+
+/* Class = "UIButton"; normalTitle = "Try again"; ObjectID = "4mm-AL-2pA"; */
+"4mm-AL-2pA.normalTitle" = "Znovu";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "9FJ-Hc-cNU"; */
+"9FJ-Hc-cNU.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "CTT-QA-7nE"; */
+"CTT-QA-7nE.text" = "Label";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "Stp-1b-N4u"; */
+"Stp-1b-N4u.title" = "Item";
+
+/* Class = "UILabel"; text = "An error occured while downloading data. Please try again."; ObjectID = "aCu-VB-XwA"; */
+"aCu-VB-XwA.text" = "Chyba při stahování dat. Prosím zkuste znovu.";

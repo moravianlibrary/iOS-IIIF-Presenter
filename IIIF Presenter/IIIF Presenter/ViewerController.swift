@@ -67,10 +67,6 @@ extension ViewerController: UICollectionViewDataSource {
 }
 
 
-extension ViewerController: UICollectionViewDelegate {
-}
-
-
 extension ViewerController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
