@@ -14,10 +14,13 @@ class ViewerController: UIViewController {
     fileprivate let manifestDetail = "ManifestDetail"
     
     @IBOutlet weak var collection: UICollectionView!
+    @IBOutlet weak var pageNumber: UILabel!
+    @IBOutlet weak var pageNumberView: UIView!
     
     var viewModel: ManifestViewModel? {
         didSet {
             collection?.reloadData()
+            title = viewModel?.manifest.title.getSingleValue()
         }
     }
     
@@ -42,6 +45,23 @@ class ViewerController: UIViewController {
             controller.viewModel = viewModel
         }
     }
+    
+    fileprivate let animationLength: TimeInterval = 0.4
+    fileprivate let hideDelay: TimeInterval = 2
+    fileprivate func showPageNumber(_ num: Int) {
+        NSObject.cancelPreviousPerformRequests(withTarget: self)
+        pageNumber.text = String(num)
+        UIView.animate(withDuration: animationLength) {
+            self.pageNumberView.alpha = 1.0
+        }
+        perform(#selector(hidePageNumber), with: nil, afterDelay: hideDelay)
+    }
+    
+    func hidePageNumber() {
+        UIView.animate(withDuration: animationLength) {
+            self.pageNumberView.alpha = 0.0
+        }
+    }
 }
 
 
@@ -63,6 +83,13 @@ extension ViewerController: UICollectionViewDataSource {
         cell.viewModel = CanvasViewModel(canvas)
         
         return cell
+    }
+}
+
+extension ViewerController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        showPageNumber(indexPath.item + 1) // human readable
     }
 }
 

@@ -11,7 +11,6 @@ import Foundation
 class ManifestViewModel {
     
     var manifest: IIIFManifest
-    var listDelegate: CardListDelegate?
     var delegate: CardDelegate? {
         didSet {
             if delegate != nil {
@@ -22,24 +21,28 @@ class ManifestViewModel {
         }
     }
     
+    var isLoadingData = false
     fileprivate var request: URLSessionDataTask?
     
-    init(_ manifest: IIIFManifest, listDelegate: CardListDelegate?=nil) {
+    init(_ manifest: IIIFManifest, delegate: CardDelegate?=nil) {
         self.manifest = manifest
-        self.listDelegate = listDelegate
+        self.delegate = delegate
         if manifest.sequences == nil {
+            isLoadingData = true
+            delegate?.loadingDidStart()
             self.downloadManifestData(manifest.id)
         }
     }
     
     fileprivate func downloadManifestData(_ url: URL) {
         request = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            self.isLoadingData = false
             if data != nil,
                 let serialization = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments),
                 let manifest = IIIFManifest(serialization as! [String:Any]) {
                 
-                self.manifest.title = manifest.title
-                self.manifest.sequences = manifest.sequences
+                // copy to propagate change up to the collection it belongs to
+                self.manifest.copy(manifest)
                 self.notifyDelegate()
             } else {
                 DispatchQueue.main.async {
@@ -57,17 +60,17 @@ class ManifestViewModel {
                     if data != nil {
                         self.delegate?.setImage(data: data!)
                     } else {
-                        self.loadThumbnailAsCanvac()
+                        self.loadThumbnailAsCanvas()
                     }
                 }
             })
             request?.resume()
         } else {
-            loadThumbnailAsCanvac()
+            loadThumbnailAsCanvas()
         }
     }
     
-    fileprivate func loadThumbnailAsCanvac() {
+    fileprivate func loadThumbnailAsCanvas() {
         if let urlString = manifest.sequences?.first?.canvases.first?.images?.first?.resource.id,
             let url = CanvasViewModel.getThumbnailUrl(urlString) {
             request = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
@@ -85,7 +88,7 @@ class ManifestViewModel {
     
     // notify delegate with new data
     fileprivate func notifyDelegate() {
-        guard delegate != nil else {
+        guard delegate != nil, !isLoadingData else {
             // no need for any action when there is no delegate anymore
             return
         }
@@ -99,6 +102,7 @@ class ManifestViewModel {
         }
         
         delegate?.setTitle(title: manifest.title.getSingleValue()!)
+        delegate?.setDate(date: manifest.date)
         loadThumbnail()
     }
 }

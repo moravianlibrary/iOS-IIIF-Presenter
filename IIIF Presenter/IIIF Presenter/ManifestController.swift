@@ -96,9 +96,8 @@ extension ManifestController: CardDelegate {
         value?.text = title
     }
     
-    func setImage(data: Data?) {
-    }
-    
-    func loadingDidFail() {
-    }
+    func loadingDidStart() {}
+    func setImage(data: Data?) {}
+    func setDate(date: Date?) {}
+    func loadingDidFail() {}
 }

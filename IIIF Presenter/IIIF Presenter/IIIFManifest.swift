@@ -18,22 +18,22 @@ class IIIFManifest {
     var sequences: [IIIFSequence]?
     
     // should have
-    let metadata: MultiProperty?
-    let description: MultiProperty?
-    let thumbnail: MultiProperty?
+    var metadata: MultiProperty?
+    var description: MultiProperty?
+    var thumbnail: MultiProperty?
     
     // optional fields
-    let attribution: MultiProperty?
-    let license: MultiProperty?
-    let logo: MultiProperty?
-    let viewingDirection: String?
-    let viewingHint: MultiProperty?
-    let date: Date?
-    let related: MultiProperty?
-    let rendering: MultiProperty?
-    let service: MultiProperty?
-    let seeAlso: MultiProperty?
-    let within: MultiProperty?
+    var attribution: MultiProperty?
+    var license: MultiProperty?
+    var logo: MultiProperty?
+    var viewingDirection: String?
+    var viewingHint: MultiProperty?
+    var date: Date?
+    var related: MultiProperty?
+    var rendering: MultiProperty?
+    var service: MultiProperty?
+    var seeAlso: MultiProperty?
+    var within: MultiProperty?
     
     init?(_ json: [String: Any]) {
         
@@ -76,8 +76,6 @@ class IIIFManifest {
             let formatter = DateFormatter()
             formatter.dateFormat = "YYYY-MM-DDThh:mm:ssZ"
             date = formatter.date(from: dateString)
-        } else {
-            date = nil
         }
     }
     
@@ -88,21 +86,24 @@ class IIIFManifest {
         
         self.id = url
         self.title = MultiProperty("...")!
-        
-        // optional fields
-        description = nil
-        metadata = nil
-        thumbnail = nil
-        attribution = nil
-        license = nil
-        logo = nil
-        viewingDirection = nil
-        viewingHint = nil
-        related = nil
-        rendering = nil
-        service = nil
-        seeAlso = nil
-        within = nil
-        date = nil
+    }
+    
+    func copy(_ manifest: IIIFManifest) {
+        title = manifest.title
+        sequences = manifest.sequences
+        metadata = manifest.metadata
+        description = manifest.description
+        thumbnail = manifest.thumbnail
+        attribution = manifest.attribution
+        license = manifest.license
+        logo = manifest.logo
+        viewingDirection = manifest.viewingDirection
+        viewingHint = manifest.viewingHint
+        date = manifest.date
+        related = manifest.related
+        rendering = manifest.rendering
+        service = manifest.service
+        seeAlso = manifest.seeAlso
+        within = manifest.within
     }
 }

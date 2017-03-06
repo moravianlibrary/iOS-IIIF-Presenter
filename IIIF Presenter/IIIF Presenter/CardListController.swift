@@ -92,7 +92,7 @@ extension CardListController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardCell.reuseId, for: indexPath) as! CardCell
         
         let manifest = viewModel!.getManifestAtPosition(indexPath.item)
-        let manifestViewModel = ManifestViewModel(manifest, listDelegate: self)
+        let manifestViewModel = ManifestViewModel(manifest, delegate: cell)
         cell.collection = self
         cell.viewModel = manifestViewModel
         
@@ -104,7 +104,10 @@ extension CardListController: UICollectionViewDataSource {
 extension CardListController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewModel?.selectManifestAt(indexPath.item)
+        let cell = collectionView.cellForItem(at: indexPath) as! CardCell
+        if !cell.viewModel!.isLoadingData {
+            viewModel?.selectManifestAt(indexPath.item)
+        }
     }
 }
 

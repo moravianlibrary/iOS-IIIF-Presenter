@@ -14,6 +14,8 @@ struct Constants {
     
     static var cardsPerRow: Int = 1
     
+    static var lang = "en"
+    
     static let testUrl = "https://drive.google.com/uc?id=0B1TdqMC3wGUJdS1VQ2tlZ0hudXM"
     
     static let historyKey = "history_array"

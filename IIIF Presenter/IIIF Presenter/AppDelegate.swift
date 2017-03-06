@@ -98,6 +98,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let screenWidth = UIScreen.main.bounds.width
         Constants.cardsPerRow = screenWidth >= 1000.0 ? 3 : (screenWidth >= 500.0 ? 2 : 1)
+        if let lang = Locale.current.languageCode {
+            Constants.lang = lang
+        }
         
         Constants.printDescription()
     }
