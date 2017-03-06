@@ -57,6 +57,7 @@
                                                 </label>
                                             </subviews>
                                         </view>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="CTT-QA-7nE" secondAttribute="bottom" constant="14" id="0n2-Ws-829"/>
                                             <constraint firstItem="CTT-QA-7nE" firstAttribute="leading" secondItem="stG-CO-miM" secondAttribute="trailing" constant="14" id="FyA-VX-CL8"/>
@@ -92,7 +93,6 @@
                     <navigationItem key="navigationItem" id="bbB-8U-Qez"/>
                     <connections>
                         <outlet property="collectionView" destination="ZeL-m9-tzl" id="D1U-V4-e61"/>
-                        <outlet property="spinner" destination="21r-kg-dJb" id="CcJ-Ne-lUQ"/>
                         <segue destination="oEd-OE-aIy" kind="show" identifier="ManifestViewer" id="ebf-l0-LRT"/>
                     </connections>
                 </viewController>
@@ -113,13 +113,22 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9FJ-Hc-cNU">
-                                <rect key="frame" x="16" y="78" width="343" height="20.5"/>
+                                <rect key="frame" x="16" y="76" width="70" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="e6W-gq-4bR"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="d5Z-gf-sze">
-                                <rect key="frame" x="0.0" y="122.5" width="375" height="500.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fMP-o8-1ef">
+                                <rect key="frame" x="86" y="76" width="273" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="d5Z-gf-sze">
+                                <rect key="frame" x="0.0" y="110.5" width="375" height="512.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="wa0-qA-juH">
                                     <size key="itemSize" width="122" height="142"/>
@@ -153,25 +162,28 @@
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
-                                    <outlet property="dataSource" destination="rqT-oy-6bC" id="0Ft-jr-QGP"/>
-                                    <outlet property="delegate" destination="rqT-oy-6bC" id="jSW-vs-jmR"/>
+                                    <outlet property="dataSource" destination="rqT-oy-6bC" id="mpF-FZ-d5K"/>
+                                    <outlet property="delegate" destination="rqT-oy-6bC" id="Xt5-Lh-bqJ"/>
                                 </connections>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="leading" secondItem="d5Z-gf-sze" secondAttribute="leading" id="J3f-VV-emb"/>
-                            <constraint firstItem="d5Z-gf-sze" firstAttribute="top" secondItem="9FJ-Hc-cNU" secondAttribute="bottom" constant="24" id="Pez-6p-gkh"/>
-                            <constraint firstItem="9FJ-Hc-cNU" firstAttribute="top" secondItem="1Vp-9O-ydS" secondAttribute="bottom" constant="14" id="TCj-sD-LR1"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="9FJ-Hc-cNU" secondAttribute="trailing" id="Tqc-nk-fiX"/>
-                            <constraint firstItem="9FJ-Hc-cNU" firstAttribute="leading" secondItem="kOo-Y4-iDD" secondAttribute="leadingMargin" id="Zgb-Up-4T7"/>
-                            <constraint firstAttribute="trailing" secondItem="d5Z-gf-sze" secondAttribute="trailing" id="oqT-cg-7po"/>
-                            <constraint firstItem="42c-uS-Jb3" firstAttribute="top" secondItem="d5Z-gf-sze" secondAttribute="bottom" id="za2-Yn-M11"/>
+                            <constraint firstItem="fMP-o8-1ef" firstAttribute="top" secondItem="9FJ-Hc-cNU" secondAttribute="top" id="3aM-KC-cBq"/>
+                            <constraint firstItem="42c-uS-Jb3" firstAttribute="top" secondItem="d5Z-gf-sze" secondAttribute="bottom" id="4CP-ow-QqS"/>
+                            <constraint firstItem="d5Z-gf-sze" firstAttribute="leading" secondItem="kOo-Y4-iDD" secondAttribute="leading" id="GtX-p0-vDM"/>
+                            <constraint firstItem="9FJ-Hc-cNU" firstAttribute="trailing" secondItem="fMP-o8-1ef" secondAttribute="leading" id="XfF-NI-jFk"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="fMP-o8-1ef" secondAttribute="trailing" id="YqY-SU-lon"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="9FJ-Hc-cNU" secondAttribute="leading" id="dxh-dT-HIM"/>
+                            <constraint firstItem="9FJ-Hc-cNU" firstAttribute="top" secondItem="1Vp-9O-ydS" secondAttribute="bottom" constant="12" id="lCC-3I-vAl"/>
+                            <constraint firstAttribute="trailing" secondItem="d5Z-gf-sze" secondAttribute="trailing" id="lus-ND-c9G"/>
+                            <constraint firstItem="d5Z-gf-sze" firstAttribute="top" secondItem="fMP-o8-1ef" secondAttribute="bottom" constant="14" id="nKb-Id-wH6"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="collection" destination="d5Z-gf-sze" id="HDl-PK-m48"/>
-                        <outlet property="label" destination="9FJ-Hc-cNU" id="EvA-2B-t8a"/>
+                        <outlet property="collection" destination="d5Z-gf-sze" id="sST-8Q-yF8"/>
+                        <outlet property="label" destination="9FJ-Hc-cNU" id="WvF-HQ-Zkx"/>
+                        <outlet property="value" destination="fMP-o8-1ef" id="dWa-UI-NFo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oy9-kV-f3I" userLabel="First Responder" sceneMemberID="firstResponder"/>

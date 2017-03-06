@@ -16,6 +16,8 @@ struct Constants {
     
     static let testUrl = "https://drive.google.com/uc?id=0B1TdqMC3wGUJdS1VQ2tlZ0hudXM"
     
+    static let historyKey = "history_array"
+    
     static func printDescription() {
         print("model: iP\(isIPhone ? "hone" : "ad").")
         print("cardsPerRow: \(cardsPerRow).")

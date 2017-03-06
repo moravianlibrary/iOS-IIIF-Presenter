@@ -28,17 +28,15 @@ class CardCell: UICollectionViewCell {
             viewModel?.delegate = nil
         }
         didSet {
+            image.image = nil
             viewModel?.delegate = self
         }
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        backgroundColor = UIColor.white
-    }
 }
 
+
 extension CardCell: CardDelegate {
+    
     func setTitle(title: String) {
         self.title.text = title
     }

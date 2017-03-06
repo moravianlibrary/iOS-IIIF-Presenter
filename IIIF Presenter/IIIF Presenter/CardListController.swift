@@ -42,6 +42,22 @@ class CardListController: UIViewController {
         collectionView.backgroundColor = UIColor.clear
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // redo all url requests (using cache for already completed ones)
+        collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // cancel all ongoing url requests
+        for cell in collectionView.visibleCells as! [CardCell] {
+            cell.viewModel = nil
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? ViewerController {
             controller.viewModel = ManifestViewModel(sender as! IIIFManifest)
@@ -126,7 +142,7 @@ extension CardListController: CardListDelegate {
     
     func didFinishLoadingData() {
         isLoading = false
-        spinner.stopAnimating()
+        spinner?.stopAnimating()
         collectionView.reloadData()
     }
 }

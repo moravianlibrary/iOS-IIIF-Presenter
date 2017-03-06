@@ -12,18 +12,26 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    fileprivate var urlString: String?
+    var wasLaunchedWithUrl = false
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         initConstants()
         
-        if launchOptions != nil {
+        if let urlString = (launchOptions?[.url] as? URL)?.absoluteString {
             print("Launch options: \(launchOptions!).")
+            
+            if var array = UserDefaults.standard.stringArray(forKey: Constants.historyKey) {
+                array.append(urlString)
+                UserDefaults.standard.set(array, forKey: Constants.historyKey)
+            } else {
+                UserDefaults.standard.set([urlString], forKey: Constants.historyKey)
+            }
+            
             let navController = window?.rootViewController as? UINavigationController
             let menuController = navController?.topViewController as? MenuController
-            menuController?.launchOptions = launchOptions
+            menuController?.showHistory = true
         } else {
             print("Launch options is empty.")
         }
@@ -43,7 +51,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return false
         }
         
-        self.urlString = urlString
+        if var array = UserDefaults.standard.stringArray(forKey: Constants.historyKey) {
+            if !array.contains(urlString) {
+                array.append(urlString)
+                UserDefaults.standard.set(array, forKey: Constants.historyKey)
+            }
+        } else {
+            UserDefaults.standard.set([urlString], forKey: Constants.historyKey)
+        }
+        wasLaunchedWithUrl = true
+        
         return true
     }
 
@@ -64,9 +81,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
-        if urlString != nil {
-            print("should open url \(urlString!)")
-            urlString = nil
+        if wasLaunchedWithUrl {
+            let navController = window?.rootViewController as? UINavigationController
+            let menuController = navController?.topViewController as? MenuController
+            menuController?.showHistoryTab()
+            wasLaunchedWithUrl = false
         }
     }
 

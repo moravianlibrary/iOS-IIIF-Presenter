@@ -17,16 +17,16 @@ class CollectionViewModel {
         return collection.manifests.count
     }
     
-    static func createWithUrl(_ url: String, _ delegate: CardListDelegate?) -> CollectionViewModel {
-        return CollectionViewModel(url, delegate)
+    static func createWithUrl(_ url: String, delegate: CardListDelegate?, manifests: [IIIFManifest]=[]) -> CollectionViewModel {
+        return CollectionViewModel(url, delegate, manifests)
     }
     
     init(_ collection: IIIFCollection) {
         self.collection = collection
     }
     
-    fileprivate init(_ urlString: String, _ delegate: CardListDelegate?) {
-        collection = IIIFCollection.createCollectionWith([])
+    fileprivate init(_ urlString: String, _ delegate: CardListDelegate?, _ manifests: [IIIFManifest]) {
+        collection = IIIFCollection.createCollectionWith(manifests)
         self.delegate = delegate
         if let url = URL(string: urlString) {
             delegate?.didStartLoadingData()
@@ -37,13 +37,19 @@ class CollectionViewModel {
                         self.collection = c
                     } else if let m = IIIFManifest(serialization as! [String:Any]) {
                         self.collection.manifests.insert(m, at: 0)
+                    } else {
+                        print("Unknown IIIF structure at \(urlString).")
                     }
+                } else {
+                    print("Can't load the structure from \(urlString).")
                 }
                 
                 DispatchQueue.main.async {
                     self.delegate?.didFinishLoadingData()
                 }
             }).resume()
+        } else {
+            print("Is not valid url: \(urlString).")
         }
     }
     

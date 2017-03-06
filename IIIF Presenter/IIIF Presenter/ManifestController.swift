@@ -10,7 +10,12 @@ import UIKit
 
 class ManifestController: UIViewController {
 
-    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var label: UILabel! {
+        didSet {
+            label.text = NSLocalizedString("title", comment: "") + ":"
+        }
+    }
+    @IBOutlet weak var value: UILabel!
     @IBOutlet weak var collection: UICollectionView!
     
     fileprivate let sectionInsets = UIEdgeInsets(top: 4.0, left: 4.0, bottom: 4.0, right: 4.0)
@@ -88,7 +93,7 @@ extension ManifestController: UICollectionViewDelegateFlowLayout {
 extension ManifestController: CardDelegate {
     
     func setTitle(title: String) {
-        label?.text = title
+        value?.text = title
     }
     
     func setImage(data: Data?) {

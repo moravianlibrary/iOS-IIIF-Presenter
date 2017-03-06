@@ -80,4 +80,29 @@ class IIIFManifest {
             date = nil
         }
     }
+    
+    init?(id: String?) {
+        guard id != nil, let url = URL(string: id!) else {
+            return nil
+        }
+        
+        self.id = url
+        self.title = MultiProperty("...")!
+        
+        // optional fields
+        description = nil
+        metadata = nil
+        thumbnail = nil
+        attribution = nil
+        license = nil
+        logo = nil
+        viewingDirection = nil
+        viewingHint = nil
+        related = nil
+        rendering = nil
+        service = nil
+        seeAlso = nil
+        within = nil
+        date = nil
+    }
 }
