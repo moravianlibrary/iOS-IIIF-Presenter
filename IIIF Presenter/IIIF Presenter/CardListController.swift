@@ -10,14 +10,18 @@ import UIKit
 
 protocol CardListDelegate {
     func showViewer(manifest: IIIFManifest)
+    func didStartLoadingData()
+    func didFinishLoadingData()
 }
 
 class CardListController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     
     fileprivate let manifestViewer = "ManifestViewer"
-    fileprivate let sectionInsets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+    fileprivate let sectionInsets = UIEdgeInsets(top: 6.0, left: 6.0, bottom: 6.0, right: 6.0)
+    fileprivate var isLoading: Bool = false
     
     var viewModel: CollectionViewModel? {
         willSet {
@@ -32,8 +36,10 @@ class CardListController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if isLoading {
+            spinner?.startAnimating()
+        }
         collectionView.backgroundColor = UIColor.clear
-        view.backgroundColor = UIColor.lightGray
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -111,5 +117,16 @@ extension CardListController: CardListDelegate {
     
     func showViewer(manifest: IIIFManifest) {
         performSegue(withIdentifier: manifestViewer, sender: manifest)
+    }
+    
+    func didStartLoadingData() {
+        isLoading = true
+        spinner?.startAnimating()
+    }
+    
+    func didFinishLoadingData() {
+        isLoading = false
+        spinner.stopAnimating()
+        collectionView.reloadData()
     }
 }

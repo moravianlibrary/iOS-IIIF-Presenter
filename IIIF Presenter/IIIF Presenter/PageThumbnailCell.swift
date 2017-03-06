@@ -12,11 +12,7 @@ class PageThumbnailCell: UICollectionViewCell {
     
     static let reuseId = "pageThumbnail"
     
-    @IBOutlet weak var thumbnail: UIImageView? {
-        didSet {
-            thumbnail?.backgroundColor = UIColor.lightGray
-        }
-    }
+    @IBOutlet weak var thumbnail: UIImageView?
     
     var viewModel: CanvasViewModel? {
         willSet {

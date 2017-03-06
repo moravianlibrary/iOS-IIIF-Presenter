@@ -33,7 +33,7 @@ class CanvasViewModel {
     }
     
     fileprivate func loadThumbnail() {
-        if let imageUrl = canvas.images?.first?.resource.id, let url = getThumbnailUrl(imageUrl) {
+        if let imageUrl = canvas.images?.first?.resource.id, let url = CanvasViewModel.getThumbnailUrl(imageUrl) {
             request = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 DispatchQueue.main.async {
                     self.delegate?.showImage(data: data)
@@ -45,7 +45,7 @@ class CanvasViewModel {
         }
     }
     
-    fileprivate func getThumbnailUrl(_ url: String) -> URL? {
+    static func getThumbnailUrl(_ url: String) -> URL? {
         var imageUrl = url
         if imageUrl.lowercased().hasSuffix("default.jpg") {
             let range = imageUrl.range(of: "full", options: .backwards, range: nil, locale: nil)!

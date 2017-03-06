@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0855C4A68F5755E555565A4F /* Pods_IIIF_Presenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B80C97625F9BD361AEA8003 /* Pods_IIIF_Presenter.framework */; };
 		3B1B73B51E688E91006F8E00 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B73B41E688E91006F8E00 /* Constants.swift */; };
-		3B3E41541E59A03600969D6C /* SplashController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E41531E59A03600969D6C /* SplashController.swift */; };
 		3B3E41561E59EE3800969D6C /* ManifestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E41551E59EE3800969D6C /* ManifestController.swift */; };
 		3B5CC5C71E5AF88300A84A99 /* PageThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5CC5C61E5AF88300A84A99 /* PageThumbnailCell.swift */; };
 		3B5CC5C91E5AFF7A00A84A99 /* CanvasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5CC5C81E5AFF7A00A84A99 /* CanvasViewModel.swift */; };
@@ -72,7 +71,6 @@
 		3B0F52D41E69E1FC00EC1B97 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		3B0F52D61E69E22D00EC1B97 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		3B1B73B41E688E91006F8E00 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		3B3E41531E59A03600969D6C /* SplashController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashController.swift; sourceTree = "<group>"; };
 		3B3E41551E59EE3800969D6C /* ManifestController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManifestController.swift; sourceTree = "<group>"; };
 		3B5CC5C61E5AF88300A84A99 /* PageThumbnailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageThumbnailCell.swift; sourceTree = "<group>"; };
 		3B5CC5C81E5AFF7A00A84A99 /* CanvasViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewModel.swift; sourceTree = "<group>"; };
@@ -154,7 +152,6 @@
 		3BA737181E51BB3B00241FBF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				3B3E41531E59A03600969D6C /* SplashController.swift */,
 				3B98FE681E6767EA0016C1C6 /* MenuController.swift */,
 				3B3E41551E59EE3800969D6C /* ManifestController.swift */,
 				3BBE78FA1E434C4E00F15CF1 /* CardListController.swift */,
@@ -419,7 +416,6 @@
 				3BA737161E51BB0700241FBF /* ManifestViewModel.swift in Sources */,
 				3BBE791C1E4398FE00F15CF1 /* IIIFRange.swift in Sources */,
 				3B3E41561E59EE3800969D6C /* ManifestController.swift in Sources */,
-				3B3E41541E59A03600969D6C /* SplashController.swift in Sources */,
 				3BBE79161E43981700F15CF1 /* IIIFSequence.swift in Sources */,
 				3B9ED52A1E6337B100712ECB /* ViewerCell.swift in Sources */,
 				3BB8F25C1E449BD10073FBD1 /* Metadata.swift in Sources */,

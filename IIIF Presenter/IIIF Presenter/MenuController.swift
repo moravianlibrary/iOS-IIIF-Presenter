@@ -10,8 +10,7 @@ import UIKit
 
 class MenuController: UITabBarController {
 
-    var searchCollection: IIIFCollection!
-    var historyCollection: IIIFCollection?
+    var launchOptions: [UIApplicationLaunchOptionsKey: Any]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,12 +23,12 @@ class MenuController: UITabBarController {
         
         historyController.tabBarItem = UITabBarItem(tabBarSystemItem: .history, tag: 0)
         searchController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
-        searchController.viewModel = CollectionViewModel(searchCollection)
         
-        if historyCollection != nil {
-            historyController.viewModel = CollectionViewModel(historyCollection!)
+        searchController.viewModel = CollectionViewModel.createWithUrl(Constants.testUrl, searchController)
+        if let url = launchOptions?[.url] as? URL {
+            historyController.viewModel = CollectionViewModel.createWithUrl(url.absoluteString, historyController)
         } else {
-            // show search tab if no history data available
+            // show search tab if no launch options url available
             selectedIndex = 1
             selectedViewController = searchController
         }

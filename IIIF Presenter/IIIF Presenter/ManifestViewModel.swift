@@ -14,9 +14,15 @@ class ManifestViewModel {
     var listDelegate: CardListDelegate?
     var delegate: CardDelegate? {
         didSet {
-            self.notifyDelegate()
+            if delegate != nil {
+                self.notifyDelegate()
+            } else {
+                request?.cancel()
+            }
         }
     }
+    
+    fileprivate var request: URLSessionDataTask?
     
     init(_ manifest: IIIFManifest, listDelegate: CardListDelegate?=nil) {
         self.manifest = manifest
@@ -27,7 +33,7 @@ class ManifestViewModel {
     }
     
     fileprivate func downloadManifestData(_ url: URL) {
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
+        request = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if data != nil,
                 let serialization = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments),
                 let manifest = IIIFManifest(serialization as! [String:Any]) {
@@ -40,18 +46,38 @@ class ManifestViewModel {
                     self.delegate?.loadingDidFail()
                 }
             }
-        }.resume()
+        }
+        request?.resume()
     }
     
-    fileprivate func getThumbnail() {
-        if let urlString = manifest.thumbnail?.getValueList()?.first, let url = URL(string: urlString) {
-            URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
+    fileprivate func loadThumbnail() {
+        if let urlString = manifest.thumbnail?.getSingleValue(), let url = URL(string: urlString) {
+            request = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
+                DispatchQueue.main.async {
+                    if data != nil {
+                        self.delegate?.setImage(data: data!)
+                    } else {
+                        self.loadThumbnailAsCanvac()
+                    }
+                }
+            })
+            request?.resume()
+        } else {
+            loadThumbnailAsCanvac()
+        }
+    }
+    
+    fileprivate func loadThumbnailAsCanvac() {
+        if let urlString = manifest.sequences?.first?.canvases.first?.images?.first?.resource.id,
+            let url = CanvasViewModel.getThumbnailUrl(urlString) {
+            request = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
                 if data != nil {
                     DispatchQueue.main.async {
                         self.delegate?.setImage(data: data!)
                     }
                 }
-            }).resume()
+            })
+            request?.resume()
         } else {
             self.delegate?.setImage(data: nil)
         }
@@ -72,7 +98,7 @@ class ManifestViewModel {
             return
         }
         
-        delegate?.setTitle(title: manifest.title.getValueList()!.first!)
-        getThumbnail()
+        delegate?.setTitle(title: manifest.title.getSingleValue()!)
+        loadThumbnail()
     }
 }

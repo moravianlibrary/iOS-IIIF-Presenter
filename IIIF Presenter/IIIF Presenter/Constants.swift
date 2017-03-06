@@ -14,6 +14,8 @@ struct Constants {
     
     static var cardsPerRow: Int = 1
     
+    static let testUrl = "https://drive.google.com/uc?id=0B1TdqMC3wGUJdS1VQ2tlZ0hudXM"
+    
     static func printDescription() {
         print("model: iP\(isIPhone ? "hone" : "ad").")
         print("cardsPerRow: \(cardsPerRow).")

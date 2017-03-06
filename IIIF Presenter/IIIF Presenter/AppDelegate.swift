@@ -21,8 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if launchOptions != nil {
             print("Launch options: \(launchOptions!).")
-            let splashController = window?.rootViewController as? SplashController
-            splashController?.launchOptions = launchOptions
+            let navController = window?.rootViewController as? UINavigationController
+            let menuController = navController?.topViewController as? MenuController
+            menuController?.launchOptions = launchOptions
         } else {
             print("Launch options is empty.")
         }
@@ -32,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
+        // TODO: add support for other IIIF types, such as Collection or single Canvas
         let regex = "^https?://.+?/manifest$"
         let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
         let urlString = String(url.absoluteString.characters.dropFirst(5))

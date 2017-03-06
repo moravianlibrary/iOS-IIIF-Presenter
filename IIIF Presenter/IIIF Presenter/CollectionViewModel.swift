@@ -10,8 +10,6 @@ import Foundation
 
 class CollectionViewModel {
     
-    fileprivate let testUrl = "https://drive.google.com/uc?id=0B1TdqMC3wGUJdS1VQ2tlZ0hudXM"
-    
     var collection: IIIFCollection
     var delegate: CardListDelegate?
     
@@ -19,8 +17,34 @@ class CollectionViewModel {
         return collection.manifests.count
     }
     
+    static func createWithUrl(_ url: String, _ delegate: CardListDelegate?) -> CollectionViewModel {
+        return CollectionViewModel(url, delegate)
+    }
+    
     init(_ collection: IIIFCollection) {
         self.collection = collection
+    }
+    
+    fileprivate init(_ urlString: String, _ delegate: CardListDelegate?) {
+        collection = IIIFCollection.createCollectionWith([])
+        self.delegate = delegate
+        if let url = URL(string: urlString) {
+            delegate?.didStartLoadingData()
+            URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
+                if data != nil,
+                    let serialization = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) {
+                    if let c = IIIFCollection(serialization as! [String:Any]) {
+                        self.collection = c
+                    } else if let m = IIIFManifest(serialization as! [String:Any]) {
+                        self.collection.manifests.insert(m, at: 0)
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    self.delegate?.didFinishLoadingData()
+                }
+            }).resume()
+        }
     }
     
     func getManifestAtPosition(_ i: Int) -> IIIFManifest {

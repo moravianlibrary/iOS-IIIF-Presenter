@@ -42,6 +42,13 @@ struct MultiProperty {
         }
     }
     
+    func getSingleValue() -> String? {
+        if let val = getValueList()?.first {
+            return val
+        }
+        return nil
+    }
+    
     func getValueList() -> [String]? {
         var array = [String](arrayValue)
         if singleValue != nil {
