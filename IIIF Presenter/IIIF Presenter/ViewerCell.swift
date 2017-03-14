@@ -13,6 +13,7 @@ class ViewerCell: UICollectionViewCell {
     
     static let reuseId = "viewer"
     
+    @IBOutlet weak var spinner: UIActivityIndicatorView?
     @IBOutlet weak var viewer: ITVScrollView? {
         didSet {
             viewer?.itvDelegate = self
@@ -27,6 +28,7 @@ class ViewerCell: UICollectionViewCell {
     
     fileprivate func loadImage() {
         if let url = viewModel?.canvas.images?.first?.resource.service?.id {
+            spinner?.startAnimating()
             viewer?.loadImage(url, api: .IIIF)
         }
     }
@@ -35,9 +37,11 @@ class ViewerCell: UICollectionViewCell {
 extension ViewerCell: ITVScrollViewDelegate {
     
     func didFinishLoading(error: NSError?) {
+        spinner?.stopAnimating()
     }
     
     func errorDidOccur(error: NSError) {
+        spinner?.stopAnimating()
         print("error: \(error)")
     }
 }

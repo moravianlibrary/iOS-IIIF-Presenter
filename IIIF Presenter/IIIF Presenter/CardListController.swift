@@ -8,21 +8,19 @@
 
 import UIKit
 
-protocol CardListDelegate {
-    func showViewer(manifest: IIIFManifest)
-    func didStartLoadingData()
-    func didFinishLoadingData()
-}
-
 class CardListController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
+    @IBOutlet weak var messageView: UIView?
+    @IBOutlet weak var messageIcon: UIImageView?
+    @IBOutlet weak var messageLabel: UILabel?
     
     fileprivate let manifestViewer = "ManifestViewer"
     fileprivate let sectionInsets = UIEdgeInsets(top: 6.0, left: 6.0, bottom: 6.0, right: 6.0)
     fileprivate var isLoading: Bool = false
     
+    var showFirstError = false
     var viewModel: CollectionViewModel? {
         willSet {
             viewModel?.delegate = nil
@@ -61,6 +59,8 @@ class CardListController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? ViewerController {
             controller.viewModel = ManifestViewModel(sender as! IIIFManifest)
+        } else if let controller = segue.destination as? CardListController {
+            controller.viewModel = CollectionViewModel(sender as! IIIFCollection)
         }
     }
     
@@ -68,11 +68,38 @@ class CardListController: UIViewController {
         collectionView.collectionViewLayout.invalidateLayout()
     }
     
-    func deleteCell(_ cell: UICollectionViewCell) {
+    func deleteCell(_ cell: CardCell) {
         if let index = collectionView.indexPath(for: cell) {
-            viewModel?.deleteManifestAt(index.item)
+            viewModel?.deleteItemAt(index.item)
             collectionView.deleteItems(at: [index])
-//            collectionView.reloadData()
+            if index.item == 0 && showFirstError {
+                showFirstError = false
+                showAlert("Can't open specified URL.")
+            }
+        }
+    }
+    
+    fileprivate func showAlert(_ msg: String?="An error occured") {
+        let alert = UIAlertController(title: "Error", message: msg, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Ok", style: .default) { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    fileprivate func handleSectionNumber(_ number: Int) {
+        if let error = viewModel?.loadingError {
+            messageView?.isHidden = false
+            messageLabel?.text = "\(error.code): \(error.localizedDescription)"
+        } else if messageView != nil && !messageView!.isHidden {
+            messageView?.isHidden = true
+        }
+    }
+    
+    func replaceItem(cell: UICollectionViewCell, item: Any) {
+        if let index = collectionView.indexPath(for: cell) {
+            viewModel?.replaceItem(item, at: index.item)
         }
     }
 }
@@ -81,20 +108,21 @@ class CardListController: UIViewController {
 extension CardListController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        let number = viewModel != nil ? 1 : 0
+        handleSectionNumber(number)
+        return number
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel != nil ? viewModel!.manifestCount : 0
+        return viewModel!.itemsCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardCell.reuseId, for: indexPath) as! CardCell
         
-        let manifest = viewModel!.getManifestAtPosition(indexPath.item)
-        let manifestViewModel = ManifestViewModel(manifest, delegate: cell)
+        let item = viewModel!.getItemAtPosition(indexPath.item)
         cell.collection = self
-        cell.viewModel = manifestViewModel
+        cell.viewModel = CardViewModel.getModel(item, delegate: cell)
         
         return cell
     }
@@ -106,7 +134,7 @@ extension CardListController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! CardCell
         if !cell.viewModel!.isLoadingData {
-            viewModel?.selectManifestAt(indexPath.item)
+            viewModel?.selectItemAt(indexPath.item)
         }
     }
 }
@@ -119,7 +147,7 @@ extension CardListController: UICollectionViewDelegateFlowLayout {
         let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
         let availableWidth = view.frame.width - paddingSpace
         let widthPerItem = (availableWidth / itemsPerRow) - 1
-        let aspectRatio: CGFloat = 5/8
+        let aspectRatio: CGFloat = 4/9
         return CGSize(width: widthPerItem, height: widthPerItem * aspectRatio)
     }
     
@@ -138,12 +166,18 @@ extension CardListController: CardListDelegate {
         performSegue(withIdentifier: manifestViewer, sender: manifest)
     }
     
+    func showCollection(collection: IIIFCollection) {
+        let controller = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "cardListController") as! CardListController
+        controller.viewModel = CollectionViewModel.createWithUrl(collection.id.absoluteString, delegate: controller)
+        navigationController?.pushViewController(controller, animated: true)
+    }
+    
     func didStartLoadingData() {
         isLoading = true
         spinner?.startAnimating()
     }
     
-    func didFinishLoadingData() {
+    func didFinishLoadingData(error: NSError?) {
         isLoading = false
         spinner?.stopAnimating()
         collectionView.reloadData()

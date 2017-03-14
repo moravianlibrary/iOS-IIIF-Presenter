@@ -14,53 +14,81 @@ struct IIIFCollection {
     
     // required
     let id: URL
-    let title: MultiProperty
-    var manifests: [IIIFManifest]
+    var title: MultiProperty
+    
+    // must have one of manifests, collecions or members
+    // if not present than the collection needs to be loaded
+    var members: [Any]?
     
     // should have
-    let metadata: MultiProperty?
-    let description: MultiProperty?
-    let thumbnail: MultiProperty?
+    var metadata: MultiProperty?
+    var description: MultiProperty?
+    var thumbnail: MultiProperty?
     
     // optional
-    let attribution: MultiProperty?
-    let license: MultiProperty?
-    let logo: MultiProperty?
-    let viewingDirection: String?
-    let viewingHint: MultiProperty?
-    let date: Date?
-    let related: MultiProperty?
-    let rendering: MultiProperty?
-    let service: MultiProperty?
-    let seeAlso: MultiProperty?
-    let within: MultiProperty?
-    let first: String?
-    let last: String?
-    let total: Int?
-    let next: String?
-    let previous: String?
-    let startIndex: Int?
+    var attribution: MultiProperty?
+    var license: MultiProperty?
+    var logo: MultiProperty?
+    var viewingDirection: String?
+    var viewingHint: MultiProperty?
+    var date: Date?
+    var related: MultiProperty?
+    var rendering: MultiProperty?
+    var service: MultiProperty?
+    var seeAlso: MultiProperty?
+    var within: MultiProperty?
+    var first: String?
+    var last: String?
+    var total: Int?
+    var next: String?
+    var previous: String?
+    var startIndex: Int?
+    
+    
+    static func createCollectionWith(_ members: [Any]) -> IIIFCollection {
+        return IIIFCollection(members: members)
+    }
     
     
     init?(_ json: [String:Any]) {
         
-        guard let idString = json["@id"] as? String,
+        guard json["@type"] as? String == IIIFCollection.type,
+            let idString = json["@id"] as? String,
             let id = URL(string: idString),
-            let title = MultiProperty(json["label"]),
-            let manifests = json["manifests"] as? [[String:Any]] else {
+            let title = MultiProperty(json["label"]) else {
                 return nil
         }
         
-        var array = [IIIFManifest]()
-        for item in manifests {
-            if let m = IIIFManifest(item) {
-                array.append(m)
+        var array = [Any]()
+        if let members = json["members"] as? [[String:Any]] {
+            for item in members {
+                if let c = IIIFCollection(item) {
+                    array.append(c)
+                } else if let m = IIIFManifest(item) {
+                    array.append(m)
+                }
             }
+        }
+        if let collections = json["collections"] as? [[String:Any]] {
+            for item in collections {
+                if let c = IIIFCollection(item) {
+                    array.append(c)
+                }
+            }
+        }
+        if let manifests = json["manifests"] as? [[String:Any]] {
+            for item in manifests {
+                if let m = IIIFManifest(item) {
+                    array.append(m)
+                }
+            }
+        }
+        if !array.isEmpty {
+            self.members = array
         }
         
         self.id = id
         self.title = title
-        self.manifests = array
         
         // should have
         metadata = MultiProperty(json["metadata"])
@@ -94,14 +122,19 @@ struct IIIFCollection {
         }
     }
     
-    static func createCollectionWith(_ manifests: [IIIFManifest]) -> IIIFCollection {
-        return IIIFCollection(manifests: manifests)
+    init?(id: String?) {
+        guard id != nil, let url = URL(string: id!) else {
+            return nil
+        }
+        
+        self.id = url
+        self.title = MultiProperty("...")!
     }
     
-    fileprivate init(manifests: [IIIFManifest]) {
+    fileprivate init(members: [Any]) {
         id = URL(string: "www.google.com")!
         title = MultiProperty("Title")!
-        self.manifests = manifests
+        self.members = members
         
         metadata = nil
         description = nil
@@ -123,5 +156,12 @@ struct IIIFCollection {
         previous = nil
         startIndex = nil
         date = nil
+    }
+}
+
+extension IIIFCollection: Equatable {
+    
+    public static func ==(lhs: IIIFCollection, rhs: IIIFCollection) -> Bool {
+        return lhs.id.absoluteString == rhs.id.absoluteString
     }
 }

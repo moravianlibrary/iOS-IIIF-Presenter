@@ -8,15 +8,6 @@
 
 import UIKit
 
-protocol CardDelegate {
-    func loadingDidStart()
-    func setTitle(title: String)
-    func setImage(data: Data?)
-    func setDate(date: Date?)
-    func loadingDidFail()
-}
-
-
 class CardCell: UICollectionViewCell {
     
     static let reuseId = "card"
@@ -30,7 +21,7 @@ class CardCell: UICollectionViewCell {
     fileprivate let dateFormatter = DateFormatter()
     
     weak var collection: CardListController?
-    var viewModel: ManifestViewModel? {
+    var viewModel: CardViewModel? {
         willSet {
             viewModel?.delegate = nil
         }
@@ -78,5 +69,9 @@ extension CardCell: CardDelegate {
     
     func loadingDidFail() {
         collection?.deleteCell(self)
+    }
+    
+    func replaceItem(item: Any) {
+        collection?.replaceItem(cell: self, item: item)
     }
 }

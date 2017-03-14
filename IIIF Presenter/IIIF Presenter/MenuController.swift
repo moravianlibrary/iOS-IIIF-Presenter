@@ -11,6 +11,7 @@ import UIKit
 class MenuController: UITabBarController {
 
     var showHistory = false
+    var showHistoryError = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +21,7 @@ class MenuController: UITabBarController {
     func initializeControllers() {
         let historyController = viewControllers?.first as! CardListController
         let searchController = viewControllers?.last as! CardListController
-        let historyManifests = getHistoryManifests()
+        let historyManifests = getHistoryItems()
         
         historyController.tabBarItem = UITabBarItem(tabBarSystemItem: .history, tag: 0)
         searchController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
@@ -41,8 +42,9 @@ class MenuController: UITabBarController {
     
     func showHistoryTab() {
         let historyController = viewControllers?.first as! CardListController
-        let historyManifests = getHistoryManifests()
-        if historyController.viewModel?.manifestCount != historyManifests.count {
+        historyController.showFirstError = showHistoryError
+        let historyManifests = getHistoryItems()
+        if historyController.viewModel?.itemsCount != historyManifests.count {
             historyController.viewModel = CollectionViewModel(IIIFCollection.createCollectionWith(historyManifests))
         }
         
@@ -50,20 +52,21 @@ class MenuController: UITabBarController {
         selectedViewController = viewControllers?[selectedIndex]
     }
     
-    func getHistoryManifests() -> [IIIFManifest] {
-        var historyManifests = [IIIFManifest]()
-        if let history = UserDefaults.standard.stringArray(forKey: Constants.historyKey) {
-            for s in history {
-                if let m = IIIFManifest(id: s) {
-                    historyManifests.append(m)
+    func getHistoryItems() -> [Any] {
+        var historyItems = [Any]()
+        if let history = UserDefaults.standard.stringArray(forKey: Constants.historyUrlKey),
+            let types = UserDefaults.standard.stringArray(forKey: Constants.historyTypeKey) {
+            for (i, id) in history.enumerated() {
+                if types[i] == IIIFManifest.type, let m = IIIFManifest(id: id) {
+                    historyItems.append(m)
+                } else if types[i] == IIIFCollection.type, let c = IIIFCollection(id: id) {
+                    historyItems.append(c)
+                } else {
+                    // unknown type
+                    historyItems.append(id)
                 }
             }
         }
-        return historyManifests
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        return historyItems
     }
 }

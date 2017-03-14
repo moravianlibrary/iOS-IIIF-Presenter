@@ -42,7 +42,7 @@ class ManifestViewModel {
                 let manifest = IIIFManifest(serialization as! [String:Any]) {
                 
                 // copy to propagate change up to the collection it belongs to
-                self.manifest.copy(manifest)
+                self.manifest = manifest
                 self.notifyDelegate()
             } else {
                 DispatchQueue.main.async {

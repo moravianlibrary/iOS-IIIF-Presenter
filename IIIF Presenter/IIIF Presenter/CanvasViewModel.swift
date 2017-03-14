@@ -8,10 +8,6 @@
 
 import Foundation
 
-protocol CanvasThumbnailDelegate {
-    func showImage(data: Data?)
-}
-
 class CanvasViewModel {
     
     let canvas: IIIFCanvas
@@ -33,7 +29,7 @@ class CanvasViewModel {
     }
     
     fileprivate func loadThumbnail() {
-        if let imageUrl = canvas.images?.first?.resource.id, let url = CanvasViewModel.getThumbnailUrl(imageUrl) {
+        if let imageUrl = canvas.images?.first?.resource.service?.id, let url = CanvasViewModel.getThumbnailUrl(imageUrl) {
             request = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 DispatchQueue.main.async {
                     self.delegate?.showImage(data: data)

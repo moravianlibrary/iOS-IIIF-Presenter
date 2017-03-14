@@ -12,7 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var wasLaunchedWithUrl = false
+    fileprivate var wasLaunchedWithUrl = false
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -22,16 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let urlString = (launchOptions?[.url] as? URL)?.absoluteString {
             print("Launch options: \(launchOptions!).")
             
-            if var array = UserDefaults.standard.stringArray(forKey: Constants.historyKey) {
-                array.append(urlString)
-                UserDefaults.standard.set(array, forKey: Constants.historyKey)
-            } else {
-                UserDefaults.standard.set([urlString], forKey: Constants.historyKey)
-            }
-            
+            addToUserDefaults(urlString)
             let navController = window?.rootViewController as? UINavigationController
             let menuController = navController?.topViewController as? MenuController
             menuController?.showHistory = true
+            menuController?.showHistoryError = true
         } else {
             print("Launch options is empty.")
         }
@@ -41,24 +36,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        // TODO: add support for other IIIF types, such as Collection or single Canvas
-        let regex = "^https?://.+?/manifest$"
-        let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
-        let urlString = String(url.absoluteString.characters.dropFirst(5))
+//        let regex = "^https?://.+?/manifest$"
+//        let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
+        let urlString = String(url.absoluteString.characters.dropFirst(5)) // drop application url scheme
         
-        guard predicate.evaluate(with: urlString) else {
-            print("Regular expression does not match.")
+        guard let _ = URL(string: urlString) else {
+            print("Url is not valid.")
             return false
         }
         
-        if var array = UserDefaults.standard.stringArray(forKey: Constants.historyKey) {
-            if !array.contains(urlString) {
-                array.append(urlString)
-                UserDefaults.standard.set(array, forKey: Constants.historyKey)
-            }
-        } else {
-            UserDefaults.standard.set([urlString], forKey: Constants.historyKey)
-        }
+        addToUserDefaults(urlString)
         wasLaunchedWithUrl = true
         
         return true
@@ -84,6 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if wasLaunchedWithUrl {
             let navController = window?.rootViewController as? UINavigationController
             let menuController = navController?.topViewController as? MenuController
+            menuController?.showHistoryError = true
             menuController?.showHistoryTab()
             wasLaunchedWithUrl = false
         }
@@ -93,11 +81,61 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    
+    func addToUserDefaults(_ urlString: String) {
+        if var values = UserDefaults.standard.stringArray(forKey: Constants.historyUrlKey), var types = UserDefaults.standard.stringArray(forKey: Constants.historyTypeKey) {
+            if !values.contains(urlString) {
+                values.insert(urlString, at: 0)
+                types.insert("unknown", at: 0)
+                UserDefaults.standard.set(values, forKey: Constants.historyUrlKey)
+                UserDefaults.standard.set(types, forKey: Constants.historyTypeKey)
+            }
+        } else {
+            UserDefaults.standard.set([urlString], forKey: Constants.historyUrlKey)
+            UserDefaults.standard.set(["unknown"], forKey: Constants.historyTypeKey)
+        }
+    }
+    
+    func updateUserDefaults(_ item: Any) {
+        let type = item is IIIFManifest ? IIIFManifest.type : IIIFCollection.type
+        let id = item is IIIFManifest ? (item as! IIIFManifest).id.absoluteString : (item as! IIIFCollection).id.absoluteString
+        if let values = UserDefaults.standard.stringArray(forKey: Constants.historyUrlKey),
+            var types = UserDefaults.standard.stringArray(forKey: Constants.historyTypeKey) {
+            
+            var changed = false
+            for (index, url) in values.enumerated() where url == id {
+                types[index] = type
+                changed = true
+            }
+            
+            if changed {
+                UserDefaults.standard.set(types, forKey: Constants.historyTypeKey)
+            }
+        }
+    }
+    
+    func deleteUserDefaults(_ item: String) {
+        if var values = UserDefaults.standard.stringArray(forKey: Constants.historyUrlKey),
+            var types = UserDefaults.standard.stringArray(forKey: Constants.historyTypeKey) {
+            
+            var changed = false
+            for (index, url) in values.enumerated() where url == item {
+                changed = true
+                values.remove(at: index)
+                types.remove(at: index)
+            }
+            
+            if changed {
+                UserDefaults.standard.set(values, forKey: Constants.historyUrlKey)
+                UserDefaults.standard.set(types, forKey: Constants.historyTypeKey)
+            }
+        }
+    }
+    
     fileprivate func initConstants() {
+        Constants.appDelegate = self
         Constants.isIPhone = UIDevice.current.model.contains("iPhone")
-        
-        let screenWidth = UIScreen.main.bounds.width
-        Constants.cardsPerRow = screenWidth >= 1000.0 ? 3 : (screenWidth >= 500.0 ? 2 : 1)
+        Constants.cardsPerRow = Int(ceil(UIScreen.main.bounds.width / 500.0))
         if let lang = Locale.current.languageCode {
             Constants.lang = lang
         }

@@ -37,7 +37,8 @@ class IIIFManifest {
     
     init?(_ json: [String: Any]) {
         
-        guard let idString = json["@id"] as? String,
+        guard json["@type"] as? String == IIIFManifest.type,
+            let idString = json["@id"] as? String,
             let id = URL(string: idString),
             let title = MultiProperty(json["label"]) else {
                 return nil
@@ -87,23 +88,11 @@ class IIIFManifest {
         self.id = url
         self.title = MultiProperty("...")!
     }
+}
+
+extension IIIFManifest: Equatable {
     
-    func copy(_ manifest: IIIFManifest) {
-        title = manifest.title
-        sequences = manifest.sequences
-        metadata = manifest.metadata
-        description = manifest.description
-        thumbnail = manifest.thumbnail
-        attribution = manifest.attribution
-        license = manifest.license
-        logo = manifest.logo
-        viewingDirection = manifest.viewingDirection
-        viewingHint = manifest.viewingHint
-        date = manifest.date
-        related = manifest.related
-        rendering = manifest.rendering
-        service = manifest.service
-        seeAlso = manifest.seeAlso
-        within = manifest.within
+    public static func ==(lhs: IIIFManifest, rhs: IIIFManifest) -> Bool {
+        return lhs.id.absoluteString == rhs.id.absoluteString
     }
 }

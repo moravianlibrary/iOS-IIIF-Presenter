@@ -18,6 +18,7 @@
 		3B6819141E66F020008157E8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B6819121E66F020008157E8 /* MainInterface.storyboard */; };
 		3B6819181E66F020008157E8 /* Open in IIIF.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 3B68190E1E66F020008157E8 /* Open in IIIF.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3B73F4501E69C26500D96880 /* AssetsAction.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B73F44F1E69C26500D96880 /* AssetsAction.xcassets */; };
+		3B8939611E71D9BA003E7C1E /* CardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8939601E71D9BA003E7C1E /* CardViewModel.swift */; };
 		3B98FE691E6767EA0016C1C6 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B98FE681E6767EA0016C1C6 /* MenuController.swift */; };
 		3B9ED52A1E6337B100712ECB /* ViewerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9ED5291E6337B100712ECB /* ViewerCell.swift */; };
 		3BA737161E51BB0700241FBF /* ManifestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA737151E51BB0700241FBF /* ManifestViewModel.swift */; };
@@ -40,6 +41,9 @@
 		3BBE79241E439B4700F15CF1 /* MultiProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBE79231E439B4700F15CF1 /* MultiProperty.swift */; };
 		3BBE79261E43BAA800F15CF1 /* IIIFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBE79251E43BAA800F15CF1 /* IIIFImage.swift */; };
 		3BBE79281E43BF0300F15CF1 /* IIIFService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBE79271E43BF0300F15CF1 /* IIIFService.swift */; };
+		3BE339341E76FC9200BFE46B /* CardDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE339331E76FC9200BFE46B /* CardDelegate.swift */; };
+		3BE339361E76FCAE00BFE46B /* CardListDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE339351E76FCAE00BFE46B /* CardListDelegate.swift */; };
+		3BE339381E76FCDA00BFE46B /* CanvasThumbnailDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE339371E76FCDA00BFE46B /* CanvasThumbnailDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +87,7 @@
 		3B6819131E66F020008157E8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		3B6819151E66F020008157E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B73F44F1E69C26500D96880 /* AssetsAction.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AssetsAction.xcassets; sourceTree = "<group>"; };
+		3B8939601E71D9BA003E7C1E /* CardViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardViewModel.swift; sourceTree = "<group>"; };
 		3B98FE681E6767EA0016C1C6 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		3B9ED5291E6337B100712ECB /* ViewerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewerCell.swift; sourceTree = "<group>"; };
 		3BA737151E51BB0700241FBF /* ManifestViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManifestViewModel.swift; sourceTree = "<group>"; };
@@ -107,6 +112,9 @@
 		3BBE79231E439B4700F15CF1 /* MultiProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiProperty.swift; sourceTree = "<group>"; };
 		3BBE79251E43BAA800F15CF1 /* IIIFImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IIIFImage.swift; sourceTree = "<group>"; };
 		3BBE79271E43BF0300F15CF1 /* IIIFService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IIIFService.swift; sourceTree = "<group>"; };
+		3BE339331E76FC9200BFE46B /* CardDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardDelegate.swift; sourceTree = "<group>"; };
+		3BE339351E76FCAE00BFE46B /* CardListDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardListDelegate.swift; sourceTree = "<group>"; };
+		3BE339371E76FCDA00BFE46B /* CanvasThumbnailDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasThumbnailDelegate.swift; sourceTree = "<group>"; };
 		6B80C97625F9BD361AEA8003 /* Pods_IIIF_Presenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IIIF_Presenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		765DA964D21E6E9BB79D35F6 /* Pods-IIIF Presenter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IIIF Presenter.release.xcconfig"; path = "Pods/Target Support Files/Pods-IIIF Presenter/Pods-IIIF Presenter.release.xcconfig"; sourceTree = "<group>"; };
 		F888E2C2533E77C2561F7D65 /* Pods-IIIF Presenter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IIIF Presenter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IIIF Presenter/Pods-IIIF Presenter.debug.xcconfig"; sourceTree = "<group>"; };
@@ -146,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				3BA737151E51BB0700241FBF /* ManifestViewModel.swift */,
+				3B8939601E71D9BA003E7C1E /* CardViewModel.swift */,
 				3BA737191E52029D00241FBF /* CollectionViewModel.swift */,
 				3B5CC5C81E5AFF7A00A84A99 /* CanvasViewModel.swift */,
 			);
@@ -191,6 +200,7 @@
 			children = (
 				3B1B73B41E688E91006F8E00 /* Constants.swift */,
 				3BBE78F81E434C4E00F15CF1 /* AppDelegate.swift */,
+				3BE339321E76FC8800BFE46B /* protocols */,
 				3BA737181E51BB3B00241FBF /* View */,
 				3BA737171E51BB0D00241FBF /* ViewModel */,
 				3BBE79121E43886300F15CF1 /* Model */,
@@ -220,6 +230,16 @@
 				3BB8F25B1E449BD10073FBD1 /* Metadata.swift */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		3BE339321E76FC8800BFE46B /* protocols */ = {
+			isa = PBXGroup;
+			children = (
+				3BE339331E76FC9200BFE46B /* CardDelegate.swift */,
+				3BE339371E76FCDA00BFE46B /* CanvasThumbnailDelegate.swift */,
+				3BE339351E76FCAE00BFE46B /* CardListDelegate.swift */,
+			);
+			name = protocols;
 			sourceTree = "<group>";
 		};
 		B32F72FAEDDB1B9EBF276247 /* Pods */ = {
@@ -419,6 +439,7 @@
 				3BBE79111E4387D400F15CF1 /* CardCell.swift in Sources */,
 				3B1B73B51E688E91006F8E00 /* Constants.swift in Sources */,
 				3BBE78FB1E434C4E00F15CF1 /* CardListController.swift in Sources */,
+				3BE339361E76FCAE00BFE46B /* CardListDelegate.swift in Sources */,
 				3BA737161E51BB0700241FBF /* ManifestViewModel.swift in Sources */,
 				3BBE791C1E4398FE00F15CF1 /* IIIFRange.swift in Sources */,
 				3B3E41561E59EE3800969D6C /* ManifestController.swift in Sources */,
@@ -426,11 +447,14 @@
 				3B9ED52A1E6337B100712ECB /* ViewerCell.swift in Sources */,
 				3BB8F25C1E449BD10073FBD1 /* Metadata.swift in Sources */,
 				3BBE79261E43BAA800F15CF1 /* IIIFImage.swift in Sources */,
+				3BE339381E76FCDA00BFE46B /* CanvasThumbnailDelegate.swift in Sources */,
 				3B5CC5CB1E5B39E900A84A99 /* ViewerController.swift in Sources */,
 				3BBE79221E43997400F15CF1 /* IIIFAnnotationList.swift in Sources */,
+				3BE339341E76FC9200BFE46B /* CardDelegate.swift in Sources */,
 				3B98FE691E6767EA0016C1C6 /* MenuController.swift in Sources */,
 				3BBE78F91E434C4E00F15CF1 /* AppDelegate.swift in Sources */,
 				3BBE791E1E43993500F15CF1 /* IIIFLayer.swift in Sources */,
+				3B8939611E71D9BA003E7C1E /* CardViewModel.swift in Sources */,
 				3BBE791A1E4398C700F15CF1 /* IIIFAnnotation.swift in Sources */,
 				3BBE79241E439B4700F15CF1 /* MultiProperty.swift in Sources */,
 				3BBE79181E43982D00F15CF1 /* IIIFCanvas.swift in Sources */,
@@ -503,6 +527,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "IIIF Development";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -520,6 +545,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "IIIF Distribution";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

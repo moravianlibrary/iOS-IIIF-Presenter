@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct Constants {
     
@@ -16,9 +17,12 @@ struct Constants {
     
     static var lang = "en"
     
+    static var appDelegate: AppDelegate!
+    
     static let testUrl = "https://drive.google.com/uc?id=0B1TdqMC3wGUJdS1VQ2tlZ0hudXM"
     
-    static let historyKey = "history_array"
+    static let historyUrlKey = "history_urls"
+    static let historyTypeKey = "history_types"
     
     static func printDescription() {
         print("model: iP\(isIPhone ? "hone" : "ad").")
