@@ -28,7 +28,7 @@ class ViewerController: UIViewController {
         super.viewDidLoad()
         
         let info = UIButton(type: .infoLight)
-        info.addTarget(self, action: #selector(showInfo), for: .primaryActionTriggered)
+        info.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: info)
     }
     
