@@ -135,7 +135,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     fileprivate func initConstants() {
         Constants.appDelegate = self
         Constants.isIPhone = UIDevice.current.model.contains("iPhone")
-        Constants.cardsPerRow = Int(ceil(UIScreen.main.bounds.width / 500.0))
+        
+        if Constants.isIPhone {
+            Constants.cardsPerRow = 1
+        } else {
+            var num = Int(ceil(UIScreen.main.bounds.width / 500.0))
+            if UIDevice.current.orientation.isLandscape {
+                num -= 1
+            }
+            Constants.cardsPerRow = num
+        }
+        
         if let lang = Locale.current.languageCode {
             Constants.lang = lang
         }

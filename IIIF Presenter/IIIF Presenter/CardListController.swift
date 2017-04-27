@@ -45,6 +45,11 @@ class CardListController: UIViewController {
         
         // redo all url requests (using cache for already completed ones)
         collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
+        
+        if !Constants.isIPhone {
+            collectionView.collectionViewLayout.invalidateLayout()
+            NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: .UIApplicationDidChangeStatusBarOrientation, object: nil)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -54,6 +59,8 @@ class CardListController: UIViewController {
         for cell in collectionView.visibleCells as! [CardCell] {
             cell.viewModel = nil
         }
+        
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -64,8 +71,15 @@ class CardListController: UIViewController {
         }
     }
     
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    func orientationDidChange() {
         collectionView.collectionViewLayout.invalidateLayout()
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if Constants.isIPhone {
+            orientationDidChange()
+        }
     }
     
     func deleteCell(_ cell: CardCell) {
@@ -143,10 +157,10 @@ extension CardListController: UICollectionViewDelegate {
 extension CardListController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemsPerRow = CGFloat(Constants.cardsPerRow + (view.frame.width > view.frame.height ? 1 : 0))
+        let itemsPerRow = CGFloat(Constants.cardsPerRow + (UIDevice.current.orientation.isLandscape ? 1 : 0))
         let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
-        let availableWidth = view.frame.width - paddingSpace
-        let widthPerItem = (availableWidth / itemsPerRow) - 1
+        let availableWidth = collectionView.frame.width - paddingSpace
+        let widthPerItem = (availableWidth / itemsPerRow)
         let aspectRatio: CGFloat = 4/9
         return CGSize(width: widthPerItem, height: widthPerItem * aspectRatio)
     }
@@ -156,6 +170,10 @@ extension CardListController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return sectionInsets.left
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return sectionInsets.left
     }
 }

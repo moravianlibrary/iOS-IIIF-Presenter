@@ -42,7 +42,7 @@ class ManifestController: UIViewController {
 extension ManifestController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return viewModel?.manifest.sequences != nil ? viewModel!.manifest.sequences!.count : 0
+        return viewModel?.manifest.sequences?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

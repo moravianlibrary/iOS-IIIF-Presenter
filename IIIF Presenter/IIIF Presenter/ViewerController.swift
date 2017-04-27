@@ -69,7 +69,7 @@ extension ViewerController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         let number = viewModel?.manifest.sequences?.count
-        return number != nil ? number! : 0
+        return number ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

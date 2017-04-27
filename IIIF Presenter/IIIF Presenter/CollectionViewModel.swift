@@ -15,7 +15,7 @@ class CollectionViewModel {
     var loadingError: NSError?
     
     var itemsCount: Int {
-        return collection.members != nil ? collection.members!.count : 0
+        return collection.members?.count ?? 0
     }
     
     
