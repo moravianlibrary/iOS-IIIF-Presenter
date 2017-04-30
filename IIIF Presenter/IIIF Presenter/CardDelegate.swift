@@ -13,6 +13,5 @@ protocol CardDelegate {
     func setTitle(title: String)
     func setImage(data: Data?)
     func setDate(date: Date?)
-    func loadingDidFail()
-    func replaceItem(item: Any)
+    func setType(type: String?)
 }

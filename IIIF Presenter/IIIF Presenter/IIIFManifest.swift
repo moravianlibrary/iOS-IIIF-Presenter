@@ -20,7 +20,7 @@ class IIIFManifest {
     // should have
     var metadata: MultiProperty?
     var description: MultiProperty?
-    var thumbnail: MultiProperty?
+    var thumbnail: IIIFImage?
     
     // optional fields
     var attribution: MultiProperty?
@@ -59,9 +59,12 @@ class IIIFManifest {
         }
         
         // optional fields
+        if let thumbnail = json["thumbnail"] as? [String:Any] {
+            self.thumbnail = IIIFImage(thumbnail)
+        }
+        
         description = MultiProperty(json["description"])
         metadata = MultiProperty(json["metadata"])
-        thumbnail = MultiProperty(json["thumbnail"])
         attribution = MultiProperty(json["attribution"])
         license = MultiProperty(json["license"])
         logo = MultiProperty(json["logo"])

@@ -18,9 +18,10 @@ class CardListController: UIViewController {
     
     fileprivate let manifestViewer = "ManifestViewer"
     fileprivate let sectionInsets = UIEdgeInsets(top: 6.0, left: 6.0, bottom: 6.0, right: 6.0)
-    fileprivate var isLoading: Bool = false
     
     var showFirstError = false
+    var isHistory = false
+    var parentName: String?
     var viewModel: CollectionViewModel? {
         willSet {
             viewModel?.delegate = nil
@@ -34,9 +35,10 @@ class CardListController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if isLoading {
-            spinner?.startAnimating()
+        if isHistory {
+            spinner.stopAnimating()
         }
+        
         collectionView.backgroundColor = UIColor.clear
     }
     
@@ -67,7 +69,10 @@ class CardListController: UIViewController {
         if let controller = segue.destination as? ViewerController {
             controller.viewModel = ManifestViewModel(sender as! IIIFManifest)
         } else if let controller = segue.destination as? CardListController {
-            controller.viewModel = CollectionViewModel(sender as! IIIFCollection)
+            let c = sender as! IIIFCollection
+            print("Segue to CardListController will never happen.")
+            controller.parentName = c.title.getSingleValue()
+            controller.viewModel = CollectionViewModel(c)
         }
     }
     
@@ -79,17 +84,6 @@ class CardListController: UIViewController {
         super.traitCollectionDidChange(previousTraitCollection)
         if Constants.isIPhone {
             orientationDidChange()
-        }
-    }
-    
-    func deleteCell(_ cell: CardCell) {
-        if let index = collectionView.indexPath(for: cell) {
-            viewModel?.deleteItemAt(index.item)
-            collectionView.deleteItems(at: [index])
-            if index.item == 0 && showFirstError {
-                showFirstError = false
-                showAlert("Can't open specified URL.")
-            }
         }
     }
     
@@ -108,12 +102,6 @@ class CardListController: UIViewController {
             messageLabel?.text = "\(error.code): \(error.localizedDescription)"
         } else if messageView != nil && !messageView!.isHidden {
             messageView?.isHidden = true
-        }
-    }
-    
-    func replaceItem(cell: UICollectionViewCell, item: Any) {
-        if let index = collectionView.indexPath(for: cell) {
-            viewModel?.replaceItem(item, at: index.item)
         }
     }
 }
@@ -140,6 +128,18 @@ extension CardListController: UICollectionViewDataSource {
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        if kind == UICollectionElementKindSectionHeader {
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ListHeader.reuseId, for: indexPath) as! ListHeader
+            
+            header.title?.text = parentName
+            return header
+        } else {
+            assert(false, "Unexpected element kind")
+        }
+    }
 }
 
 
@@ -147,7 +147,7 @@ extension CardListController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! CardCell
-        if !cell.viewModel!.isLoadingData {
+        if cell.viewModel != nil {
             viewModel?.selectItemAt(indexPath.item)
         }
     }
@@ -162,6 +162,7 @@ extension CardListController: UICollectionViewDelegateFlowLayout {
         let availableWidth = collectionView.frame.width - paddingSpace
         let widthPerItem = (availableWidth / itemsPerRow)
         let aspectRatio: CGFloat = 4/9
+//        print("itemsPerRow: \(itemsPerRow), paddingSpace: \(paddingSpace), availableWidth: \(availableWidth), widthPerItem: \(widthPerItem)")
         return CGSize(width: widthPerItem, height: widthPerItem * aspectRatio)
     }
     
@@ -176,6 +177,15 @@ extension CardListController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return sectionInsets.left
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        if parentName != nil, messageLabel != nil {
+            let height = 1 + parentName!.heightWithFullWidth(font: messageLabel!.font) + 2*8
+            return CGSize(width: collectionView.frame.width, height: height)
+        } else {
+            return CGSize.zero
+        }
+    }
 }
 
 extension CardListController: CardListDelegate {
@@ -186,18 +196,22 @@ extension CardListController: CardListDelegate {
     
     func showCollection(collection: IIIFCollection) {
         let controller = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "cardListController") as! CardListController
-        controller.viewModel = CollectionViewModel.createWithUrl(collection.id.absoluteString, delegate: controller)
+        controller.parentName = collection.title.getSingleValue()
+        controller.viewModel = CollectionViewModel(collection)
         navigationController?.pushViewController(controller, animated: true)
     }
     
     func didStartLoadingData() {
-        isLoading = true
         spinner?.startAnimating()
     }
     
     func didFinishLoadingData(error: NSError?) {
-        isLoading = false
         spinner?.stopAnimating()
-        collectionView.reloadData()
+        collectionView?.reloadData()
+    }
+    
+    func addDataItem() {
+        let index = IndexPath(item: viewModel!.itemsCount - 1, section: 0)
+        collectionView.insertItems(at: [index])
     }
 }

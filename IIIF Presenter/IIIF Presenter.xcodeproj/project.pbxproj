@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0855C4A68F5755E555565A4F /* Pods_IIIF_Presenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B80C97625F9BD361AEA8003 /* Pods_IIIF_Presenter.framework */; };
+		3B0690BB1EB3EF8A00D5FA0A /* ImageUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0690BA1EB3EF8A00D5FA0A /* ImageUtil.swift */; };
 		3B1B73B51E688E91006F8E00 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B73B41E688E91006F8E00 /* Constants.swift */; };
 		3B3E41561E59EE3800969D6C /* ManifestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E41551E59EE3800969D6C /* ManifestController.swift */; };
 		3B4C40071E6D892500C06084 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B4C40091E6D892500C06084 /* Localizable.strings */; };
@@ -19,10 +20,12 @@
 		3B6819181E66F020008157E8 /* Open in IIIF.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 3B68190E1E66F020008157E8 /* Open in IIIF.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3B73F4501E69C26500D96880 /* AssetsAction.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B73F44F1E69C26500D96880 /* AssetsAction.xcassets */; };
 		3B8939611E71D9BA003E7C1E /* CardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8939601E71D9BA003E7C1E /* CardViewModel.swift */; };
+		3B8B008A1EB4CFD800407581 /* IIIFImageApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8B00891EB4CFD800407581 /* IIIFImageApi.swift */; };
 		3B98FE691E6767EA0016C1C6 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B98FE681E6767EA0016C1C6 /* MenuController.swift */; };
 		3B9ED52A1E6337B100712ECB /* ViewerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9ED5291E6337B100712ECB /* ViewerCell.swift */; };
 		3BA737161E51BB0700241FBF /* ManifestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA737151E51BB0700241FBF /* ManifestViewModel.swift */; };
 		3BA7371A1E52029D00241FBF /* CollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA737191E52029D00241FBF /* CollectionViewModel.swift */; };
+		3BAFDDE51EB26E1D0085339A /* ListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAFDDE41EB26E1D0085339A /* ListHeader.swift */; };
 		3BB8F25C1E449BD10073FBD1 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB8F25B1E449BD10073FBD1 /* Metadata.swift */; };
 		3BBE78F91E434C4E00F15CF1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBE78F81E434C4E00F15CF1 /* AppDelegate.swift */; };
 		3BBE78FB1E434C4E00F15CF1 /* CardListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBE78FA1E434C4E00F15CF1 /* CardListController.swift */; };
@@ -71,6 +74,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3B0690BA1EB3EF8A00D5FA0A /* ImageUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUtil.swift; sourceTree = "<group>"; };
 		3B0F52D01E69E1EF00EC1B97 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Main.strings; sourceTree = "<group>"; };
 		3B0F52D21E69E1EF00EC1B97 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		3B0F52D41E69E1FC00EC1B97 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
@@ -88,10 +92,12 @@
 		3B6819151E66F020008157E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B73F44F1E69C26500D96880 /* AssetsAction.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AssetsAction.xcassets; sourceTree = "<group>"; };
 		3B8939601E71D9BA003E7C1E /* CardViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardViewModel.swift; sourceTree = "<group>"; };
+		3B8B00891EB4CFD800407581 /* IIIFImageApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IIIFImageApi.swift; sourceTree = "<group>"; };
 		3B98FE681E6767EA0016C1C6 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		3B9ED5291E6337B100712ECB /* ViewerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewerCell.swift; sourceTree = "<group>"; };
 		3BA737151E51BB0700241FBF /* ManifestViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManifestViewModel.swift; sourceTree = "<group>"; };
 		3BA737191E52029D00241FBF /* CollectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewModel.swift; sourceTree = "<group>"; };
+		3BAFDDE41EB26E1D0085339A /* ListHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHeader.swift; sourceTree = "<group>"; };
 		3BB8F25B1E449BD10073FBD1 /* Metadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metadata.swift; sourceTree = "<group>"; };
 		3BBE78F51E434C4E00F15CF1 /* IIIF Presenter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IIIF Presenter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BBE78F81E434C4E00F15CF1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -139,6 +145,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B0690B91EB3EF7500D5FA0A /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				3B0690BA1EB3EF8A00D5FA0A /* ImageUtil.swift */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
 		3B68190F1E66F020008157E8 /* Open in IIIF */ = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +185,7 @@
 				3BBE79101E4387D400F15CF1 /* CardCell.swift */,
 				3B5CC5C61E5AF88300A84A99 /* PageThumbnailCell.swift */,
 				3B9ED5291E6337B100712ECB /* ViewerCell.swift */,
+				3BAFDDE41EB26E1D0085339A /* ListHeader.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -200,7 +215,8 @@
 			children = (
 				3B1B73B41E688E91006F8E00 /* Constants.swift */,
 				3BBE78F81E434C4E00F15CF1 /* AppDelegate.swift */,
-				3BE339321E76FC8800BFE46B /* protocols */,
+				3B0690B91EB3EF7500D5FA0A /* Utils */,
+				3BE339321E76FC8800BFE46B /* Protocols */,
 				3BA737181E51BB3B00241FBF /* View */,
 				3BA737171E51BB0D00241FBF /* ViewModel */,
 				3BBE79121E43886300F15CF1 /* Model */,
@@ -228,18 +244,19 @@
 				3BBE79271E43BF0300F15CF1 /* IIIFService.swift */,
 				3BBE79231E439B4700F15CF1 /* MultiProperty.swift */,
 				3BB8F25B1E449BD10073FBD1 /* Metadata.swift */,
+				3B8B00891EB4CFD800407581 /* IIIFImageApi.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
 		};
-		3BE339321E76FC8800BFE46B /* protocols */ = {
+		3BE339321E76FC8800BFE46B /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
 				3BE339331E76FC9200BFE46B /* CardDelegate.swift */,
 				3BE339371E76FCDA00BFE46B /* CanvasThumbnailDelegate.swift */,
 				3BE339351E76FCAE00BFE46B /* CardListDelegate.swift */,
 			);
-			name = protocols;
+			name = Protocols;
 			sourceTree = "<group>";
 		};
 		B32F72FAEDDB1B9EBF276247 /* Pods */ = {
@@ -432,6 +449,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BAFDDE51EB26E1D0085339A /* ListHeader.swift in Sources */,
 				3BA7371A1E52029D00241FBF /* CollectionViewModel.swift in Sources */,
 				3BBE79141E43888500F15CF1 /* IIIFManifest.swift in Sources */,
 				3BBE79281E43BF0300F15CF1 /* IIIFService.swift in Sources */,
@@ -446,6 +464,7 @@
 				3BBE79161E43981700F15CF1 /* IIIFSequence.swift in Sources */,
 				3B9ED52A1E6337B100712ECB /* ViewerCell.swift in Sources */,
 				3BB8F25C1E449BD10073FBD1 /* Metadata.swift in Sources */,
+				3B8B008A1EB4CFD800407581 /* IIIFImageApi.swift in Sources */,
 				3BBE79261E43BAA800F15CF1 /* IIIFImage.swift in Sources */,
 				3BE339381E76FCDA00BFE46B /* CanvasThumbnailDelegate.swift in Sources */,
 				3B5CC5CB1E5B39E900A84A99 /* ViewerController.swift in Sources */,
@@ -456,6 +475,7 @@
 				3BBE791E1E43993500F15CF1 /* IIIFLayer.swift in Sources */,
 				3B8939611E71D9BA003E7C1E /* CardViewModel.swift in Sources */,
 				3BBE791A1E4398C700F15CF1 /* IIIFAnnotation.swift in Sources */,
+				3B0690BB1EB3EF8A00D5FA0A /* ImageUtil.swift in Sources */,
 				3BBE79241E439B4700F15CF1 /* MultiProperty.swift in Sources */,
 				3BBE79181E43982D00F15CF1 /* IIIFCanvas.swift in Sources */,
 				3B5CC5C71E5AF88300A84A99 /* PageThumbnailCell.swift in Sources */,

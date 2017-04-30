@@ -21,7 +21,6 @@ struct IIIFImage {
     
     
     init?(_ json: [String:Any]) {
-        
         guard let id = json["@id"] as? String else {
             return nil
         }

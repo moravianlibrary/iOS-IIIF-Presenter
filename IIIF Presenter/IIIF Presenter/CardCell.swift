@@ -15,7 +15,8 @@ class CardCell: UICollectionViewCell {
     @IBOutlet weak var image: UIImageView?
     @IBOutlet weak var title: UILabel?
     @IBOutlet weak var date: UILabel?
-    @IBOutlet weak var loading: UIVisualEffectView?
+    @IBOutlet weak var type: UILabel?
+    @IBOutlet weak var grayline: UIView?
     @IBOutlet weak var loadingSpinner: UIActivityIndicatorView?
     
     fileprivate let dateFormatter = DateFormatter()
@@ -42,21 +43,20 @@ extension CardCell: CardDelegate {
     
     func loadingDidStart() {
         // activity indicator stops spinning on reuse, so we need to start it again
+        image?.backgroundColor = UIColor.black.withAlphaComponent(0.15)
         loadingSpinner?.startAnimating()
-        loading?.isHidden = false
     }
     
     func setTitle(title: String) {
         self.title?.text = title
-        loading?.isHidden = true
     }
     
     func setImage(data: Data?) {
         if data != nil, let image = UIImage(data: data!) {
             self.image?.image = image
-        } else {
-            self.image?.backgroundColor = UIColor.black.withAlphaComponent(0.15)
+            self.image?.backgroundColor = UIColor.clear
         }
+        loadingSpinner?.stopAnimating()
     }
     
     func setDate(date: Date?) {
@@ -67,11 +67,12 @@ extension CardCell: CardDelegate {
         }
     }
     
-    func loadingDidFail() {
-        collection?.deleteCell(self)
-    }
-    
-    func replaceItem(item: Any) {
-        collection?.replaceItem(cell: self, item: item)
+    func setType(type: String?) {
+        if type != nil {
+            self.type?.text = type
+        } else {
+            self.type?.isHidden = true
+            self.grayline?.isHidden = true
+        }
     }
 }

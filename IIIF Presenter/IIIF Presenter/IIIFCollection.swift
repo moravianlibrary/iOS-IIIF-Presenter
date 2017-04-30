@@ -23,7 +23,7 @@ struct IIIFCollection {
     // should have
     var metadata: MultiProperty?
     var description: MultiProperty?
-    var thumbnail: MultiProperty?
+    var thumbnail: IIIFImage?
     
     // optional
     var attribution: MultiProperty?
@@ -93,7 +93,10 @@ struct IIIFCollection {
         // should have
         metadata = MultiProperty(json["metadata"])
         description = MultiProperty(json["description"])
-        thumbnail = MultiProperty(json["thumbnail"])
+        
+        if let thumbnail = json["thumbnail"] as? [String:Any] {
+            self.thumbnail = IIIFImage(thumbnail)
+        }
         
         // optional fields
         attribution = MultiProperty(json["attribution"])

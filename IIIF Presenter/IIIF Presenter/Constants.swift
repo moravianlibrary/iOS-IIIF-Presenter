@@ -29,3 +29,13 @@ struct Constants {
         print("cardsPerRow: \(cardsPerRow).")
     }
 }
+
+extension String {
+    func heightWithFullWidth(font: UIFont) -> CGFloat {
+        let margin: CGFloat = 2*8
+        let constraintRect = CGSize(width: UIScreen.main.bounds.width - margin, height: CGFloat.greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        
+        return boundingBox.height
+    }
+}

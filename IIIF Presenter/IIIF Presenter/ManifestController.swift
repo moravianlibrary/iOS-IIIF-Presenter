@@ -99,6 +99,7 @@ extension ManifestController: CardDelegate {
     func loadingDidStart() {}
     func setImage(data: Data?) {}
     func setDate(date: Date?) {}
+    func setType(type: String?) {}
     func loadingDidFail() {}
     func replaceItem(item: Any) {}
 }

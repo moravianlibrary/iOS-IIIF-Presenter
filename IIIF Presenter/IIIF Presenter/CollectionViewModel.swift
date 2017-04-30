@@ -18,16 +18,23 @@ class CollectionViewModel {
         return collection.members?.count ?? 0
     }
     
+    fileprivate var request: URLSessionDataTask?
+    fileprivate var toDownload: [Any]?
+    fileprivate let session: URLSession = URLSession(configuration: .default)
     
     static func createWithUrl(_ url: String, delegate: CardListDelegate?, items: [Any]=[]) -> CollectionViewModel {
         return CollectionViewModel(url, delegate, items)
     }
     
-    
     init(_ collection: IIIFCollection) {
         self.collection = collection
         if collection.members == nil {
             downloadData(collection.id)
+        } else {
+            toDownload = self.collection.members
+            self.collection.members = nil
+            delegate?.didStartLoadingData()
+            downloadMember()
         }
     }
     
@@ -35,32 +42,7 @@ class CollectionViewModel {
         collection = IIIFCollection.createCollectionWith(items)
         self.delegate = delegate
         if let url = URL(string: urlString) {
-            delegate?.didStartLoadingData()
-            URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
-                var err: NSError? = nil
-                if data != nil,
-                    let serialization = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) {
-                    if let c = IIIFCollection(serialization as! [String:Any]) {
-                        self.collection = c
-                    } else if let m = IIIFManifest(serialization as! [String:Any]) {
-                        self.collection.members!.insert(m, at: 0)
-                    } else {
-                        err = NSError(domain: "cz.mzk", code: 102, userInfo: [NSLocalizedDescriptionKey: ["en":"Parsing error", "cz":"Chyba parsovani"]])
-                        print("Unknown IIIF structure at \(urlString).")
-                    }
-                } else if error != nil {
-                    err = error as? NSError
-                    print("Request error from \(urlString).")
-                } else {
-                    err = NSError(domain: "cz.mzk", code: 101, userInfo: [NSLocalizedDescriptionKey: ["en":"Parsing error", "cz":"Chyba parsovani"]])
-                    print("Parsing error from \(urlString).")
-                }
-                
-                self.loadingError = err
-                DispatchQueue.main.async {
-                    self.delegate?.didFinishLoadingData(error: err)
-                }
-            }).resume()
+            self.downloadData(url)
         } else {
             print("Is not valid url: \(urlString).")
         }
@@ -69,12 +51,14 @@ class CollectionViewModel {
     
     fileprivate func downloadData(_ url: URL) {
         delegate?.didStartLoadingData()
-        URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
+        request = session.dataTask(with: url, completionHandler: { (data, response, error) in
             var err: NSError? = nil
             if data != nil,
                 let serialization = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) {
                 if let c = IIIFCollection(serialization as! [String:Any]) {
                     self.collection = c
+                    self.toDownload = self.collection.members
+                    self.collection.members = nil
                 } else if let m = IIIFManifest(serialization as! [String:Any]) {
                     self.collection.members!.insert(m, at: 0)
                 } else {
@@ -82,7 +66,7 @@ class CollectionViewModel {
                     print("Unknown IIIF structure at \(url.absoluteString).")
                 }
             } else if error != nil {
-                err = error as? NSError
+                err = error as NSError?
                 print("Request error from \(url.absoluteString).")
             } else {
                 err = NSError(domain: "cz.mzk", code: 101, userInfo: [NSLocalizedDescriptionKey: ["en":"Parsing error", "cz":"Chyba parsovani"]])
@@ -90,10 +74,69 @@ class CollectionViewModel {
             }
             
             self.loadingError = err
-            DispatchQueue.main.async {
-                self.delegate?.didFinishLoadingData(error: err)
+            self.downloadMember()
+        })
+        request?.resume()
+    }
+    
+    fileprivate func downloadMember() {
+        guard toDownload != nil, !toDownload!.isEmpty else {
+            if itemsCount <= 3 {
+                DispatchQueue.main.async {
+                    self.delegate?.didFinishLoadingData(error: self.loadingError)
+                }
             }
-        }).resume()
+            return
+        }
+        
+        if itemsCount == 3 {
+            DispatchQueue.main.async {
+                self.delegate?.didFinishLoadingData(error: self.loadingError)
+            }
+        }
+        
+        let item = toDownload?.removeFirst()
+        if let m = item as? IIIFManifest {
+            if m.sequences == nil {
+                handleMember(url: m.id)
+            } else {
+                addItem(item: m)
+                downloadMember()
+            }
+        } else if let c = item as? IIIFCollection {
+            if c.members == nil {
+                handleMember(url: c.id)
+            } else {
+                addItem(item: c)
+                downloadMember()
+            }
+        } else if let s = item as? String, let url = URL(string: s) {
+            handleMember(url: url)
+        } else {
+            print("Found any other structure.")
+            downloadMember()
+        }
+    }
+    
+    fileprivate func handleMember(url: URL) {
+        request = session.dataTask(with: url, completionHandler: { (data, response, error) in
+            if (error as NSError?)?.code == NSURLErrorCancelled {
+                return
+            }
+            
+            if data != nil, let serialized = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) {
+                let json = serialized as! [String:Any]
+                
+                if let c = IIIFCollection(json) {
+                    self.addItem(item: c)
+                } else if let m = IIIFManifest(json) {
+                    self.addItem(item: m)
+                }
+            }
+            
+            self.downloadMember()
+        })
+        request?.resume()
     }
     
     func getItemAtPosition(_ i: Int) -> Any {
@@ -110,9 +153,8 @@ class CollectionViewModel {
     }
     
     func deleteItemAt(_ index: Int) {
-        let item = collection.members![index]
-        let id = item is String ? item as! String : (item is IIIFManifest ? (item as! IIIFManifest).id.absoluteString : (item as! IIIFCollection).id.absoluteString)
-        collection.members!.remove(at: index)
+        let item = collection.members!.remove(at: index)
+        let id = item as? String ?? (item as? IIIFManifest)?.id.absoluteString ?? (item as! IIIFCollection).id.absoluteString
         Constants.appDelegate.deleteUserDefaults(id)
     }
     
@@ -121,6 +163,19 @@ class CollectionViewModel {
         collection.members![index] = item
         if element is String {
             Constants.appDelegate.updateUserDefaults(item)
+        }
+    }
+    
+    fileprivate func addItem(item: Any) {
+        if collection.members == nil {
+            collection.members = []
+        }
+        
+        DispatchQueue.main.sync {
+            self.collection.members?.append(item)
+            if self.itemsCount > 3 {
+                self.delegate?.addDataItem()
+            }
         }
     }
 }

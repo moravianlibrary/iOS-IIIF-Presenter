@@ -25,6 +25,7 @@ class MenuController: UITabBarController {
         
         historyController.tabBarItem = UITabBarItem(tabBarSystemItem: .history, tag: 0)
         searchController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
+        historyController.isHistory = true
         
         searchController.viewModel = CollectionViewModel.createWithUrl(Constants.testUrl, delegate: searchController)
         historyController.viewModel = CollectionViewModel(IIIFCollection.createCollectionWith(historyManifests))

@@ -13,4 +13,5 @@ protocol CardListDelegate {
     func showViewer(manifest: IIIFManifest)
     func showCollection(collection: IIIFCollection)
     func didFinishLoadingData(error: NSError?)
+    func addDataItem()
 }
