@@ -46,6 +46,7 @@ class CardListController: UIViewController {
         super.viewWillAppear(animated)
         
         // redo all url requests (using cache for already completed ones)
+        viewModel?.beginLoading()
         collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
         
         if !Constants.isIPhone {
@@ -58,6 +59,7 @@ class CardListController: UIViewController {
         super.viewWillDisappear(animated)
         
         // cancel all ongoing url requests
+        viewModel?.stopLoading()
         for cell in collectionView.visibleCells as! [CardCell] {
             cell.viewModel = nil
         }

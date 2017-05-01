@@ -22,7 +22,7 @@ struct IIIFSequence {
     let title: MultiProperty?
     let description: MultiProperty?
     let thumbnail: MultiProperty?
-    let metadata: MultiProperty?
+    let metadata: Metadata?
     let attribution: MultiProperty?
     let license: MultiProperty?
     let logo: MultiProperty?
@@ -53,7 +53,7 @@ struct IIIFSequence {
         // optional fields
         title = MultiProperty(json["label"])
         description = MultiProperty(json["description"])
-        metadata = MultiProperty(json["metadata"])
+        metadata = Metadata(json["metadata"])
         thumbnail = MultiProperty(json["thumbnail"])
         attribution = MultiProperty(json["attribution"])
         license = MultiProperty(json["license"])

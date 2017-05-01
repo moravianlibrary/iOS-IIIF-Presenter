@@ -135,6 +135,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     fileprivate func initConstants() {
         Constants.appDelegate = self
         Constants.isIPhone = UIDevice.current.model.contains("iPhone")
+        Constants.dateFormatter.dateFormat = "DD.MM.YYYY hh:mm:ss"
         
         if Constants.isIPhone {
             Constants.cardsPerRow = 1

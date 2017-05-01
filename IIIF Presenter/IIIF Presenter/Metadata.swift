@@ -10,14 +10,27 @@ import Foundation
 
 struct Metadata {
     
-    let key: String
-    let value: String
-    let translations: [String:String]
+    let items: [MetadataItem]
 
-    init(_ json: [String: Any]) {
+    init?(_ json: Any?) {
+        guard json != nil else {
+            return nil
+        }
         
-        key = ""
-        value = ""
-        translations = [:]
+        var items = [MetadataItem]()
+        if let array = json as? [[String:Any]] {
+            for item in array {
+                if let metaItem = MetadataItem(json: item) {
+                    items.append(metaItem)
+                }
+            }
+        } else if let obj = json as? [String:Any], let metaItem = MetadataItem(json: obj) {
+            items.append(metaItem)
+        } else {
+            print("Unsupported metadata structure: \(String(describing: json)).")
+            return nil
+        }
+        
+        self.items = items
     }
 }

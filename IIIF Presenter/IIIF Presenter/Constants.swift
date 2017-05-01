@@ -19,6 +19,8 @@ struct Constants {
     
     static var appDelegate: AppDelegate!
     
+    static let dateFormatter = DateFormatter()
+    
     static let testUrl = "https://drive.google.com/uc?id=0B1TdqMC3wGUJdS1VQ2tlZ0hudXM"
     
     static let historyUrlKey = "history_urls"

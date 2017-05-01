@@ -12,6 +12,7 @@
 		3B1B73B51E688E91006F8E00 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B73B41E688E91006F8E00 /* Constants.swift */; };
 		3B3E41561E59EE3800969D6C /* ManifestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E41551E59EE3800969D6C /* ManifestController.swift */; };
 		3B4C40071E6D892500C06084 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B4C40091E6D892500C06084 /* Localizable.strings */; };
+		3B555F2D1EB66A860025EC12 /* MetadataItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B555F2C1EB66A850025EC12 /* MetadataItem.swift */; };
 		3B5CC5C71E5AF88300A84A99 /* PageThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5CC5C61E5AF88300A84A99 /* PageThumbnailCell.swift */; };
 		3B5CC5C91E5AFF7A00A84A99 /* CanvasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5CC5C81E5AFF7A00A84A99 /* CanvasViewModel.swift */; };
 		3B5CC5CB1E5B39E900A84A99 /* ViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5CC5CA1E5B39E900A84A99 /* ViewerController.swift */; };
@@ -47,6 +48,7 @@
 		3BE339341E76FC9200BFE46B /* CardDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE339331E76FC9200BFE46B /* CardDelegate.swift */; };
 		3BE339361E76FCAE00BFE46B /* CardListDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE339351E76FCAE00BFE46B /* CardListDelegate.swift */; };
 		3BE339381E76FCDA00BFE46B /* CanvasThumbnailDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE339371E76FCDA00BFE46B /* CanvasThumbnailDelegate.swift */; };
+		3BFCFF6B1EB7C98C00D4FCF2 /* MetadataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFCFF6A1EB7C98C00D4FCF2 /* MetadataCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +85,7 @@
 		3B3E41551E59EE3800969D6C /* ManifestController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManifestController.swift; sourceTree = "<group>"; };
 		3B4C40081E6D892500C06084 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3B4C400A1E6D892700C06084 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3B555F2C1EB66A850025EC12 /* MetadataItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetadataItem.swift; sourceTree = "<group>"; };
 		3B5CC5C61E5AF88300A84A99 /* PageThumbnailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageThumbnailCell.swift; sourceTree = "<group>"; };
 		3B5CC5C81E5AFF7A00A84A99 /* CanvasViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewModel.swift; sourceTree = "<group>"; };
 		3B5CC5CA1E5B39E900A84A99 /* ViewerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewerController.swift; sourceTree = "<group>"; };
@@ -121,6 +124,7 @@
 		3BE339331E76FC9200BFE46B /* CardDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardDelegate.swift; sourceTree = "<group>"; };
 		3BE339351E76FCAE00BFE46B /* CardListDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardListDelegate.swift; sourceTree = "<group>"; };
 		3BE339371E76FCDA00BFE46B /* CanvasThumbnailDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasThumbnailDelegate.swift; sourceTree = "<group>"; };
+		3BFCFF6A1EB7C98C00D4FCF2 /* MetadataCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetadataCell.swift; sourceTree = "<group>"; };
 		6B80C97625F9BD361AEA8003 /* Pods_IIIF_Presenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IIIF_Presenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		765DA964D21E6E9BB79D35F6 /* Pods-IIIF Presenter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IIIF Presenter.release.xcconfig"; path = "Pods/Target Support Files/Pods-IIIF Presenter/Pods-IIIF Presenter.release.xcconfig"; sourceTree = "<group>"; };
 		F888E2C2533E77C2561F7D65 /* Pods-IIIF Presenter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IIIF Presenter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IIIF Presenter/Pods-IIIF Presenter.debug.xcconfig"; sourceTree = "<group>"; };
@@ -185,6 +189,7 @@
 				3BBE79101E4387D400F15CF1 /* CardCell.swift */,
 				3B5CC5C61E5AF88300A84A99 /* PageThumbnailCell.swift */,
 				3B9ED5291E6337B100712ECB /* ViewerCell.swift */,
+				3BFCFF6A1EB7C98C00D4FCF2 /* MetadataCell.swift */,
 				3BAFDDE41EB26E1D0085339A /* ListHeader.swift */,
 			);
 			name = View;
@@ -244,6 +249,7 @@
 				3BBE79271E43BF0300F15CF1 /* IIIFService.swift */,
 				3BBE79231E439B4700F15CF1 /* MultiProperty.swift */,
 				3BB8F25B1E449BD10073FBD1 /* Metadata.swift */,
+				3B555F2C1EB66A850025EC12 /* MetadataItem.swift */,
 				3B8B00891EB4CFD800407581 /* IIIFImageApi.swift */,
 			);
 			name = Model;
@@ -470,6 +476,7 @@
 				3B5CC5CB1E5B39E900A84A99 /* ViewerController.swift in Sources */,
 				3BBE79221E43997400F15CF1 /* IIIFAnnotationList.swift in Sources */,
 				3BE339341E76FC9200BFE46B /* CardDelegate.swift in Sources */,
+				3BFCFF6B1EB7C98C00D4FCF2 /* MetadataCell.swift in Sources */,
 				3B98FE691E6767EA0016C1C6 /* MenuController.swift in Sources */,
 				3BBE78F91E434C4E00F15CF1 /* AppDelegate.swift in Sources */,
 				3BBE791E1E43993500F15CF1 /* IIIFLayer.swift in Sources */,
@@ -478,6 +485,7 @@
 				3B0690BB1EB3EF8A00D5FA0A /* ImageUtil.swift in Sources */,
 				3BBE79241E439B4700F15CF1 /* MultiProperty.swift in Sources */,
 				3BBE79181E43982D00F15CF1 /* IIIFCanvas.swift in Sources */,
+				3B555F2D1EB66A860025EC12 /* MetadataItem.swift in Sources */,
 				3B5CC5C71E5AF88300A84A99 /* PageThumbnailCell.swift in Sources */,
 				3B5CC5C91E5AFF7A00A84A99 /* CanvasViewModel.swift in Sources */,
 			);

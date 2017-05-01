@@ -24,21 +24,31 @@ struct MultiProperty {
         } else if let array = json as? [String] {
             // simple array containing only Element
             arrayValue.append(contentsOf: array)
+        } else if let dict = json as? [String:Any] {
+            parse(dictionary: dict)
         } else if let array = json as? [Any] {
             // mixed array
             for item in array {
                 if let value = item as? String {
                     arrayValue.append(value)
                 } else if let dict = item as? [String:Any] {
-                    if let key = dict["@language"] as? String {
-                        let value = dict["@value"]
-                        dictValue[key] = value
-                    } else if let key = dict["label"] as? String {
-                        let value = dict["value"]
-                        dictValue[key] = value
-                    }
+                    parse(dictionary: dict)
+                } else {
+                    print("Nonsupported object: \(String(describing: item)).")
                 }
             }
+        } else {
+            print("Nonsupported object: \(String(describing: json)).")
+            return nil
+        }
+    }
+    
+    fileprivate mutating func parse(dictionary dict: [String:Any]) {
+        if let lang = dict["@language"] as? String, let value = dict["@value"] as? String {
+            dictValue[lang] = value
+        }
+        for (key, val) in dict where key != "@language" && key != "@value"{
+            dictValue[key] = val
         }
     }
     
@@ -50,7 +60,7 @@ struct MultiProperty {
     }
     
     func getValueList() -> [String]? {
-        var array = [String](arrayValue)
+        var array = arrayValue
         if singleValue != nil {
             array.append(singleValue!)
         }

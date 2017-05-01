@@ -17,7 +17,7 @@ struct IIIFLayer {
     let title: MultiProperty
     
     // optional
-    let metadata: MultiProperty?
+    let metadata: Metadata?
     let description: MultiProperty?
     let thumbnail: MultiProperty?
     let attribution: MultiProperty?
@@ -48,7 +48,7 @@ struct IIIFLayer {
         
         // optional fields
         description = MultiProperty(json["description"])
-        metadata = MultiProperty(json["metadata"])
+        metadata = Metadata(json["metadata"])
         thumbnail = MultiProperty(json["thumbnail"])
         attribution = MultiProperty(json["attribution"])
         license = MultiProperty(json["license"])

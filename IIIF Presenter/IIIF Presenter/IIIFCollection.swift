@@ -21,7 +21,7 @@ struct IIIFCollection {
     var members: [Any]?
     
     // should have
-    var metadata: MultiProperty?
+    var metadata: Metadata?
     var description: MultiProperty?
     var thumbnail: IIIFImage?
     
@@ -91,7 +91,7 @@ struct IIIFCollection {
         self.title = title
         
         // should have
-        metadata = MultiProperty(json["metadata"])
+        metadata = Metadata(json["metadata"])
         description = MultiProperty(json["description"])
         
         if let thumbnail = json["thumbnail"] as? [String:Any] {

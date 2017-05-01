@@ -18,7 +18,7 @@ class IIIFManifest {
     var sequences: [IIIFSequence]?
     
     // should have
-    var metadata: MultiProperty?
+    var metadata: Metadata?
     var description: MultiProperty?
     var thumbnail: IIIFImage?
     
@@ -64,7 +64,7 @@ class IIIFManifest {
         }
         
         description = MultiProperty(json["description"])
-        metadata = MultiProperty(json["metadata"])
+        metadata = Metadata(json["metadata"])
         attribution = MultiProperty(json["attribution"])
         license = MultiProperty(json["license"])
         logo = MultiProperty(json["logo"])

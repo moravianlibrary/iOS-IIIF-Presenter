@@ -19,8 +19,6 @@ class CardCell: UICollectionViewCell {
     @IBOutlet weak var grayline: UIView?
     @IBOutlet weak var loadingSpinner: UIActivityIndicatorView?
     
-    fileprivate let dateFormatter = DateFormatter()
-    
     weak var collection: CardListController?
     var viewModel: CardViewModel? {
         willSet {
@@ -30,11 +28,6 @@ class CardCell: UICollectionViewCell {
             image?.image = nil
             viewModel?.delegate = self
         }
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        dateFormatter.dateFormat = "DD.MM.YYYY hh:mm:ss"
     }
 }
 
@@ -61,7 +54,7 @@ extension CardCell: CardDelegate {
     
     func setDate(date: Date?) {
         if date != nil {
-            self.date?.text = dateFormatter.string(from: date!)
+            self.date?.text = Constants.dateFormatter.string(from: date!)
         } else {
             self.date?.text = nil
         }

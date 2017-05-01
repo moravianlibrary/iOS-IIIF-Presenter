@@ -152,20 +152,6 @@ class CollectionViewModel {
         }
     }
     
-    func deleteItemAt(_ index: Int) {
-        let item = collection.members!.remove(at: index)
-        let id = item as? String ?? (item as? IIIFManifest)?.id.absoluteString ?? (item as! IIIFCollection).id.absoluteString
-        Constants.appDelegate.deleteUserDefaults(id)
-    }
-    
-    func replaceItem(_ item: Any, at index: Int) {
-        let element = collection.members![index]
-        collection.members![index] = item
-        if element is String {
-            Constants.appDelegate.updateUserDefaults(item)
-        }
-    }
-    
     fileprivate func addItem(item: Any) {
         if collection.members == nil {
             collection.members = []
@@ -176,6 +162,21 @@ class CollectionViewModel {
             if self.itemsCount > 3 {
                 self.delegate?.addDataItem()
             }
+        }
+    }
+    
+    func stopLoading() {
+        request?.cancel()
+    }
+    
+    func beginLoading() {
+        delegate?.didStartLoadingData()
+        if collection.members == nil && (toDownload == nil || toDownload!.isEmpty) {
+            downloadData(collection.id)
+        } else if toDownload != nil, !toDownload!.isEmpty {
+            downloadMember()
+        } else {
+            delegate?.didFinishLoadingData(error: nil)
         }
     }
 }

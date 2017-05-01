@@ -22,12 +22,77 @@ class ManifestViewModel {
         }
     }
     
+    var metaInfoCount: Int {
+        return manifestInfo.count
+    }
+    
+    fileprivate var manifestInfo = [(String,Any)]()
     fileprivate var request: URLSessionDataTask?
     fileprivate var imageUtil = ImageUtil()
     
     init(_ manifest: IIIFManifest, delegate: CardDelegate?=nil) {
         self.manifest = manifest
         self.delegate = delegate
+        
+        if let value = manifest.description {
+            manifestInfo.append(("Description", value))
+        }
+        if let value = manifest.attribution {
+            manifestInfo.append(("Attribution", value))
+        }
+        if let value = manifest.license {
+            manifestInfo.append(("License", value))
+        }
+        if let value = manifest.viewingDirection {
+            manifestInfo.append(("ViewingDirection", value))
+        }
+        if let value = manifest.viewingHint {
+            manifestInfo.append(("ViewingHint", value))
+        }
+        if let value = manifest.date {
+            manifestInfo.append(("Date", value))
+        }
+        if let value = manifest.related {
+            manifestInfo.append(("Related", value))
+        }
+        if let value = manifest.rendering {
+            manifestInfo.append(("Rendering", value))
+        }
+        if let value = manifest.service {
+            manifestInfo.append(("Service", value))
+        }
+        if let value = manifest.seeAlso {
+            manifestInfo.append(("SeeAlso", value))
+        }
+        if let value = manifest.within {
+            manifestInfo.append(("Within", value))
+        }
+        
+    }
+    
+    func getMetaInfoKey(at index: Int) -> String? {
+        guard case 0..<metaInfoCount = index else {
+            return nil
+        }
+        
+        let (key, _) = manifestInfo[index]
+        return key
+    }
+    
+    func getMetaInfo(at index: Int, forLanguage lang: String) -> String? {
+        guard case 0..<metaInfoCount = index else {
+            return nil
+        }
+        
+        let (_, item) = manifestInfo[index]
+        if let val = item as? MultiProperty {
+            return val.getValueTranslated(lang: lang) ?? val.getValueTranslated(lang: "en") ?? val.getSingleValue()
+        } else if let val = item as? String {
+            return val
+        } else if let val = item as? Date {
+            return Constants.dateFormatter.string(from: val)
+        }
+        return nil
     }
     
     fileprivate func loadThumbnail() {

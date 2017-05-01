@@ -23,7 +23,7 @@ struct IIIFCanvas {
     // optional fields
     let description: MultiProperty?
     let thumbnail: MultiProperty?
-    let metadata: MultiProperty?
+    let metadata: Metadata?
     let attribution: MultiProperty?
     let license: MultiProperty?
     let logo: MultiProperty?
@@ -54,7 +54,7 @@ struct IIIFCanvas {
         
         // optional fields
         description = MultiProperty(json["description"])
-        metadata = MultiProperty(json["metadata"])
+        metadata = Metadata(json["metadata"])
         thumbnail = MultiProperty(json["thumbnail"])
         attribution = MultiProperty(json["attribution"])
         license = MultiProperty(json["license"])
