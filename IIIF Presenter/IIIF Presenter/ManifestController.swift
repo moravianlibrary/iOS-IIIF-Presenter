@@ -12,6 +12,7 @@ class ManifestController: UIViewController {
 
     @IBOutlet weak var table: UITableView!
     @IBOutlet weak var collection: UICollectionView!
+    @IBOutlet weak var rawLabel: UITextView!
     
     fileprivate let sectionInsets = UIEdgeInsets(top: 4.0, left: 4.0, bottom: 4.0, right: 4.0)
     
@@ -23,6 +24,22 @@ class ManifestController: UIViewController {
         // dynamic row height
         table.rowHeight = UITableViewAutomaticDimension
         table.estimatedRowHeight = 60
+        
+        // navigation bar item
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Raw", style: .plain, target: self, action: #selector(showRawJson))
+    }
+    
+    func showRawJson() {
+        guard let rawData = viewModel?.manifest.rawJson else {
+            return
+        }
+        
+        if rawLabel.isHidden {
+            rawLabel.text = String(describing: rawData)
+            rawLabel.isHidden = false
+        } else {
+            rawLabel.isHidden = true
+        }
     }
     
 //    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -110,14 +127,7 @@ extension ManifestController: UITableViewDataSource {
         } else {
             let item = viewModel!.manifest.metadata!.items[indexPath.row]
             title = item.getLabel(forLanguage: Constants.lang)
-            if let val = item.getValue(forLanguage: Constants.lang) {
-                if val.contains("<"), let attributedText = try? NSMutableAttributedString(data: val.data(using: String.Encoding.unicode, allowLossyConversion: true)!, options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil) {
-                
-                    value = attributedText.string
-                } else {
-                    value = val
-                }
-            }
+            value = item.getValue(forLanguage: Constants.lang)
         }
         
         cell.fillIn(title: title, value: value)

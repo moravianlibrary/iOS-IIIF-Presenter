@@ -18,15 +18,12 @@ class CardViewModel {
             if delegate != nil {
                 self.notifyDelegate()
             } else {
-                request?.cancel()
                 imageUtil.stopLoading()
             }
         }
     }
     
     fileprivate var imageUtil = ImageUtil()
-    fileprivate var wasLoadingData = false
-    fileprivate var request: URLSessionDataTask?
     
     static func getModel(_ item: Any, delegate: CardDelegate?=nil) -> CardViewModel? {
         if let m = item as? IIIFManifest {

@@ -45,8 +45,8 @@ struct IIIFCollection {
     var startIndex: Int?
     
     
-    static func createCollectionWith(_ members: [Any]) -> IIIFCollection {
-        return IIIFCollection(members: members)
+    static func createCollectionWith(_ url: URL, members: [Any]?) -> IIIFCollection {
+        return IIIFCollection(url: url, members: members)
     }
     
     
@@ -134,9 +134,9 @@ struct IIIFCollection {
         self.title = MultiProperty("...")!
     }
     
-    fileprivate init(members: [Any]) {
-        id = URL(string: "www.google.com")!
-        title = MultiProperty("Title")!
+    fileprivate init(url: URL, members: [Any]?) {
+        id = url
+        title = MultiProperty("Test Collection")!
         self.members = members
         
         metadata = nil

@@ -13,6 +13,7 @@ class IIIFManifest {
     static let type = "sc:Manifest"
     
     // required fields
+    let rawJson: [String:Any]
     let id: URL
     var title: MultiProperty
     var sequences: [IIIFSequence]?
@@ -44,6 +45,7 @@ class IIIFManifest {
                 return nil
         }
         
+        self.rawJson = json
         self.id = id
         self.title = title
         
@@ -88,6 +90,7 @@ class IIIFManifest {
             return nil
         }
         
+        self.rawJson = [:]
         self.id = url
         self.title = MultiProperty("...")!
     }

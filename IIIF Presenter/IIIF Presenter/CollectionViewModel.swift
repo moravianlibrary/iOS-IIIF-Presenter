@@ -20,9 +20,9 @@ class CollectionViewModel {
     
     fileprivate var request: URLSessionDataTask?
     fileprivate var toDownload: [Any]?
-    fileprivate let session: URLSession = URLSession(configuration: .default)
+    fileprivate let session: URLSession = URLSession.shared
     
-    static func createWithUrl(_ url: String, delegate: CardListDelegate?, items: [Any]=[]) -> CollectionViewModel {
+    static func createWithUrl(_ url: String, delegate: CardListDelegate?, items: [Any]?=nil) -> CollectionViewModel {
         return CollectionViewModel(url, delegate, items)
     }
     
@@ -30,7 +30,7 @@ class CollectionViewModel {
         self.collection = collection
         if collection.members == nil {
             downloadData(collection.id)
-        } else {
+        } else if !collection.members!.isEmpty {
             toDownload = self.collection.members
             self.collection.members = nil
             delegate?.didStartLoadingData()
@@ -38,11 +38,12 @@ class CollectionViewModel {
         }
     }
     
-    fileprivate init(_ urlString: String, _ delegate: CardListDelegate?, _ items: [Any]) {
-        collection = IIIFCollection.createCollectionWith(items)
+    fileprivate init(_ urlString: String, _ delegate: CardListDelegate?, _ items: [Any]?) {
+        let url = URL(string: urlString)!
+        collection = IIIFCollection.createCollectionWith(url, members: items)
         self.delegate = delegate
         if let url = URL(string: urlString) {
-            self.downloadData(url)
+//            self.downloadData(url)
         } else {
             print("Is not valid url: \(urlString).")
         }
@@ -53,7 +54,9 @@ class CollectionViewModel {
         delegate?.didStartLoadingData()
         request = session.dataTask(with: url, completionHandler: { (data, response, error) in
             var err: NSError? = nil
-            if data != nil,
+            if (error as NSError?)?.code == NSURLErrorCancelled {
+                return
+            } else if data != nil,
                 let serialization = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) {
                 if let c = IIIFCollection(serialization as! [String:Any]) {
                     self.collection = c

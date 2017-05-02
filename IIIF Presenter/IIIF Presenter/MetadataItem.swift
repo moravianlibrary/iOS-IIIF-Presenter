@@ -18,7 +18,7 @@ struct MetadataItem {
     
     init?(json: [String:Any]) {
         if let key = json["label"] as? String {
-            self.label = key
+            self.label = key.trimmed()
         } else if let keys = json["label"] as? [[String:String]] {
             labelTranslations = [:]
             for key in keys {
@@ -26,9 +26,10 @@ struct MetadataItem {
                     print("Language or value not present in metadata label item.")
                     continue
                 }
-                labelTranslations![lang] = value
+                let valueTrimmed = value.trimmed()
+                labelTranslations![lang] = valueTrimmed
                 if let simpleLang = lang.components(separatedBy: "-").first {
-                    labelTranslations![simpleLang] = value
+                    labelTranslations![simpleLang] = valueTrimmed
                 }
             }
         } else {
@@ -37,9 +38,9 @@ struct MetadataItem {
         }
         
         if let value = json["value"] as? String {
-            self.value = value
+            self.value = value.trimmed()
         } else if let values = json["value"] as? [String] {
-            valueList = values
+            valueList = values.map({ $0.trimmed() })
         } else if let values = json["value"] as? [[String:String]] {
             valueTranslations = [:]
             for key in values {
@@ -47,9 +48,10 @@ struct MetadataItem {
                     print("Language or value not present in metadata value item.")
                     continue
                 }
-                valueTranslations![lang] = value
+                let valueTrimmed = value.trimmed()
+                valueTranslations![lang] = valueTrimmed
                 if let simpleLang = lang.components(separatedBy: "-").first {
-                    valueTranslations![simpleLang] = value
+                    valueTranslations![simpleLang] = valueTrimmed
                 }
 
             }
@@ -60,10 +62,14 @@ struct MetadataItem {
     }
     
     func getLabel(forLanguage lang: String) -> String? {
-        return labelTranslations?[lang] ?? labelTranslations?["en"] ?? label
+        let search = labelTranslations?[lang] ?? label
+        let def = labelTranslations?["en"] ?? labelTranslations?.values.first
+        return search ?? def
     }
     
     func getValue(forLanguage lang: String) -> String? {
-        return valueTranslations?[lang] ?? valueList?.first ?? valueTranslations?["en"] ?? value
+        let search = valueTranslations?[lang] ?? valueList?.first ?? value
+        let def = valueTranslations?["en"] ?? valueTranslations?.values.first
+        return search ?? def
     }
 }

@@ -40,4 +40,14 @@ extension String {
         
         return boundingBox.height
     }
+    
+    func trimmed() -> String {
+        let value = self
+        if value.contains("<"), let attributedText = try? NSAttributedString(data: value.data(using: .unicode, allowLossyConversion: true)!, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil) {
+            
+            return attributedText.string
+        } else {
+            return value
+        }
+    }
 }

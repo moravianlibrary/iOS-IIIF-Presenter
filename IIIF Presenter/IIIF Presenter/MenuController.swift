@@ -13,6 +13,8 @@ class MenuController: UITabBarController {
     var showHistory = false
     var showHistoryError = false
     
+    fileprivate let dummyUrl = URL(string:"www.google.com")!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initializeControllers()
@@ -28,7 +30,7 @@ class MenuController: UITabBarController {
         historyController.isHistory = true
         
         searchController.viewModel = CollectionViewModel.createWithUrl(Constants.testUrl, delegate: searchController)
-        historyController.viewModel = CollectionViewModel(IIIFCollection.createCollectionWith(historyManifests))
+        historyController.viewModel = CollectionViewModel(IIIFCollection.createCollectionWith(dummyUrl, members: historyManifests))
         
         if !showHistory {
             // show search tab if no launch options url available
@@ -46,7 +48,7 @@ class MenuController: UITabBarController {
         historyController.showFirstError = showHistoryError
         let historyManifests = getHistoryItems()
         if historyController.viewModel?.itemsCount != historyManifests.count {
-            historyController.viewModel = CollectionViewModel(IIIFCollection.createCollectionWith(historyManifests))
+            historyController.viewModel = CollectionViewModel(IIIFCollection.createCollectionWith(dummyUrl, members: historyManifests))
         }
         
         selectedIndex = 0

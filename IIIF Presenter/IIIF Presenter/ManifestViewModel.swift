@@ -16,7 +16,6 @@ class ManifestViewModel {
             if delegate != nil {
                 self.notifyDelegate()
             } else {
-                request?.cancel()
                 imageUtil.stopLoading()
             }
         }
@@ -27,7 +26,6 @@ class ManifestViewModel {
     }
     
     fileprivate var manifestInfo = [(String,Any)]()
-    fileprivate var request: URLSessionDataTask?
     fileprivate var imageUtil = ImageUtil()
     
     init(_ manifest: IIIFManifest, delegate: CardDelegate?=nil) {

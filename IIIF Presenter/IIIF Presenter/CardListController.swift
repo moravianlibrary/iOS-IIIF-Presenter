@@ -99,7 +99,7 @@ class CardListController: UIViewController {
     }
     
     fileprivate func handleSectionNumber(_ number: Int) {
-        if let error = viewModel?.loadingError {
+        if !isHistory, let error = viewModel?.loadingError {
             messageView?.isHidden = false
             messageLabel?.text = "\(error.code): \(error.localizedDescription)"
         } else if messageView != nil && !messageView!.isHidden {
@@ -213,6 +213,10 @@ extension CardListController: CardListDelegate {
     }
     
     func addDataItem() {
+        guard isViewLoaded else {
+            return
+        }
+        
         let index = IndexPath(item: viewModel!.itemsCount - 1, section: 0)
         collectionView.insertItems(at: [index])
     }
