@@ -16,6 +16,8 @@ class CardListController: UIViewController {
     @IBOutlet weak var messageIcon: UIImageView?
     @IBOutlet weak var messageLabel: UILabel?
     
+    static let id = "cardListController"
+    
     fileprivate let manifestViewer = "ManifestViewer"
     fileprivate let sectionInsets = UIEdgeInsets(top: 6.0, left: 6.0, bottom: 6.0, right: 6.0)
     
@@ -138,9 +140,10 @@ extension CardListController: UICollectionViewDataSource {
             
             header.title?.text = parentName
             return header
-        } else {
-            assert(false, "Unexpected element kind")
         }
+        
+        assertionFailure("Unexpected element kind")
+        return UICollectionReusableView()
     }
 }
 

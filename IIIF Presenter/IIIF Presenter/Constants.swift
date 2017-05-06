@@ -13,6 +13,8 @@ struct Constants {
     
     static var isIPhone: Bool = true
     
+    static var version: String = "0"
+    
     static var cardsPerRow: Int = 1
     
     static var lang = "en"

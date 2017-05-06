@@ -137,6 +137,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Constants.isIPhone = UIDevice.current.model.contains("iPhone")
         Constants.dateFormatter.dateFormat = "DD.MM.YYYY hh:mm:ss"
         
+        if let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String,
+            let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String {
+            
+            Constants.version = "\(versionNumber) (\(buildNumber))"
+        }
+        
         if Constants.isIPhone {
             Constants.cardsPerRow = 1
         } else {

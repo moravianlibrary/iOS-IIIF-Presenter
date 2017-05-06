@@ -2,14 +2,20 @@
 /* Class = "UIButton"; normalTitle = "Try again"; ObjectID = "4mm-AL-2pA"; */
 "4mm-AL-2pA.normalTitle" = "Try again";
 
-/* Class = "UILabel"; text = "Label"; ObjectID = "9FJ-Hc-cNU"; */
-"9FJ-Hc-cNU.text" = "Label";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "CTT-QA-7nE"; */
-"CTT-QA-7nE.text" = "Label";
-
-/* Class = "UITabBarItem"; title = "Item"; ObjectID = "Stp-1b-N4u"; */
-"Stp-1b-N4u.title" = "Item";
-
 /* Class = "UILabel"; text = "An error occured while downloading data. Please try again."; ObjectID = "aCu-VB-XwA"; */
 "aCu-VB-XwA.text" = "An error occured while downloading data. Please try again.";
+
+/* Class = "UILabel"; AboutController.author */
+"JMQ-AE-iM4.text" = "Author: Jakub Fišer";
+
+/* Class = "UILabel"; AboutController.version */
+"zHL-QU-pVH.text" = "version";
+
+/* Class = "UILabel"; AboutController.aboutText */
+"5tQ-yg-36G.text" = "The application can browse and display any document implementing the IIIF protocol. It contains few documents for illustration purpose and can open any public document with it's extension. The application has been created as a diploma thesis at Faculty of Informatics at Masaryk University in cooperation with The Moravian Library in Brno.";
+
+/* Class = "UIButton"; AboutController.seeIIIF */
+"CUh-yp-YAL.normalTitle" = "See more information about IIIF.";
+
+/* Class = "UIButton"; AboutController.seeMZK */
+"iCB-md-UAm.normalTitle" = "See more information about MZK.";

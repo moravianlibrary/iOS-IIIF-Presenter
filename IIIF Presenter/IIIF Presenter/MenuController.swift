@@ -21,25 +21,30 @@ class MenuController: UITabBarController {
     }
     
     func initializeControllers() {
-        let historyController = viewControllers?.first as! CardListController
-        let searchController = viewControllers?.last as! CardListController
+        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+        let historyController = storyboard.instantiateViewController(withIdentifier: CardListController.id) as! CardListController
+        let searchController = storyboard.instantiateViewController(withIdentifier: CardListController.id) as! CardListController
+        let aboutController = storyboard.instantiateViewController(withIdentifier: AboutController.id) as! AboutController
         let historyManifests = getHistoryItems()
         
         historyController.tabBarItem = UITabBarItem(tabBarSystemItem: .history, tag: 0)
         searchController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
+        aboutController.tabBarItem = UITabBarItem(title: NSLocalizedString("about", comment: ""), image: UIButton(type: .infoLight).image(for: .normal), tag: 2)
         historyController.isHistory = true
         
         searchController.viewModel = CollectionViewModel.createWithUrl(Constants.testUrl, delegate: searchController)
         historyController.viewModel = CollectionViewModel(IIIFCollection.createCollectionWith(dummyUrl, members: historyManifests))
         
-        if !showHistory {
+        setViewControllers([searchController, historyController, aboutController], animated: false)
+        
+        if showHistory {
             // show search tab if no launch options url available
-            showSearchTab()
+            showHistoryTab()
         }
     }
     
     func showSearchTab() {
-        selectedIndex = 1
+        selectedIndex = 0
         selectedViewController = viewControllers?[selectedIndex]
     }
     
@@ -51,7 +56,7 @@ class MenuController: UITabBarController {
             historyController.viewModel = CollectionViewModel(IIIFCollection.createCollectionWith(dummyUrl, members: historyManifests))
         }
         
-        selectedIndex = 0
+        selectedIndex = 1
         selectedViewController = viewControllers?[selectedIndex]
     }
     

@@ -10,6 +10,7 @@
 		0855C4A68F5755E555565A4F /* Pods_IIIF_Presenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B80C97625F9BD361AEA8003 /* Pods_IIIF_Presenter.framework */; };
 		3B0690BB1EB3EF8A00D5FA0A /* ImageUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0690BA1EB3EF8A00D5FA0A /* ImageUtil.swift */; };
 		3B1B73B51E688E91006F8E00 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B73B41E688E91006F8E00 /* Constants.swift */; };
+		3B2162131EBD064300856837 /* AboutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2162121EBD064300856837 /* AboutController.swift */; };
 		3B3E41561E59EE3800969D6C /* ManifestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E41551E59EE3800969D6C /* ManifestController.swift */; };
 		3B4C40071E6D892500C06084 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3B4C40091E6D892500C06084 /* Localizable.strings */; };
 		3B555F2D1EB66A860025EC12 /* MetadataItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B555F2C1EB66A850025EC12 /* MetadataItem.swift */; };
@@ -82,6 +83,7 @@
 		3B0F52D41E69E1FC00EC1B97 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		3B0F52D61E69E22D00EC1B97 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		3B1B73B41E688E91006F8E00 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		3B2162121EBD064300856837 /* AboutController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutController.swift; sourceTree = "<group>"; };
 		3B3E41551E59EE3800969D6C /* ManifestController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManifestController.swift; sourceTree = "<group>"; };
 		3B4C40081E6D892500C06084 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3B4C400A1E6D892700C06084 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				3B98FE681E6767EA0016C1C6 /* MenuController.swift */,
+				3B2162121EBD064300856837 /* AboutController.swift */,
 				3B3E41551E59EE3800969D6C /* ManifestController.swift */,
 				3BBE78FA1E434C4E00F15CF1 /* CardListController.swift */,
 				3B5CC5CA1E5B39E900A84A99 /* ViewerController.swift */,
@@ -468,6 +471,7 @@
 				3BBE791C1E4398FE00F15CF1 /* IIIFRange.swift in Sources */,
 				3B3E41561E59EE3800969D6C /* ManifestController.swift in Sources */,
 				3BBE79161E43981700F15CF1 /* IIIFSequence.swift in Sources */,
+				3B2162131EBD064300856837 /* AboutController.swift in Sources */,
 				3B9ED52A1E6337B100712ECB /* ViewerCell.swift in Sources */,
 				3BB8F25C1E449BD10073FBD1 /* Metadata.swift in Sources */,
 				3B8B008A1EB4CFD800407581 /* IIIFImageApi.swift in Sources */,
