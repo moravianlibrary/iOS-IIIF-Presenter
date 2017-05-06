@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SDWebImage
 
 class ImageUtil {
     
@@ -15,8 +16,9 @@ class ImageUtil {
     fileprivate var request: URLSessionDataTask?
     fileprivate var visited = Set<String>()
     fileprivate var stop = false
+    fileprivate var cacheKey = "default"
     
-    func getFirstImage(_ resource: Any?, completion: @escaping ((Data?) -> Swift.Void)) {
+    func getFirstImage(_ resource: Any?, completion: @escaping ((UIImage?) -> Swift.Void)) {
         request?.cancel()
         stop = false
         if let m = resource as? IIIFManifest {
@@ -34,18 +36,28 @@ class ImageUtil {
         visited.removeAll()
     }
     
-    fileprivate func getFirstImage(manifest: IIIFManifest, completion: @escaping ((Data?) -> Swift.Void)) {
-        let thumbnails = getManifestThumbnails(manifest)
-        downloadThumbnail(thumbnails, completion: completion)
+    fileprivate func getFirstImage(manifest: IIIFManifest, completion: @escaping ((UIImage?) -> Swift.Void)) {
+        if let img = getCachedImage(manifest.id.absoluteString) {
+            completion(img)
+        } else {
+            cacheKey = manifest.id.absoluteString
+            let thumbnails = getManifestThumbnails(manifest)
+            downloadThumbnail(thumbnails, completion: completion)
+        }
     }
     
-    fileprivate func getFirstImage(collection: IIIFCollection, completion: @escaping ((Data?) -> Swift.Void)) {
-        let thumbnails = getCollectionThumbnails(collection)
-        downloadThumbnail(thumbnails, completion: completion)
+    fileprivate func getFirstImage(collection: IIIFCollection, completion: @escaping ((UIImage?) -> Swift.Void)) {
+        if let img = getCachedImage(collection.id.absoluteString) {
+            completion(img)
+        } else {
+            cacheKey = collection.id.absoluteString
+            let thumbnails = getCollectionThumbnails(collection)
+            downloadThumbnail(thumbnails, completion: completion)
+        }
     }
     
     // Try to download thumbnail from first url in list. If it fails, keep continue until the list is empty. Return first result with success or nil in completion block.
-    fileprivate func downloadThumbnail(_ list: [String], completion: @escaping ((Data?) -> Swift.Void)) {
+    fileprivate func downloadThumbnail(_ list: [String], completion: @escaping ((UIImage?) -> Swift.Void)) {
         guard !list.isEmpty, !stop else {
             completion(nil)
             return
@@ -68,8 +80,9 @@ class ImageUtil {
                     completion(nil)
                     return
                 } else if data != nil {
-                    if let _ = UIImage(data: data!) {
-                        completion(data)
+                    if let img = UIImage(data: data!) {
+                        SDImageCache.shared().store(img, forKey: self.cacheKey)
+                        completion(img)
                         return
                     } else if let serialized = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) {
                         
@@ -161,5 +174,9 @@ class ImageUtil {
         }
         
         return listOfThumbnailUrls
+    }
+    
+    fileprivate func getCachedImage(_ imgKey: String) -> UIImage? {
+        return SDImageCache.shared().imageFromMemoryCache(forKey: imgKey) ?? SDImageCache.shared().imageFromDiskCache(forKey: imgKey) ?? nil
     }
 }

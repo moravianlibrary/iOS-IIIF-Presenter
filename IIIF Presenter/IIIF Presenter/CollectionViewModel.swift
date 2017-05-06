@@ -84,19 +84,19 @@ class CollectionViewModel {
     
     fileprivate func downloadMember() {
         guard toDownload != nil, !toDownload!.isEmpty else {
-            if itemsCount <= 3 {
+//            if itemsCount <= 3 {
                 DispatchQueue.main.async {
                     self.delegate?.didFinishLoadingData(error: self.loadingError)
                 }
-            }
+//            }
             return
         }
         
-        if itemsCount == 3 {
-            DispatchQueue.main.async {
-                self.delegate?.didFinishLoadingData(error: self.loadingError)
-            }
-        }
+//        if itemsCount == 3 {
+//            DispatchQueue.main.async {
+//                self.delegate?.didFinishLoadingData(error: self.loadingError)
+//            }
+//        }
         
         let item = toDownload?.removeFirst()
         if let m = item as? IIIFManifest {
@@ -162,9 +162,9 @@ class CollectionViewModel {
         
         DispatchQueue.main.sync {
             self.collection.members?.append(item)
-            if self.itemsCount > 3 {
+//            if self.itemsCount > 3 {
                 self.delegate?.addDataItem()
-            }
+//            }
         }
     }
     

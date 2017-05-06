@@ -1,8 +1,12 @@
 PODS:
   - iOSTiledViewer (0.2.2)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
 
 DEPENDENCIES:
   - iOSTiledViewer (from `https://github.com/moravianlibrary/iOSTiledViewer.git`, branch `master`)
+  - SDWebImage (~> 3.8)
 
 EXTERNAL SOURCES:
   iOSTiledViewer:
@@ -16,7 +20,8 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   iOSTiledViewer: f0c92e3355cee9ef092498af55ec2442a2b4aea8
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
 
-PODFILE CHECKSUM: b70fd47de8749bb4e6110b41a32c8137e8848d12
+PODFILE CHECKSUM: 6e872a751d122e6e8eda3a1000481724dc64ad98
 
 COCOAPODS: 1.2.0.rc.1

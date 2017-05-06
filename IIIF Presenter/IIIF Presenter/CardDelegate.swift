@@ -7,11 +7,12 @@
 //
 
 import Foundation
+import UIKit
 
 protocol CardDelegate {
     func loadingDidStart()
-    func setTitle(title: String)
-    func setImage(data: Data?)
-    func setDate(date: Date?)
-    func setType(type: String?)
+    func set(title: String)
+    func set(image: UIImage?)
+    func set(date: Date?)
+    func set(type: String?)
 }

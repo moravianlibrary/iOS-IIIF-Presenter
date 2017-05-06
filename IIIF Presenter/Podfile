@@ -1,8 +1,10 @@
 # Uncomment the next line to define a global platform for your project
 source 'https://github.com/Fiser33/iOSTiledViewerSpec.git'
+source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 use_frameworks!
 
 target 'IIIF Presenter' do
     pod 'iOSTiledViewer', :git => 'https://github.com/moravianlibrary/iOSTiledViewer.git', :branch => 'master'
+    pod 'SDWebImage', '~>3.8'
 end

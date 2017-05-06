@@ -47,9 +47,9 @@ class CardViewModel {
     
     fileprivate func loadThumbnail() {
         delegate?.loadingDidStart()
-        imageUtil.getFirstImage(manifest ?? collection) { (data) in
+        imageUtil.getFirstImage(manifest ?? collection) { (image) in
             DispatchQueue.main.async {
-                self.delegate?.setImage(data: data)
+                self.delegate?.set(image: image)
             }
         }
     }
@@ -70,13 +70,13 @@ class CardViewModel {
         }
         
         if collection != nil {
-            delegate?.setTitle(title: collection!.title.getSingleValue()!)
-            delegate?.setDate(date: collection!.date)
-            delegate?.setType(type: "Collection")
+            delegate?.set(title: collection!.title.getSingleValue()!)
+            delegate?.set(date: collection!.date)
+            delegate?.set(type: "Collection")
         } else if manifest != nil {
-            delegate?.setTitle(title: manifest!.title.getSingleValue()!)
-            delegate?.setDate(date: manifest!.date)
-            delegate?.setType(type: "Manifest")
+            delegate?.set(title: manifest!.title.getSingleValue()!)
+            delegate?.set(date: manifest!.date)
+            delegate?.set(type: "Manifest")
         }
         loadThumbnail()
     }

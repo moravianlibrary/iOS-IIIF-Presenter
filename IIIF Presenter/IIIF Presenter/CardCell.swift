@@ -40,19 +40,19 @@ extension CardCell: CardDelegate {
         loadingSpinner?.startAnimating()
     }
     
-    func setTitle(title: String) {
+    func set(title: String) {
         self.title?.text = title
     }
     
-    func setImage(data: Data?) {
-        if data != nil, let image = UIImage(data: data!) {
-            self.image?.image = image
+    func set(image: UIImage?) {
+        if let img = image {
+            self.image?.image = img
             self.image?.backgroundColor = UIColor.clear
         }
         loadingSpinner?.stopAnimating()
     }
     
-    func setDate(date: Date?) {
+    func set(date: Date?) {
         if date != nil {
             self.date?.text = Constants.dateFormatter.string(from: date!)
         } else {
@@ -60,7 +60,7 @@ extension CardCell: CardDelegate {
         }
     }
     
-    func setType(type: String?) {
+    func set(type: String?) {
         if type != nil {
             self.type?.text = type
         } else {

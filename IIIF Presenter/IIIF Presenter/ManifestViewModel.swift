@@ -95,9 +95,9 @@ class ManifestViewModel {
     
     fileprivate func loadThumbnail() {
         delegate?.loadingDidStart()
-        imageUtil.getFirstImage(manifest) { (data) in
+        imageUtil.getFirstImage(manifest) { (image) in
             DispatchQueue.main.async {
-                self.delegate?.setImage(data: data)
+                self.delegate?.set(image: image)
             }
         }
     }
@@ -117,8 +117,8 @@ class ManifestViewModel {
             return
         }
         
-        delegate?.setTitle(title: manifest.title.getSingleValue()!)
-        delegate?.setDate(date: manifest.date)
+        delegate?.set(title: manifest.title.getSingleValue()!)
+        delegate?.set(date: manifest.date)
         loadThumbnail()
     }
 }

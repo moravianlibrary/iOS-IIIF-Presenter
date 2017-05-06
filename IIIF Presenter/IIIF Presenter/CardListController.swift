@@ -222,5 +222,6 @@ extension CardListController: CardListDelegate {
         
         let index = IndexPath(item: viewModel!.itemsCount - 1, section: 0)
         collectionView.insertItems(at: [index])
+        spinner?.stopAnimating()
     }
 }
