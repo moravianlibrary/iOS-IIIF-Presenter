@@ -29,8 +29,8 @@ struct Constants {
     static let historyTypeKey = "history_types"
     
     static func printDescription() {
-        print("model: iP\(isIPhone ? "hone" : "ad").")
-        print("cardsPerRow: \(cardsPerRow).")
+        log("model: iP\(isIPhone ? "hone" : "ad").")
+        log("cardsPerRow: \(cardsPerRow).")
     }
 }
 

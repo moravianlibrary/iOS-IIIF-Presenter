@@ -6,5 +6,6 @@ use_frameworks!
 
 target 'IIIF Presenter' do
     pod 'iOSTiledViewer', :git => 'https://github.com/moravianlibrary/iOSTiledViewer.git', :branch => 'master'
-    pod 'SDWebImage', '~>3.8'
+    pod 'SDWebImage'
+    pod 'CocoaLumberjack/Swift'
 end

@@ -16,7 +16,7 @@ struct IIIFImageApi {
     let id: String
     let version: Int
     
-    var minSize: CGSize?
+    var minSize: CGSize = CGSize(width: 256, height: 256)
     var formats: [String]?
     var qualities: [String]?
     
@@ -52,6 +52,55 @@ struct IIIFImageApi {
                     self.qualities = qualities
                 }
             }
+        } else if version == 2 {
+            return nil
+        }
+        
+        let imageWidth = json["width"] as! Int
+        let imageHeight = json["height"] as! Int
+        switch version {
+        case 1:
+            if let size = (json["sizes"] as? [[String:Int]])?.min(by: {a,b in a["width"]! < b["width"]! }) {
+                let width = size["width"]!
+                let height = size["height"]!
+                minSize = CGSize(width: width, height: height)
+            } else if let tiles = json["tiles"] as? [String:Any] {
+                let tileWidth = tiles["width"] as! Int
+                let tileHeight = tiles["height"] as? Int ?? tileWidth
+                
+                if let scaleFactor = (tiles["scaleFactors"] as? [Int])?.max() {
+                    let scaledWidth = imageWidth/scaleFactor
+                    let scaledHeight = imageHeight/scaleFactor
+                    if scaledWidth > tileWidth || scaledHeight > tileHeight {
+                        minSize = CGSize(width: tileWidth, height: tileHeight)
+                    } else {
+                        minSize = CGSize(width: scaledWidth, height: scaledHeight)
+                    }
+                } else {
+                    minSize = CGSize(width: tileWidth, height: tileHeight)
+                }
+            }
+        case 2:
+            if let scaleFactor = (json["scale_factors"] as? [Int])?.max() {
+                let scaledWidth = imageWidth/scaleFactor
+                let scaledHeight = imageHeight/scaleFactor
+                
+                if let tileWidth = json["tile_width"] as? Int {
+                    let tileHeight = json["tile_height"] as? Int ?? tileWidth
+                    if scaledWidth > tileWidth || scaledHeight > tileHeight {
+                        minSize = CGSize(width: tileWidth, height: tileHeight)
+                    } else {
+                        minSize = CGSize(width: scaledWidth, height: scaledHeight)
+                    }
+                } else {
+                    minSize = CGSize(width: scaledWidth, height: scaledHeight)
+                }
+            } else if let tileWidth = json["tile_width"] as? Int {
+                let tileHeight = json["tile_height"] as? Int ?? tileWidth
+                minSize = CGSize(width: tileWidth, height: tileHeight)
+            }
+        default:
+            break
         }
     }
     
@@ -74,8 +123,17 @@ struct IIIFImageApi {
             quality = version == 1 ? "native" : "default"
         }
         
-        let result = id.appending("/full/\(Int(minSize?.width ?? 256)),/0/\(quality).\(format)")
-        print("Thumbnail url: \(result).")
+        let size = "\(Int(minSize.width)),\(minSize.width == minSize.height ? "" : String(Int(minSize.height)))"
+        let result = id.appending("/full/\(size)/0/\(quality).\(format)")
+        log("Thumbnail url: \(result).")
         return result
+    }
+    
+    static func cropImageUrl(urlString: String) -> String {
+        if let index = urlString.range(of: "full/full/")?.lowerBound {
+            let newRange = Range(uncheckedBounds: (index, urlString.endIndex))
+            return urlString.replacingCharacters(in: newRange, with: "info.json")
+        }
+        return urlString
     }
 }

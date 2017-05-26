@@ -42,6 +42,6 @@ extension ViewerCell: ITVScrollViewDelegate {
     
     func errorDidOccur(error: NSError) {
         spinner?.stopAnimating()
-        print("error: \(error)")
+        log("error: \(error)")
     }
 }

@@ -27,7 +27,7 @@ struct Metadata {
         } else if let obj = json as? [String:Any], let metaItem = MetadataItem(json: obj) {
             items.append(metaItem)
         } else {
-            print("Unsupported metadata structure: \(String(describing: json)).")
+            log("Unsupported metadata structure: \(String(describing: json)).")
             return nil
         }
         

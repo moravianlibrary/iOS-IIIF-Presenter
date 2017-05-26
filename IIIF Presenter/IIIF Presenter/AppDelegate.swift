@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SDWebImage
+import CocoaLumberjack
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,8 +21,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         initConstants()
         
+        // init image cache
+        SDImageCache.shared().config.shouldCacheImagesInMemory = false
+        SDImageCache.shared().config.shouldDecompressImages = false
+        
+        // init logging
+        // TODO: differ log level by scheme - at least devel/release
+        DDLog.add(DDTTYLogger.sharedInstance, with: .verbose) // TTY = Xcode console
+        DDLog.add(DDASLLogger.sharedInstance) // ASL = Apple System Logs
+        let fileLogger: DDFileLogger = DDFileLogger()
+        fileLogger.rollingFrequency = TimeInterval(60*60*24)  // 24 hours
+        fileLogger.logFileManager.maximumNumberOfLogFiles = 7
+        DDLog.add(fileLogger)
+        
         if let urlString = (launchOptions?[.url] as? URL)?.absoluteString {
-            print("Launch options: \(launchOptions!).")
+            log("Launch options: \(launchOptions!).", level: .Verbose)
             
             addToUserDefaults(urlString)
             let navController = window?.rootViewController as? UINavigationController
@@ -28,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             menuController?.showHistory = true
             menuController?.showHistoryError = true
         } else {
-            print("Launch options is empty.")
+            log("Launch options is empty.", level: .Verbose)
         }
         
         return true
@@ -41,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let urlString = String(url.absoluteString.characters.dropFirst(5)) // drop application url scheme
         
         guard let _ = URL(string: urlString) else {
-            print("Url is not valid.")
+            log("Url is not valid.", level: .Verbose)
             return false
         }
         
@@ -80,7 +95,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
+    
+    
+    func log(_ message: String, level: LogLevel) {
+        switch level {
+        case .Verbose:
+            DDLogVerbose(message)
+        case .Debug:
+            DDLogDebug(message)
+        case .Info:
+            DDLogInfo(message)
+        case .Warn:
+            DDLogWarn(message)
+        case .Error:
+            DDLogError(message)
+        }
+    }
     
     func addToUserDefaults(_ urlString: String) {
         if var values = UserDefaults.standard.stringArray(forKey: Constants.historyUrlKey), var types = UserDefaults.standard.stringArray(forKey: Constants.historyTypeKey) {
@@ -161,3 +191,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
+func log(_ message: String) {
+    log(message, level: .Verbose)
+}
+
+func log(_ message: String, level: LogLevel) {
+    Constants.appDelegate.log(message, level: level)
+}
+
+enum LogLevel {
+    case Verbose
+    case Debug
+    case Info
+    case Warn
+    case Error
+}

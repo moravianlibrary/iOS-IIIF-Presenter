@@ -20,6 +20,7 @@ class CardListController: UIViewController {
     
     fileprivate let manifestViewer = "ManifestViewer"
     fileprivate let sectionInsets = UIEdgeInsets(top: 6.0, left: 6.0, bottom: 6.0, right: 6.0)
+    fileprivate var knownCount = 0
     
     var showFirstError = false
     var isHistory = false
@@ -74,7 +75,7 @@ class CardListController: UIViewController {
             controller.viewModel = ManifestViewModel(sender as! IIIFManifest)
         } else if let controller = segue.destination as? CardListController {
             let c = sender as! IIIFCollection
-            print("Segue to CardListController will never happen.")
+            log("Segue to CardListController will never happen.")
             controller.parentName = c.title.getSingleValue()
             controller.viewModel = CollectionViewModel(c)
         }
@@ -120,7 +121,8 @@ extension CardListController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel!.itemsCount
+        knownCount = viewModel!.itemsCount
+        return knownCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -167,7 +169,7 @@ extension CardListController: UICollectionViewDelegateFlowLayout {
         let availableWidth = collectionView.frame.width - paddingSpace
         let widthPerItem = (availableWidth / itemsPerRow)
         let aspectRatio: CGFloat = 4/9
-//        print("itemsPerRow: \(itemsPerRow), paddingSpace: \(paddingSpace), availableWidth: \(availableWidth), widthPerItem: \(widthPerItem)")
+//        log("itemsPerRow: \(itemsPerRow), paddingSpace: \(paddingSpace), availableWidth: \(availableWidth), widthPerItem: \(widthPerItem)")
         return CGSize(width: widthPerItem, height: widthPerItem * aspectRatio)
     }
     
@@ -216,11 +218,11 @@ extension CardListController: CardListDelegate {
     }
     
     func addDataItem() {
-        guard isViewLoaded else {
+        guard isViewLoaded, let count = viewModel?.itemsCount, count != knownCount else {
             return
         }
         
-        let index = IndexPath(item: viewModel!.itemsCount - 1, section: 0)
+        let index = IndexPath(item: count - 1, section: 0)
         collectionView.insertItems(at: [index])
         spinner?.stopAnimating()
     }

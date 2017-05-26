@@ -35,11 +35,11 @@ struct MultiProperty {
                 } else if let dict = item as? [String:Any] {
                     parse(dictionary: dict)
                 } else {
-                    print("Nonsupported object: \(String(describing: item)).")
+                    log("Nonsupported object: \(String(describing: item)).")
                 }
             }
         } else {
-            print("Nonsupported object: \(String(describing: json)).")
+            log("Nonsupported object: \(String(describing: json)).")
             return nil
         }
     }
@@ -71,7 +71,7 @@ struct MultiProperty {
             } else if let val = value as? [String] {
                 array.append(contentsOf: val)
             } else {
-                print("\(key):\(value)")
+                log("\(key):\(value)")
             }
         }
         return array.isEmpty ? nil : array

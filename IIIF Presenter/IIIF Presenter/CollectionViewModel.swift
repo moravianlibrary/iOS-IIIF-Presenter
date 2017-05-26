@@ -45,7 +45,7 @@ class CollectionViewModel {
         if let url = URL(string: urlString) {
 //            self.downloadData(url)
         } else {
-            print("Is not valid url: \(urlString).")
+            log("Is not valid url: \(urlString).")
         }
     }
     
@@ -66,14 +66,14 @@ class CollectionViewModel {
                     self.collection.members!.insert(m, at: 0)
                 } else {
                     err = NSError(domain: "cz.mzk", code: 102, userInfo: [NSLocalizedDescriptionKey: ["en":"Parsing error", "cz":"Chyba parsovani"]])
-                    print("Unknown IIIF structure at \(url.absoluteString).")
+                    log("Unknown IIIF structure at \(url.absoluteString).")
                 }
             } else if error != nil {
                 err = error as NSError?
-                print("Request error from \(url.absoluteString).")
+                log("Request error from \(url.absoluteString).")
             } else {
                 err = NSError(domain: "cz.mzk", code: 101, userInfo: [NSLocalizedDescriptionKey: ["en":"Parsing error", "cz":"Chyba parsovani"]])
-                print("Parsing error from \(url.absoluteString).")
+                log("Parsing error from \(url.absoluteString).")
             }
             
             self.loadingError = err
@@ -83,20 +83,17 @@ class CollectionViewModel {
     }
     
     fileprivate func downloadMember() {
-        guard toDownload != nil, !toDownload!.isEmpty else {
-//            if itemsCount <= 3 {
-                DispatchQueue.main.async {
-                    self.delegate?.didFinishLoadingData(error: self.loadingError)
-                }
-//            }
+        guard Thread.current.isMainThread else {
+            DispatchQueue.main.async {
+                self.downloadMember()
+            }
             return
         }
         
-//        if itemsCount == 3 {
-//            DispatchQueue.main.async {
-//                self.delegate?.didFinishLoadingData(error: self.loadingError)
-//            }
-//        }
+        guard toDownload != nil, !toDownload!.isEmpty else {
+            delegate?.didFinishLoadingData(error: self.loadingError)
+            return
+        }
         
         let item = toDownload?.removeFirst()
         if let m = item as? IIIFManifest {
@@ -116,29 +113,32 @@ class CollectionViewModel {
         } else if let s = item as? String, let url = URL(string: s) {
             handleMember(url: url)
         } else {
-            print("Found any other structure.")
+            log("Found any other structure.")
             downloadMember()
         }
     }
     
     fileprivate func handleMember(url: URL) {
         request = session.dataTask(with: url, completionHandler: { (data, response, error) in
+            log("Finish \(url.absoluteString)")
             if (error as NSError?)?.code == NSURLErrorCancelled {
                 return
             }
             
             if data != nil, let serialized = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) {
-                let json = serialized as! [String:Any]
-                
-                if let c = IIIFCollection(json) {
-                    self.addItem(item: c)
-                } else if let m = IIIFManifest(json) {
-                    self.addItem(item: m)
+                DispatchQueue.main.async {
+                    let json = serialized as! [String:Any]
+                    if let c = IIIFCollection(json) {
+                        self.addItem(item: c)
+                    } else if let m = IIIFManifest(json) {
+                        self.addItem(item: m)
+                    }
                 }
             }
             
             self.downloadMember()
         })
+        log("Start \(url.absoluteString)")
         request?.resume()
     }
     
@@ -155,17 +155,13 @@ class CollectionViewModel {
         }
     }
     
+    // must be run from the main thread
     fileprivate func addItem(item: Any) {
         if collection.members == nil {
             collection.members = []
         }
-        
-        DispatchQueue.main.sync {
-            self.collection.members?.append(item)
-//            if self.itemsCount > 3 {
-                self.delegate?.addDataItem()
-//            }
-        }
+        collection.members?.append(item)
+        delegate?.addDataItem()
     }
     
     func stopLoading() {

@@ -1,12 +1,16 @@
 PODS:
+  - CocoaLumberjack/Default (3.2.0)
+  - CocoaLumberjack/Swift (3.2.0):
+    - CocoaLumberjack/Default
   - iOSTiledViewer (0.2.2)
-  - SDWebImage (3.8.2):
-    - SDWebImage/Core (= 3.8.2)
-  - SDWebImage/Core (3.8.2)
+  - SDWebImage (4.0.0):
+    - SDWebImage/Core (= 4.0.0)
+  - SDWebImage/Core (4.0.0)
 
 DEPENDENCIES:
+  - CocoaLumberjack/Swift
   - iOSTiledViewer (from `https://github.com/moravianlibrary/iOSTiledViewer.git`, branch `master`)
-  - SDWebImage (~> 3.8)
+  - SDWebImage
 
 EXTERNAL SOURCES:
   iOSTiledViewer:
@@ -15,13 +19,14 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   iOSTiledViewer:
-    :commit: bdd1fe686375dfce7defb294a6e1a02069c77f2f
+    :commit: af93416c27c6080b65ad1a4835a90142819d55e3
     :git: https://github.com/moravianlibrary/iOSTiledViewer.git
 
 SPEC CHECKSUMS:
+  CocoaLumberjack: 9b4aed7073d242f29cc2f62068d995faf67f703a
   iOSTiledViewer: f0c92e3355cee9ef092498af55ec2442a2b4aea8
-  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
+  SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
 
-PODFILE CHECKSUM: 6e872a751d122e6e8eda3a1000481724dc64ad98
+PODFILE CHECKSUM: 3ed937140fd31cfe6d1d494f699f2726d23d30ab
 
 COCOAPODS: 1.2.0.rc.1

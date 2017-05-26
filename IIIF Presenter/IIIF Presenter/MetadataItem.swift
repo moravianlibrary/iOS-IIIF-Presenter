@@ -23,7 +23,7 @@ struct MetadataItem {
             labelTranslations = [:]
             for key in keys {
                 guard let lang = key["@language"], let value = key["@value"] else {
-                    print("Language or value not present in metadata label item.")
+                    log("Language or value not present in metadata label item.")
                     continue
                 }
                 let valueTrimmed = value.trimmed()
@@ -33,7 +33,7 @@ struct MetadataItem {
                 }
             }
         } else {
-            print("Unexpected label format: \(String(describing: json["label"])).")
+            log("Unexpected label format: \(String(describing: json["label"])).")
             return nil
         }
         
@@ -45,7 +45,7 @@ struct MetadataItem {
             valueTranslations = [:]
             for key in values {
                 guard let lang = key["@language"], let value = key["@value"] else {
-                    print("Language or value not present in metadata value item.")
+                    log("Language or value not present in metadata value item.")
                     continue
                 }
                 let valueTrimmed = value.trimmed()
@@ -56,7 +56,7 @@ struct MetadataItem {
 
             }
         } else {
-            print("Unexpected value format: \(String(describing: json["value"])).")
+            log("Unexpected value format: \(String(describing: json["value"])).")
             return nil
         }
     }
