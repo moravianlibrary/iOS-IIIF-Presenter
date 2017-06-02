@@ -1,0 +1,66 @@
+{
+  "@context": "http://iiif.io/api/presentation/2/context.json",
+  "@id": "https://drive.google.com/uc?id=0B1TdqMC3wGUJdS1VQ2tlZ0hudXM",
+  "@type": "sc:Collection",
+  "label": "Collection for testing",
+
+  "manifests": [
+    {
+      "@id": "https://kramerius.mzk.cz/search/iiif-presentation/uuid:9ebcb206-24b7-4dc7-b367-3d9ad7179c23/manifest",
+      "@type": "sc:Manifest",
+      "label": "Test1"
+    },
+    {
+      "@id": "https://kramerius.mzk.cz/search/iiif-presentation/uuid:da42268c-59c4-4e40-93a3-54654637721c/manifest",
+      "@type": "sc:Manifest",
+      "label": "Test1"
+    },
+    {
+      "@id": "https://kramerius.mzk.cz/search/iiif-presentation/uuid:14595730-a309-11e4-a808-005056827e52/manifest",
+      "@type": "sc:Manifest",
+      "label": "vadná strana 31"
+    },
+    {
+      "@id": "https://kramerius.mzk.cz/search/iiif-presentation/uuid:f5a09c95-2fd8-11e0-83a8-0050569d6/manifest",
+      "@type": "sc:Manifest",
+      "label": "WRONG"
+    },
+    {
+      "@id": "https://kramerius.mzk.cz/search/iiif-presentation/uuid:f5a09c95-2fd8-11e0-83a8-0050569d679d/manifest",
+      "@type": "sc:Manifest",
+      "label": "Test2"
+    },
+    {
+      "@id": "https://kramerius.mzk.cz/search/iiif-presentation/uuid:593878da-bfbb-4579-a1b5-743897383f78/manifest",
+      "@type": "sc:Manifest",
+      "label": "Test3"
+    },
+    {
+      "@id": "https://kramerius.mzk.cz/search/iiif-presentation/uuid:34803d50-5042-11e3-8cdc-005056827e51/manifest",
+      "@type": "sc:Manifest",
+      "label": "Test4"
+    },
+    {
+      "@id": "https://kramerius.mzk.cz/search/iiif-presentation/uuid:867f4620-d95e-11e6-8010-005056827e51/manifest",
+      "@type": "sc:Manifest",
+      "label": "Test5"
+    },
+    {
+      "@id":"https://damsssl.llgc.org.uk/iiif/2.0/4398332/manifest.json",
+      "@type": "sc:Manifest",
+      "label": "Test6"
+    }
+  ],
+  
+  "collections":[
+    {
+      "@id": "http://scta.info/iiif/scta/collection",
+      "@type": "sc:Collection",
+      "label": "Scholastic Commentaries and Texts Archive"
+    },{
+      "@id": "http://ryanfb.github.io/iiif-universe/iiif-universe.json",
+      "@type": "sc:Collection",
+      "label": "IIIF Universe"
+    }
+  ]
+}
