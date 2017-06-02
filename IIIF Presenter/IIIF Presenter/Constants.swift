@@ -23,7 +23,13 @@ struct Constants {
     
     static let dateFormatter = DateFormatter()
     
+    static let greenColor = UIColor(red: 0.0, green: 204/255, blue: 153/255, alpha: 1.0)
+    
+#if DEBUG
     static let testUrl = "https://drive.google.com/uc?id=0B1TdqMC3wGUJdS1VQ2tlZ0hudXM"
+#else
+    static let testUrl = "https://github.com/moravianlibrary/iOS-IIIF-Presenter/raw/master/IIIF%20Presenter/data.json"
+#endif
     
     static let historyUrlKey = "history_urls"
     static let historyTypeKey = "history_types"

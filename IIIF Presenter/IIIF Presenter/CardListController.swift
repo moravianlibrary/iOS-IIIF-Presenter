@@ -15,6 +15,7 @@ class CardListController: UIViewController {
     @IBOutlet weak var messageView: UIView?
     @IBOutlet weak var messageIcon: UIImageView?
     @IBOutlet weak var messageLabel: UILabel?
+    var loadingIndicator: UIActivityIndicatorView?
     
     static let id = "cardListController"
     
@@ -37,6 +38,18 @@ class CardListController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        loadingIndicator?.color = Constants.greenColor
+        if let menu = parent as? MenuController {
+            if let menuIndicator = menu.navigationItem.rightBarButtonItem?.customView as? UIActivityIndicatorView {
+                loadingIndicator = menuIndicator
+            } else {
+                menu.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: loadingIndicator!)
+            }
+        } else {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: loadingIndicator!)
+        }
         
         if isHistory {
             spinner.stopAnimating()
@@ -75,7 +88,7 @@ class CardListController: UIViewController {
             controller.viewModel = ManifestViewModel(sender as! IIIFManifest)
         } else if let controller = segue.destination as? CardListController {
             let c = sender as! IIIFCollection
-            log("Segue to CardListController will never happen.")
+            log("Segue to CardListController will never happen.", level: .Warn)
             controller.parentName = c.title.getSingleValue()
             controller.viewModel = CollectionViewModel(c)
         }
@@ -210,10 +223,12 @@ extension CardListController: CardListDelegate {
     
     func didStartLoadingData() {
         spinner?.startAnimating()
+        loadingIndicator?.startAnimating()
     }
     
     func didFinishLoadingData(error: NSError?) {
         spinner?.stopAnimating()
+        loadingIndicator?.stopAnimating()
         collectionView?.reloadData()
     }
     

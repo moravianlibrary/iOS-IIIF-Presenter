@@ -125,7 +125,7 @@ struct IIIFImageApi {
         
         let size = "\(Int(minSize.width)),\(minSize.width == minSize.height ? "" : String(Int(minSize.height)))"
         let result = id.appending("/full/\(size)/0/\(quality).\(format)")
-        log("Thumbnail url: \(result).")
+//        log("Thumbnail url: \(result).")
         return result
     }
     

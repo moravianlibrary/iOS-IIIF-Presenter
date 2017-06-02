@@ -16,6 +16,7 @@ class ViewerController: UIViewController {
     @IBOutlet weak var collection: UICollectionView!
     @IBOutlet weak var pageNumber: UILabel!
     @IBOutlet weak var pageNumberView: UIView!
+    @IBOutlet weak var emptyView: UIView!
     
     var viewModel: ManifestViewModel? {
         didSet {
@@ -62,6 +63,10 @@ class ViewerController: UIViewController {
             self.pageNumberView.alpha = 0.0
         }
     }
+    
+    fileprivate func handleCanvasesCount(_ count: Int) {
+        emptyView.isHidden = (count > 0)
+    }
 }
 
 
@@ -73,7 +78,9 @@ extension ViewerController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel!.manifest.sequences![section].canvases.count
+        let num = viewModel!.manifest.sequences![section].canvases.count
+        handleCanvasesCount(num)
+        return num
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

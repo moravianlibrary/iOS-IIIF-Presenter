@@ -28,7 +28,7 @@ class MenuController: UITabBarController {
         let historyManifests = getHistoryItems()
         
         historyController.tabBarItem = UITabBarItem(tabBarSystemItem: .history, tag: 0)
-        searchController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
+        searchController.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 1)
         aboutController.tabBarItem = UITabBarItem(title: NSLocalizedString("about", comment: ""), image: UIButton(type: .infoLight).image(for: .normal), tag: 2)
         historyController.isHistory = true
         

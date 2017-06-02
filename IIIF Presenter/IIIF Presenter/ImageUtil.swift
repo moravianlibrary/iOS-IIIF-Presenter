@@ -72,7 +72,7 @@ class ImageUtil {
         }
         
         visited.insert(urlString)
-        log("Try thumbnail at \(urlString).")
+//        log("Try thumbnail at \(urlString).")
         if let url = URL(string: urlString) {
             request = SessionPool.shared.dataTask(with: url, completionHandler: { (data, response, error) in
                 
@@ -87,7 +87,7 @@ class ImageUtil {
                     } else {
                         if data!.count > 1000000 {
                             // don't you dare to parse files over 1MB
-                            log("Size of data exceeded (\(data!.count)).", level: .Verbose)
+                            log("Size of thumbnail data exceeded (\(data!.count)).", level: .Warn)
                             self.downloadThumbnail(array, key: key, completion: completion)
                             return
                         }
@@ -310,7 +310,7 @@ fileprivate class SessionPool {
         return instance
     }
     
-    private final let capacity = 2
+    private final let capacity = 4
     private var pool: [(session: URLSession, taskCount: Int)]
     
     private var leastUsedSession: URLSession {

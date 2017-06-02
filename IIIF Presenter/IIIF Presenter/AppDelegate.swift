@@ -26,13 +26,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SDImageCache.shared().config.shouldDecompressImages = false
         
         // init logging
-        // TODO: differ log level by scheme - at least devel/release
-        DDLog.add(DDTTYLogger.sharedInstance, with: .verbose) // TTY = Xcode console
-        DDLog.add(DDASLLogger.sharedInstance) // ASL = Apple System Logs
-        let fileLogger: DDFileLogger = DDFileLogger()
-        fileLogger.rollingFrequency = TimeInterval(60*60*24)  // 24 hours
-        fileLogger.logFileManager.maximumNumberOfLogFiles = 7
-        DDLog.add(fileLogger)
+        #if DEBUG
+            print("This is DEBUG version.")
+            DDLog.add(DDTTYLogger.sharedInstance, with: .verbose) // TTY = Xcode console
+        #else
+            print("This is RELEASE version.")
+            DDLog.add(DDTTYLogger.sharedInstance, with: .info)
+            DDLog.add(DDASLLogger.sharedInstance, with: .info) // ASL = Apple System Logs
+            
+            let fileLogger: DDFileLogger = DDFileLogger()
+            fileLogger.rollingFrequency = TimeInterval(60*60*24)  // 24 hours
+            fileLogger.logFileManager.maximumNumberOfLogFiles = 7
+            DDLog.add(fileLogger, with: .info)
+        #endif
+
         
         if let urlString = (launchOptions?[.url] as? URL)?.absoluteString {
             log("Launch options: \(launchOptions!).", level: .Verbose)
@@ -56,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let urlString = String(url.absoluteString.characters.dropFirst(5)) // drop application url scheme
         
         guard let _ = URL(string: urlString) else {
-            log("Url is not valid.", level: .Verbose)
+            log("Url is not valid.", level: .Error)
             return false
         }
         
@@ -191,11 +198,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
-func log(_ message: String) {
-    log(message, level: .Verbose)
-}
-
-func log(_ message: String, level: LogLevel) {
+func log(_ message: String, level: LogLevel = .Verbose) {
     Constants.appDelegate.log(message, level: level)
 }
 
