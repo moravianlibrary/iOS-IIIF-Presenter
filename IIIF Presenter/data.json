@@ -45,13 +45,5 @@
       "@type": "sc:Manifest",
       "label": "Papyri"
     }
-  ],
-  
-  "collections":[
-    {
-      "@id": "http://scta.info/iiif/scta/collection",
-      "@type": "sc:Collection",
-      "label": "Scholastic Commentaries and Texts Archive"
-    }
   ]
 }
