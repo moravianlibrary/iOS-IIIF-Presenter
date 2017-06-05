@@ -15,6 +15,7 @@ class CardListController: UIViewController {
     @IBOutlet weak var messageView: UIView?
     @IBOutlet weak var messageIcon: UIImageView?
     @IBOutlet weak var messageLabel: UILabel?
+    @IBOutlet weak var messageButton: UIButton?
     var loadingIndicator: UIActivityIndicatorView?
     
     static let id = "cardListController"
@@ -115,12 +116,20 @@ class CardListController: UIViewController {
     }
     
     fileprivate func handleSectionNumber(_ number: Int) {
-        if !isHistory, let error = viewModel?.loadingError {
+        if !isHistory, let error = viewModel?.loadingError, number == 0 || knownCount == 0 {
             messageView?.isHidden = false
             messageLabel?.text = "\(error.code): \(error.localizedDescription)"
         } else if messageView != nil && !messageView!.isHidden {
             messageView?.isHidden = true
         }
+    }
+    
+    @IBAction func reloadData() {
+        if let url = viewModel?.collection.id {
+            URLCache.shared.removeCachedResponse(for: URLRequest(url: url))
+        }
+        messageView?.isHidden = true
+        viewModel?.beginLoading()
     }
 }
 
@@ -141,9 +150,13 @@ extension CardListController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardCell.reuseId, for: indexPath) as! CardCell
         
-        let item = viewModel!.getItemAtPosition(indexPath.item)
-        cell.collection = self
-        cell.viewModel = CardViewModel.getModel(item, delegate: cell)
+        if let item = viewModel!.getItemAtPosition(indexPath.item) {
+            cell.collection = self
+            cell.viewModel = CardViewModel.getModel(item, delegate: cell)
+        } else {
+            cell.collection = nil
+            cell.viewModel = nil
+        }
         
         return cell
     }

@@ -13,6 +13,7 @@ class ManifestController: UIViewController {
     @IBOutlet weak var table: UITableView!
     @IBOutlet weak var collection: UICollectionView!
     @IBOutlet weak var rawLabel: UITextView!
+    @IBOutlet weak var emptyView: UIView!
     
     fileprivate let sectionInsets = UIEdgeInsets(top: 4.0, left: 4.0, bottom: 4.0, right: 4.0)
     
@@ -40,6 +41,12 @@ class ManifestController: UIViewController {
         } else {
             rawLabel.isHidden = true
         }
+    }
+    
+    fileprivate func handleItemsCount() {
+        let total = (viewModel?.metaInfoCount ?? 0) +
+            (viewModel?.manifest.metadata?.items.count ?? 0)
+        emptyView.isHidden = (total > 0)
     }
     
 //    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -105,6 +112,7 @@ extension ManifestController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        handleItemsCount()
         switch section {
         case 0:
             return viewModel?.metaInfoCount ?? 0

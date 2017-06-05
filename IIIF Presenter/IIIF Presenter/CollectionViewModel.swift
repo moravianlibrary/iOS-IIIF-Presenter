@@ -85,7 +85,7 @@ class CollectionViewModel {
                 err = error as NSError?
                 log("Request error from \(url.absoluteString).", level: .Error)
             } else {
-                err = NSError(domain: "cz.mzk", code: 101, userInfo: [NSLocalizedDescriptionKey: ["en":"Parsing error", "cz":"Chyba parsovani"]])
+                err = NSError(domain: "cz.mzk", code: 101, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("intern_error", comment: "")])
                 log("Parsing error from \(url.absoluteString).", level: .Error)
             }
             
@@ -109,14 +109,15 @@ class CollectionViewModel {
         return _session!
     }
     fileprivate func loadAllMembers() {
-        guard toDownload != nil, !toDownload!.isEmpty else {
-            return
-        }
-        
         guard Thread.current.isMainThread else {
             DispatchQueue.main.async {
                 self.loadAllMembers()
             }
+            return
+        }
+        
+        guard toDownload != nil, !toDownload!.isEmpty else {
+            delegate?.didFinishLoadingData(error: loadingError)
             return
         }
         
@@ -314,8 +315,8 @@ class CollectionViewModel {
         request?.resume()
     }
     
-    func getItemAtPosition(_ i: Int) -> Any {
-        return collection.members![i]
+    func getItemAtPosition(_ i: Int) -> Any? {
+        return collection.members?[i]
     }
     
     func selectItemAt(_ index: Int) {
