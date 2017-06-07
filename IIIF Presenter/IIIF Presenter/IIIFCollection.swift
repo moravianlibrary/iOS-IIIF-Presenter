@@ -136,7 +136,7 @@ struct IIIFCollection {
     
     fileprivate init(url: URL, members: [Any]?) {
         id = url
-        title = MultiProperty("Test Collection")!
+        title = MultiProperty("Collection of action extension")!
         self.members = members
         
         metadata = nil

@@ -57,8 +57,7 @@ class CardListController: UIViewController {
         
         // set proper navigation items
         if let menu = parent as? MenuController {
-            actionBarItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareCollection))
-            menu.navigationItem.rightBarButtonItems = [actionBarItem!, UIBarButtonItem(customView: loadingIndicator!)]
+            menu.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: loadingIndicator!)
         } else if navigationItem.rightBarButtonItems == nil {
             actionBarItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareCollection))
             navigationItem.rightBarButtonItems = [actionBarItem!, UIBarButtonItem(customView: loadingIndicator!)]
