@@ -17,6 +17,9 @@ class CollectionViewModel {
     var itemsCount: Int {
         return collection.members?.count ?? 0
     }
+    var isLoading: Bool {
+        return request != nil || (toDownload != nil && !toDownload!.isEmpty)
+    }
     
     fileprivate var cachedResponses = [(index: Int, item: Any)]()
     fileprivate var brokenResponses = [Int]()
@@ -109,6 +112,7 @@ class CollectionViewModel {
         return _session!
     }
     fileprivate func loadAllMembers() {
+        request = nil
         guard Thread.current.isMainThread else {
             DispatchQueue.main.async {
                 self.loadAllMembers()

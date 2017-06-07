@@ -7,4 +7,18 @@
 */
 
 "about" = "O aplikaci";
-"intern_error" = "Interní chyba aplikace";
+"intern_error" = "Interní chyba aplikace.";
+"empty_collection" = "Kolekce je prázdná.";
+
+// manifest detail
+"description" = "Popis";
+"attribution" = "Vlastník";
+"license" = "Licence";
+"view_direction" = "Směr procházení";
+"view_hint" = "Parametry procházení";
+"date" = "Datum";
+"related" = "Více informací";
+"rendering" = "Zdroj";
+"service" = "Služby";
+"see_also" = "Další";
+"within" = "Obsaženo v";

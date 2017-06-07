@@ -78,6 +78,10 @@ struct MultiProperty {
     }
     
     func getValueTranslated(lang: String) -> String? {
-        return dictValue[lang] as? String
+        return getValueTranslated(lang: lang, defaultLanguage: "en")
+    }
+    
+    func getValueTranslated(lang: String, defaultLanguage defLang: String) -> String? {
+        return dictValue[lang] as? String ?? dictValue[defLang] as? String
     }
 }

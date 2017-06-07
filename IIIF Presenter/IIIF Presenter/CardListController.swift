@@ -126,7 +126,18 @@ class CardListController: UIViewController {
         if !isHistory, let error = viewModel?.loadingError, number == 0 || knownCount == 0 {
             messageView?.isHidden = false
             messageLabel?.text = "\(error.code): \(error.localizedDescription)"
+            messageButton?.isHidden = false
         } else if messageView != nil && !messageView!.isHidden {
+            messageView?.isHidden = true
+        }
+    }
+    
+    fileprivate func handleItemsCount() {
+        if !(viewModel?.isLoading ?? true), knownCount == 0 {
+            messageView?.isHidden = false
+            messageLabel?.text = NSLocalizedString("empty_collection", comment: "")
+            messageButton?.isHidden = true
+        } else {
             messageView?.isHidden = true
         }
     }
@@ -151,6 +162,7 @@ extension CardListController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         knownCount = viewModel!.itemsCount
+        handleItemsCount()
         return knownCount
     }
     

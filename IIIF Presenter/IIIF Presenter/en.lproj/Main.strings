@@ -1,9 +1,6 @@
 
-/* Class = "UIButton"; normalTitle = "Try again"; ObjectID = "4mm-AL-2pA"; */
-"4mm-AL-2pA.normalTitle" = "Try again";
-
-/* Class = "UILabel"; text = "An error occured while downloading data. Please try again."; ObjectID = "aCu-VB-XwA"; */
-"aCu-VB-XwA.text" = "An error occured while downloading data. Please try again.";
+/* Class = "UIButton"; CardListController.messageView.messageButton */
+"XX7-1o-txP.normalTitle" = "Try again";
 
 /* Class = "UILabel"; AboutController.author */
 "JMQ-AE-iM4.text" = "Author: Jakub Fišer";
@@ -19,3 +16,9 @@
 
 /* Class = "UIButton"; AboutController.seeMZK */
 "iCB-md-UAm.normalTitle" = "See more information about MZK.";
+
+/* Class = "UILabel"; ViewerController.emptyView.messageText */
+"Bh1-kM-sXA.text" = "The manifest is empty.";
+
+/* Class = "UILabel"; ManifestController.emptyView.messageText */
+"Vvy-lD-6NH.text" = "No additional information.";

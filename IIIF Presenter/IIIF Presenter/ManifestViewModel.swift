@@ -33,39 +33,38 @@ class ManifestViewModel {
         self.delegate = delegate
         
         if let value = manifest.description {
-            manifestInfo.append(("Description", value))
+            manifestInfo.append((NSLocalizedString("description", comment: ""), value))
         }
         if let value = manifest.attribution {
-            manifestInfo.append(("Attribution", value))
+            manifestInfo.append((NSLocalizedString("attribution", comment: ""), value))
         }
         if let value = manifest.license {
-            manifestInfo.append(("License", value))
+            manifestInfo.append((NSLocalizedString("license", comment: ""), value))
         }
         if let value = manifest.viewingDirection {
-            manifestInfo.append(("ViewingDirection", value))
+            manifestInfo.append((NSLocalizedString("view_direction", comment: ""), value))
         }
         if let value = manifest.viewingHint {
-            manifestInfo.append(("ViewingHint", value))
+            manifestInfo.append((NSLocalizedString("view_hint", comment: ""), value))
         }
         if let value = manifest.date {
-            manifestInfo.append(("Date", value))
+            manifestInfo.append((NSLocalizedString("date", comment: ""), value))
         }
         if let value = manifest.related {
-            manifestInfo.append(("Related", value))
+            manifestInfo.append((NSLocalizedString("related", comment: ""), value))
         }
         if let value = manifest.rendering {
-            manifestInfo.append(("Rendering", value))
+            manifestInfo.append((NSLocalizedString("rendering", comment: ""), value))
         }
         if let value = manifest.service {
-            manifestInfo.append(("Service", value))
+            manifestInfo.append((NSLocalizedString("service", comment: ""), value))
         }
         if let value = manifest.seeAlso {
-            manifestInfo.append(("SeeAlso", value))
+            manifestInfo.append((NSLocalizedString("see_also", comment: ""), value))
         }
         if let value = manifest.within {
-            manifestInfo.append(("Within", value))
+            manifestInfo.append((NSLocalizedString("within", comment: ""), value))
         }
-        
     }
     
     func getMetaInfoKey(at index: Int) -> String? {
@@ -84,7 +83,7 @@ class ManifestViewModel {
         
         let (_, item) = manifestInfo[index]
         if let val = item as? MultiProperty {
-            return val.getValueTranslated(lang: lang) ?? val.getValueTranslated(lang: "en") ?? val.getSingleValue()
+            return val.getValueTranslated(lang: lang) ?? val.getSingleValue()
         } else if let val = item as? String {
             return val
         } else if let val = item as? Date {

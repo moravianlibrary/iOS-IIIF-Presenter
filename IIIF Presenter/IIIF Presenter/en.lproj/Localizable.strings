@@ -7,4 +7,18 @@
 */
 
 "about" = "About";
-"intern_error" = "Application internal error";
+"intern_error" = "Application internal error.";
+"empty_collection" = "The collection is empty.";
+
+// manifest detail
+"description" = "Description";
+"attribution" = "Attribution";
+"license" = "License";
+"view_direction" = "ViewingDirection";
+"view_hint" = "ViewingHint";
+"date" = "Date";
+"related" = "Related";
+"rendering" = "Rendering";
+"service" = "Service";
+"see_also" = "SeeAlso";
+"within" = "Within";
