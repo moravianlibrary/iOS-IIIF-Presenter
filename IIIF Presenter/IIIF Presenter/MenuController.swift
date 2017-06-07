@@ -17,6 +17,10 @@ class MenuController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // iOS 9 and less tab bar item coloring
+        UITabBar.appearance().tintColor = Constants.greenColor
+        
         initializeControllers()
     }
     

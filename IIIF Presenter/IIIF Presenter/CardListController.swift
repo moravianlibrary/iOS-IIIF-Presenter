@@ -26,7 +26,7 @@ class CardListController: UIViewController {
     
     var showFirstError = false
     var isHistory = false
-    var parentName: String?
+    var parentNames: [String]?
     var viewModel: CollectionViewModel? {
         willSet {
             viewModel?.delegate = nil
@@ -62,6 +62,9 @@ class CardListController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // needs to be called to unify offset on ios 9 and 10 versions
+        collectionView.layoutIfNeeded()
+        
         // redo all url requests (using cache for already completed ones)
         viewModel?.beginLoading()
         collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
@@ -90,7 +93,11 @@ class CardListController: UIViewController {
         } else if let controller = segue.destination as? CardListController {
             let c = sender as! IIIFCollection
             log("Segue to CardListController will never happen.", level: .Warn)
-            controller.parentName = c.title.getSingleValue()
+            var currentTitles = parentNames ?? []
+            if let title = c.title.getSingleValue() {
+                currentTitles.append(title)
+            }
+            controller.parentNames = currentTitles
             controller.viewModel = CollectionViewModel(c)
         }
     }
@@ -166,12 +173,18 @@ extension CardListController: UICollectionViewDataSource {
         if kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ListHeader.reuseId, for: indexPath) as! ListHeader
             
-            header.title?.text = parentName
+            header.titles = parentNames ?? []
             return header
         }
         
         assertionFailure("Unexpected element kind")
         return UICollectionReusableView()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
+        if elementKind == UICollectionElementKindSectionHeader, let header = view as? ListHeader {
+            header.showCorrectTitle()
+        }
     }
 }
 
@@ -212,8 +225,8 @@ extension CardListController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if parentName != nil, messageLabel != nil {
-            let height = 1 + parentName!.heightWithFullWidth(font: messageLabel!.font) + 2*8
+        if parentNames != nil, messageLabel != nil {
+            let height: CGFloat = 40
             return CGSize(width: collectionView.frame.width, height: height)
         } else {
             return CGSize.zero
@@ -229,7 +242,11 @@ extension CardListController: CardListDelegate {
     
     func showCollection(collection: IIIFCollection) {
         let controller = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "cardListController") as! CardListController
-        controller.parentName = collection.title.getSingleValue()
+        var currentTitles = parentNames ?? []
+        if let title = collection.title.getSingleValue() {
+            currentTitles.append(title)
+        }
+        controller.parentNames = currentTitles
         controller.viewModel = CollectionViewModel(collection)
         navigationController?.pushViewController(controller, animated: true)
     }

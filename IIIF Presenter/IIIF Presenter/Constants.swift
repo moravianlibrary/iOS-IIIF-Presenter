@@ -49,6 +49,12 @@ extension String {
         return boundingBox.height
     }
     
+    func width(withFont font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        return boundingBox.width + 2
+    }
+    
     func trimmed() -> String {
         let value = self
         if value.contains("<"), let attributedText = try? NSAttributedString(data: value.data(using: .unicode, allowLossyConversion: true)!, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil) {
