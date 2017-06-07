@@ -10,15 +10,17 @@ import UIKit
 
 class CardListController: UIViewController {
     
+    static let id = "cardListController"
+    
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     @IBOutlet weak var messageView: UIView?
     @IBOutlet weak var messageIcon: UIImageView?
     @IBOutlet weak var messageLabel: UILabel?
     @IBOutlet weak var messageButton: UIButton?
-    var loadingIndicator: UIActivityIndicatorView?
     
-    static let id = "cardListController"
+    fileprivate var loadingIndicator: UIActivityIndicatorView?
+    fileprivate var actionBarItem: UIBarButtonItem?
     
     fileprivate let manifestViewer = "ManifestViewer"
     fileprivate let sectionInsets = UIEdgeInsets(top: 6.0, left: 6.0, bottom: 6.0, right: 6.0)
@@ -40,27 +42,27 @@ class CardListController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
-        loadingIndicator?.color = Constants.greenColor
-        if let menu = parent as? MenuController {
-            if let menuIndicator = menu.navigationItem.rightBarButtonItem?.customView as? UIActivityIndicatorView {
-                loadingIndicator = menuIndicator
-            } else {
-                menu.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: loadingIndicator!)
-            }
-        } else {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: loadingIndicator!)
-        }
-        
         if isHistory {
             spinner.stopAnimating()
         }
         
         collectionView.backgroundColor = UIColor.clear
+        
+        loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        loadingIndicator?.color = Constants.greenColor
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // set proper navigation items
+        if let menu = parent as? MenuController {
+            actionBarItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareCollection))
+            menu.navigationItem.rightBarButtonItems = [actionBarItem!, UIBarButtonItem(customView: loadingIndicator!)]
+        } else if navigationItem.rightBarButtonItems == nil {
+            actionBarItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareCollection))
+            navigationItem.rightBarButtonItems = [actionBarItem!, UIBarButtonItem(customView: loadingIndicator!)]
+        }
         
         // needs to be called to unify offset on ios 9 and 10 versions
         collectionView.layoutIfNeeded()
@@ -148,6 +150,10 @@ class CardListController: UIViewController {
         }
         messageView?.isHidden = true
         viewModel?.beginLoading()
+    }
+    
+    func shareCollection() {
+        ShareUtil.share(viewModel?.collection, fromController: self, barItem: actionBarItem)
     }
 }
 
@@ -264,7 +270,9 @@ extension CardListController: CardListDelegate {
     }
     
     func didStartLoadingData() {
-        spinner?.startAnimating()
+        if knownCount == 0 {
+            spinner?.startAnimating()
+        }
         loadingIndicator?.startAnimating()
     }
     

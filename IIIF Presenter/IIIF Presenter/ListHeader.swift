@@ -20,7 +20,6 @@ class ListHeader: UICollectionReusableView {
     var titles = [String]() {
         didSet {
             collection.reloadData()
-//            self.showCorrectTitle()
         }
     }
     

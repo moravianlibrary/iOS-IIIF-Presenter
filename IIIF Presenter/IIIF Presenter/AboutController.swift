@@ -23,6 +23,15 @@ class AboutController: UIViewController {
         version.text! += " " + Constants.version
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let menu = parent as? MenuController {
+            menu.navigationItem.rightBarButtonItem = nil
+            menu.navigationItem.rightBarButtonItems = nil
+        }
+    }
+    
     @IBAction func showIiif() {
         let urlString = "http://iiif.io"
         if let url = URL(string: urlString) {

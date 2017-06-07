@@ -12,6 +12,9 @@ import UIKit
 struct Constants {
     
     static var isIPhone: Bool = true
+    static var isIPad: Bool {
+        return !isIPhone
+    }
     
     static var version: String = "0"
     

@@ -18,6 +18,8 @@ class ViewerController: UIViewController {
     @IBOutlet weak var pageNumberView: UIView!
     @IBOutlet weak var emptyView: UIView!
     
+    fileprivate var actionBarItem: UIBarButtonItem!
+    
     var viewModel: ManifestViewModel? {
         didSet {
             collection?.reloadData()
@@ -30,7 +32,8 @@ class ViewerController: UIViewController {
         
         let info = UIButton(type: .infoLight)
         info.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: info)
+        actionBarItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareManifest))
+        navigationItem.rightBarButtonItems = [actionBarItem,UIBarButtonItem(customView: info)]
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -66,6 +69,10 @@ class ViewerController: UIViewController {
     
     fileprivate func handleCanvasesCount(_ count: Int) {
         emptyView.isHidden = (count > 0)
+    }
+    
+    func shareManifest() {
+        ShareUtil.share(viewModel?.manifest, fromController: self, barItem: actionBarItem)
     }
 }
 

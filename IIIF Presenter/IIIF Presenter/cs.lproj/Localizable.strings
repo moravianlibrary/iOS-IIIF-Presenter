@@ -10,6 +10,14 @@
 "intern_error" = "Interní chyba aplikace.";
 "empty_collection" = "Kolekce je prázdná.";
 
+// share message fragments
+"share_msg_start" = "Podívej se na tento/tuto IIIF";
+"share_msg_manifest" = "manifest";
+"share_msg_collection" = "kolekci";
+"share_msg_name" = "Má název";
+"share_msg_unknown" = "neznámý";
+"share_msg_link" = "a je dostupný/á na tomto odkazu";
+
 // manifest detail
 "description" = "Popis";
 "attribution" = "Vlastník";

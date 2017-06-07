@@ -10,6 +10,14 @@
 "intern_error" = "Application internal error.";
 "empty_collection" = "The collection is empty.";
 
+// share message fragments
+"share_msg_start" = "Checkout this awesome IIIF";
+"share_msg_manifest" = "manifest";
+"share_msg_collection" = "collection";
+"share_msg_name" = "Its title is";
+"share_msg_unknown" = "unknown";
+"share_msg_link" = "and you can find it at this link";
+
 // manifest detail
 "description" = "Description";
 "attribution" = "Attribution";
