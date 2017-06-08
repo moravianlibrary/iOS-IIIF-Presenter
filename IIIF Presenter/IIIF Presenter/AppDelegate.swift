@@ -17,7 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     fileprivate var wasLaunchedWithUrl = false
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        // init analytics
+        AnalyticsUtil.initAnalytics()
         
         initConstants()
         
@@ -39,10 +41,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             fileLogger.logFileManager.maximumNumberOfLogFiles = 7
             DDLog.add(fileLogger, with: .info)
         #endif
-
         
-        if let urlString = (launchOptions?[.url] as? URL)?.absoluteString {
-            log("Launch options: \(launchOptions!).", level: .Verbose)
+        if var urlString = (launchOptions?[.url] as? URL)?.absoluteString {
+            log("Launch options: \(String(describing: launchOptions)).", level: .Verbose)
+            
+            if urlString.hasPrefix("iiif:"), let index = urlString.characters.index(of: ":") {
+                let range = urlString.startIndex...index
+                urlString.replaceSubrange(range, with: "")
+            }
             
             addToUserDefaults(urlString)
             let navController = window?.rootViewController as? UINavigationController
@@ -56,10 +62,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    // openURL on iOS 9+
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
-//        let regex = "^https?://.+?/manifest$"
-//        let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
         let urlString = String(url.absoluteString.characters.dropFirst(5)) // drop application url scheme
         
         guard let _ = URL(string: urlString) else {
@@ -71,6 +76,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         wasLaunchedWithUrl = true
         
         return true
+    }
+    
+    // openURL on iOS 8
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        return self.application(application, open: url)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -91,11 +101,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
         if wasLaunchedWithUrl {
+            wasLaunchedWithUrl = false
             let navController = window?.rootViewController as? UINavigationController
             let menuController = navController?.topViewController as? MenuController
+            let wasHistory = menuController?.selectedIndex == MenuController.historyIndex
             menuController?.showHistoryError = true
             menuController?.showHistoryTab()
-            wasLaunchedWithUrl = false
+            
+            // force loading, because CardListController.viewWillAppear will not be called
+            if wasHistory {
+                let historyController = menuController?.selectedViewController as? CardListController
+                historyController?.viewModel?.beginLoading()
+            }
         }
     }
 
@@ -133,41 +150,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func updateUserDefaults(_ item: Any) {
-        let type = item is IIIFManifest ? IIIFManifest.type : IIIFCollection.type
-        let id = item is IIIFManifest ? (item as! IIIFManifest).id.absoluteString : (item as! IIIFCollection).id.absoluteString
-        if let values = UserDefaults.standard.stringArray(forKey: Constants.historyUrlKey),
-            var types = UserDefaults.standard.stringArray(forKey: Constants.historyTypeKey) {
-            
-            var changed = false
-            for (index, url) in values.enumerated() where url == id {
-                types[index] = type
-                changed = true
-            }
-            
-            if changed {
-                UserDefaults.standard.set(types, forKey: Constants.historyTypeKey)
-            }
-        }
-    }
-    
-    func deleteUserDefaults(_ item: String) {
-        if var values = UserDefaults.standard.stringArray(forKey: Constants.historyUrlKey),
-            var types = UserDefaults.standard.stringArray(forKey: Constants.historyTypeKey) {
-            
-            var changed = false
-            for (index, url) in values.enumerated() where url == item {
-                changed = true
-                values.remove(at: index)
-                types.remove(at: index)
-            }
-            
-            if changed {
-                UserDefaults.standard.set(values, forKey: Constants.historyUrlKey)
-                UserDefaults.standard.set(types, forKey: Constants.historyTypeKey)
-            }
-        }
-    }
     
     fileprivate func initConstants() {
         Constants.appDelegate = self
@@ -196,16 +178,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Constants.printDescription()
     }
-}
-
-func log(_ message: String, level: LogLevel = .Verbose) {
-    Constants.appDelegate.log(message, level: level)
-}
-
-enum LogLevel {
-    case Verbose
-    case Debug
-    case Info
-    case Warn
-    case Error
 }

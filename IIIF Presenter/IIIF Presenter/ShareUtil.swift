@@ -32,6 +32,8 @@ struct ShareUtil {
             return
         }
         
+        AnalyticsUtil.logShare(item!)
+        
         let start = NSLocalizedString("share_msg_start", comment: "")
         let collection = NSLocalizedString("share_msg_collection", comment: "")
         let manifest = NSLocalizedString("share_msg_manifest", comment: "")

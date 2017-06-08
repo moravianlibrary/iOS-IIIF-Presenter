@@ -8,4 +8,5 @@ target 'IIIF Presenter' do
     pod 'iOSTiledViewer', :git => 'https://github.com/moravianlibrary/iOSTiledViewer.git', :branch => 'master'
     pod 'SDWebImage'
     pod 'CocoaLumberjack/Swift'
+    pod 'Firebase/Core'
 end

@@ -70,7 +70,7 @@ class CardListController: UIViewController {
         viewModel?.beginLoading()
         collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
         
-        if !Constants.isIPhone {
+        if Constants.isIPad {
             collectionView.collectionViewLayout.invalidateLayout()
             NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: .UIApplicationDidChangeStatusBarOrientation, object: nil)
         }
@@ -91,15 +91,8 @@ class CardListController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? ViewerController {
             controller.viewModel = ManifestViewModel(sender as! IIIFManifest)
-        } else if let controller = segue.destination as? CardListController {
-            let c = sender as! IIIFCollection
-            log("Segue to CardListController will never happen.", level: .Warn)
-            var currentTitles = parentNames ?? []
-            if let title = c.title.getSingleValue() {
-                currentTitles.append(title)
-            }
-            controller.parentNames = currentTitles
-            controller.viewModel = CollectionViewModel(c)
+        } else {
+            log("Segue to other controller will never happen.", level: .Warn)
         }
     }
     
@@ -112,15 +105,6 @@ class CardListController: UIViewController {
         if Constants.isIPhone {
             orientationDidChange()
         }
-    }
-    
-    fileprivate func showAlert(_ msg: String?="An error occured") {
-        let alert = UIAlertController(title: "Error", message: msg, preferredStyle: .alert)
-        let action = UIAlertAction(title: "Ok", style: .default) { (action) in
-            alert.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
     }
     
     fileprivate func handleSectionNumber(_ number: Int) {

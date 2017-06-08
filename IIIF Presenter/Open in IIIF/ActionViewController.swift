@@ -57,7 +57,7 @@ class ActionViewController: UIViewController {
     }
     
     fileprivate func close() {
-        self.extensionContext!.completeRequest(returningItems: self.extensionContext!.inputItems, completionHandler: nil)
+        self.extensionContext?.completeRequest(returningItems: self.extensionContext?.inputItems, completionHandler: nil)
     }
 }
 

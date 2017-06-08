@@ -10,6 +10,8 @@ import UIKit
 
 class MenuController: UITabBarController {
 
+    static let historyIndex = 1
+    
     var showHistory = false
     var showHistoryError = false
     
@@ -53,7 +55,10 @@ class MenuController: UITabBarController {
     }
     
     func showHistoryTab() {
-        let historyController = viewControllers?.first as! CardListController
+        guard let historyController = viewControllers?[1] as? CardListController else {
+            return
+        }
+        
         historyController.showFirstError = showHistoryError
         let historyManifests = getHistoryItems()
         if historyController.viewModel?.itemsCount != historyManifests.count {

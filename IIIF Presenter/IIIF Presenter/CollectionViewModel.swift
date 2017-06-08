@@ -29,13 +29,6 @@ class CollectionViewModel {
     fileprivate var request: URLSessionDataTask?
     fileprivate var toDownload: [Any]?
     fileprivate let session: URLSession = URLSession.shared
-    fileprivate var prefetchSession: URLSession {
-        let config = URLSessionConfiguration.default
-        config.urlCache = URLCache.shared
-        config.httpCookieStorage = nil
-        config.urlCredentialStorage = nil
-        return URLSession(configuration: config)
-    }
     
     static func createWithUrl(_ url: String, delegate: CardListDelegate?, items: [Any]?=nil) -> CollectionViewModel {
         return CollectionViewModel(url, delegate, items)
@@ -48,8 +41,6 @@ class CollectionViewModel {
         } else if !collection.members!.isEmpty {
             toDownload = self.collection.members
             self.collection.members = nil
-            delegate?.didStartLoadingData()
-            downloadMember()
         }
     }
     
@@ -227,104 +218,16 @@ class CollectionViewModel {
         }
     }
     
-    fileprivate func prefetchMembers() {
-        guard toDownload != nil, !toDownload!.isEmpty else {
-            return
-        }
-        
-        guard Thread.current.isMainThread else {
-            DispatchQueue.main.async {
-                self.prefetchMembers()
-            }
-            return
-        }
-        
-        let _toDownload = toDownload!.reversed()
-        var url: URL?
-        let session = self.prefetchSession
-        for item in _toDownload {
-            if let m = item as? IIIFManifest {
-                url = m.id
-            } else if let c = item as? IIIFCollection {
-                url = c.id
-            } else if let s = item as? String, let u = URL(string: s) {
-                url = u
-            } else {
-                url = nil
-            }
-            
-            if let _url = url {
-                session.dataTask(with: _url).resume()
-            }
-        }
-        
-        session.finishTasksAndInvalidate()
-    }
-    
-    fileprivate func downloadMember() {
-        guard Thread.current.isMainThread else {
-            DispatchQueue.main.async {
-                self.downloadMember()
-            }
-            return
-        }
-        
-        guard toDownload != nil, !toDownload!.isEmpty else {
-            delegate?.didFinishLoadingData(error: self.loadingError)
-            return
-        }
-        
-        let item = toDownload?.removeFirst()
-        if let m = item as? IIIFManifest {
-            if m.sequences == nil {
-                handleMember(url: m.id)
-            } else {
-                addItem(item: m)
-                downloadMember()
-            }
-        } else if let c = item as? IIIFCollection {
-            if c.members == nil {
-                handleMember(url: c.id)
-            } else {
-                addItem(item: c)
-                downloadMember()
-            }
-        } else if let s = item as? String, let url = URL(string: s) {
-            handleMember(url: url)
-        } else {
-            log("Found any other structure.")
-            downloadMember()
-        }
-    }
-    
-    fileprivate func handleMember(url: URL) {
-        request = session.dataTask(with: url, completionHandler: { (data, response, error) in
-            if (error as NSError?)?.code == NSURLErrorCancelled {
-                return
-            }
-            
-            if data != nil, let serialized = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) {
-                DispatchQueue.main.async {
-                    let json = serialized as! [String:Any]
-                    if let c = IIIFCollection(json) {//, c.members?.first != nil {
-                        self.addItem(item: c)
-                    } else if let m = IIIFManifest(json) {//, m.sequences?.first?.canvases.first != nil {
-                        self.addItem(item: m)
-                    }
-                }
-            }
-            
-            self.downloadMember()
-        })
-        request?.resume()
-    }
-    
     func getItemAtPosition(_ i: Int) -> Any? {
         return collection.members?[i]
     }
     
     func selectItemAt(_ index: Int) {
-        let item = getItemAtPosition(index)
+        guard let item = getItemAtPosition(index) else {
+            return
+        }
+        
+        AnalyticsUtil.logSelect(item)
         if let m = item as? IIIFManifest {
             delegate?.showViewer(manifest: m)
         } else if let c = item as? IIIFCollection {
@@ -396,7 +299,7 @@ class CollectionViewModel {
         if collection.members == nil && (toDownload == nil || toDownload!.isEmpty) {
             downloadData(collection.id)
         } else if toDownload != nil, !toDownload!.isEmpty {
-            downloadMember()
+            loadAllMembers()
         } else {
             delegate?.didFinishLoadingData(error: nil)
         }

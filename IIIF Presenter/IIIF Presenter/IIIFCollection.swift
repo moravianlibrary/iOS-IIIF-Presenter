@@ -18,7 +18,7 @@ struct IIIFCollection {
     
     // must have one of manifests, collecions or members
     // if not present than the collection needs to be loaded
-    var members: [Any]?
+    var members: Array<Any>?
     
     // should have
     var metadata: Metadata?

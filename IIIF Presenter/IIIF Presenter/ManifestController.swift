@@ -11,11 +11,8 @@ import UIKit
 class ManifestController: UIViewController {
 
     @IBOutlet weak var table: UITableView!
-    @IBOutlet weak var collection: UICollectionView!
     @IBOutlet weak var rawLabel: UITextView!
     @IBOutlet weak var emptyView: UIView!
-    
-    fileprivate let sectionInsets = UIEdgeInsets(top: 4.0, left: 4.0, bottom: 4.0, right: 4.0)
     
     var viewModel: ManifestViewModel?
     

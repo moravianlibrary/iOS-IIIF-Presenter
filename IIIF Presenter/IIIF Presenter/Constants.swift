@@ -43,15 +43,8 @@ struct Constants {
     }
 }
 
+
 extension String {
-    func heightWithFullWidth(font: UIFont) -> CGFloat {
-        let margin: CGFloat = 2*8
-        let constraintRect = CGSize(width: UIScreen.main.bounds.width - margin, height: CGFloat.greatestFiniteMagnitude)
-        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
-        
-        return boundingBox.height
-    }
-    
     func width(withFont font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
         let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
@@ -67,4 +60,16 @@ extension String {
             return value
         }
     }
+}
+
+func log(_ message: String, level: LogLevel = .Verbose) {
+    Constants.appDelegate.log(message, level: level)
+}
+
+enum LogLevel {
+    case Verbose
+    case Debug
+    case Info
+    case Warn
+    case Error
 }
