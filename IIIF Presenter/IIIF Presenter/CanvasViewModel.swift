@@ -62,6 +62,8 @@ class CanvasViewModel {
             return
         }
         
+        let title = canvas.title.getValueTranslated(lang: Constants.lang, defaultLanguage: "en") ?? canvas.title.getSingleValue()
+        delegate?.showTitle(title)
         loadThumbnail()
     }
 }

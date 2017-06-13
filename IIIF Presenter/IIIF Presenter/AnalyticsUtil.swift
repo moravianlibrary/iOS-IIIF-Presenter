@@ -11,9 +11,9 @@ import Firebase
 struct AnalyticsUtil {
     
     static func initAnalytics() {
-//        #if !DEBUG
+        #if !DEBUG
             FirebaseApp.configure()
-//        #endif
+        #endif
     }
     
     static func logShare(_ item: Any) {
@@ -45,11 +45,11 @@ struct AnalyticsUtil {
         let type: Any
         
         if let m = item as? IIIFManifest {
-            id = m.id
+            id = m.id.absoluteString
             name = m.title.getValueTranslated(lang: "en") ?? m.title.getSingleValue() ?? "unknown"
             type = "manifest"
         } else if let c = item as? IIIFCollection {
-            id = c.id
+            id = c.id.absoluteString
             name = c.title.getValueTranslated(lang: "en") ?? c.title.getSingleValue() ?? "unknown"
             type = "collection"
         } else {

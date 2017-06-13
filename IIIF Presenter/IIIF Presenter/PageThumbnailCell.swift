@@ -13,6 +13,7 @@ class PageThumbnailCell: UICollectionViewCell {
     static let reuseId = "pageThumbnail"
     
     @IBOutlet weak var thumbnail: UIImageView?
+    @IBOutlet weak var title: UILabel?
     
     var viewModel: CanvasViewModel? {
         willSet {
@@ -31,5 +32,9 @@ extension PageThumbnailCell: CanvasThumbnailDelegate {
         if data != nil {
             thumbnail?.image = UIImage(data: data!)
         }
+    }
+    
+    func showTitle(_ title: String?) {
+        self.title?.text = title
     }
 }

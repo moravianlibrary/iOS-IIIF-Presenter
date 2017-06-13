@@ -29,6 +29,7 @@
 		3B8B008A1EB4CFD800407581 /* IIIFImageApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8B00891EB4CFD800407581 /* IIIFImageApi.swift */; };
 		3B98FE691E6767EA0016C1C6 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B98FE681E6767EA0016C1C6 /* MenuController.swift */; };
 		3B9ED52A1E6337B100712ECB /* ViewerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9ED5291E6337B100712ECB /* ViewerCell.swift */; };
+		3BA195391EE9A87C00753BF0 /* ThumbnailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA195381EE9A87C00753BF0 /* ThumbnailController.swift */; };
 		3BA737161E51BB0700241FBF /* ManifestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA737151E51BB0700241FBF /* ManifestViewModel.swift */; };
 		3BA7371A1E52029D00241FBF /* CollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA737191E52029D00241FBF /* CollectionViewModel.swift */; };
 		3BAFDDE51EB26E1D0085339A /* ListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAFDDE41EB26E1D0085339A /* ListHeader.swift */; };
@@ -108,6 +109,7 @@
 		3B8B00891EB4CFD800407581 /* IIIFImageApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = IIIFImageApi.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		3B98FE681E6767EA0016C1C6 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		3B9ED5291E6337B100712ECB /* ViewerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ViewerCell.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		3BA195381EE9A87C00753BF0 /* ThumbnailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThumbnailController.swift; sourceTree = "<group>"; };
 		3BA737151E51BB0700241FBF /* ManifestViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManifestViewModel.swift; sourceTree = "<group>"; };
 		3BA737191E52029D00241FBF /* CollectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CollectionViewModel.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		3BAFDDE41EB26E1D0085339A /* ListHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHeader.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				3B5CC5CA1E5B39E900A84A99 /* ViewerController.swift */,
 				3BBE79101E4387D400F15CF1 /* CardCell.swift */,
 				3B5CC5C61E5AF88300A84A99 /* PageThumbnailCell.swift */,
+				3BA195381EE9A87C00753BF0 /* ThumbnailController.swift */,
 				3B9ED5291E6337B100712ECB /* ViewerCell.swift */,
 				3BFCFF6A1EB7C98C00D4FCF2 /* MetadataCell.swift */,
 				3BAFDDE41EB26E1D0085339A /* ListHeader.swift */,
@@ -499,6 +502,7 @@
 				3B98FE691E6767EA0016C1C6 /* MenuController.swift in Sources */,
 				3BBE78F91E434C4E00F15CF1 /* AppDelegate.swift in Sources */,
 				3BBE791E1E43993500F15CF1 /* IIIFLayer.swift in Sources */,
+				3BA195391EE9A87C00753BF0 /* ThumbnailController.swift in Sources */,
 				3B8939611E71D9BA003E7C1E /* CardViewModel.swift in Sources */,
 				3BBE791A1E4398C700F15CF1 /* IIIFAnnotation.swift in Sources */,
 				3B0690BB1EB3EF8A00D5FA0A /* ImageUtil.swift in Sources */,

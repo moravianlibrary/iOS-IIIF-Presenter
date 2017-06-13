@@ -10,4 +10,5 @@ import Foundation
 
 protocol CanvasThumbnailDelegate {
     func showImage(data: Data?)
+    func showTitle(_ title: String?)
 }

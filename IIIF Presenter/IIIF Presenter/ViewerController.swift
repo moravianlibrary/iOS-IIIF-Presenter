@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import iOSTiledViewer
 
 class ViewerController: UIViewController {
 
@@ -17,8 +16,27 @@ class ViewerController: UIViewController {
     @IBOutlet weak var pageNumber: UILabel!
     @IBOutlet weak var pageNumberView: UIView!
     @IBOutlet weak var emptyView: UIView!
+    @IBOutlet weak var controlView: UIView!
+    @IBOutlet weak var controlSlider: UISlider!
+    @IBOutlet weak var controlViewBottomConstraint: NSLayoutConstraint!
+    
+    fileprivate var showThumbnailsView = false
+    fileprivate let sectionInsets = UIEdgeInsets(top: 12.0, left: 12.0, bottom: 12.0, right: 12.0)
     
     fileprivate var actionBarItem: UIBarButtonItem!
+    fileprivate var currentPage: Int = 0 {
+        didSet {
+            if !showThumbnailsView {
+                pageNumber.text = String(currentPage + 1) // human readable
+                controlSlider.value = Float(currentPage)
+            }
+        }
+    }
+    
+    fileprivate var hideStatusBar = false
+    override var prefersStatusBarHidden: Bool {
+        return hideStatusBar
+    }
     
     var viewModel: ManifestViewModel? {
         didSet {
@@ -36,16 +54,27 @@ class ViewerController: UIViewController {
         navigationItem.rightBarButtonItems = [actionBarItem,UIBarButtonItem(customView: info)]
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // needs to be called to unify offset on ios 9 and 10 versions
+        collection.layoutIfNeeded()
+    }
+    
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        // TODO: Test on iPad if is sufficient, or need orientation notifications as well
         collection.collectionViewLayout.invalidateLayout()
     }
     
-    @IBAction func showInfo() {
+    func showInfo() {
         performSegue(withIdentifier: manifestDetail, sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? ManifestController {
+            controller.viewModel = viewModel
+        } else if let controller = segue.destination as? ThumbnailController {
+            controller.viewerController = self
             controller.viewModel = viewModel
         }
     }
@@ -54,7 +83,7 @@ class ViewerController: UIViewController {
     fileprivate let hideDelay: TimeInterval = 2
     fileprivate func showPageNumber(_ num: Int) {
         NSObject.cancelPreviousPerformRequests(withTarget: self)
-        pageNumber.text = String(num)
+        currentPage = num
         UIView.animate(withDuration: animationLength) {
             self.pageNumberView.alpha = 1.0
         }
@@ -69,10 +98,22 @@ class ViewerController: UIViewController {
     
     fileprivate func handleCanvasesCount(_ count: Int) {
         emptyView.isHidden = (count > 0)
+        controlSlider.maximumValue = Float(count - 1)
     }
     
     func shareManifest() {
         ShareUtil.share(viewModel?.manifest, fromController: self, barItem: actionBarItem)
+    }
+    
+    @IBAction func sliderMoved() {
+        let pageNum = Int(controlSlider.value)
+        let index = IndexPath(item: pageNum, section: 0)
+        collection.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
+    }
+    
+    func showItem(at item: Int) {
+        let index = IndexPath(item: item, section: 0)
+        collection.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
     }
 }
 
@@ -103,7 +144,17 @@ extension ViewerController: UICollectionViewDataSource {
 extension ViewerController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        showPageNumber(indexPath.item + 1) // human readable
+        showPageNumber(indexPath.item)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let page = pageNumber.text, let pageNum = Int(page) else {
+            return
+        }
+        
+        if pageNum == indexPath.item + 1, let nextVisible = collectionView.indexPathsForVisibleItems.filter({ abs($0.item - indexPath.item) == 1}).first {
+            currentPage = nextVisible.item
+        }
     }
 }
 
