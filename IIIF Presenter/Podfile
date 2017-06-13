@@ -9,4 +9,6 @@ target 'IIIF Presenter' do
     pod 'SDWebImage'
     pod 'CocoaLumberjack/Swift'
     pod 'Firebase/Core'
+    pod 'Fabric'
+    pod 'Crashlytics'
 end

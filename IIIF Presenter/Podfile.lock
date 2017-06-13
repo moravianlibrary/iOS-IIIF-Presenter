@@ -2,6 +2,9 @@ PODS:
   - CocoaLumberjack/Default (3.2.0)
   - CocoaLumberjack/Swift (3.2.0):
     - CocoaLumberjack/Default
+  - Crashlytics (3.8.4):
+    - Fabric (~> 1.6.3)
+  - Fabric (1.6.11)
   - Firebase/Core (4.0.0):
     - FirebaseAnalytics (= 4.0.0)
     - FirebaseCore (= 4.0.0)
@@ -23,6 +26,8 @@ PODS:
 
 DEPENDENCIES:
   - CocoaLumberjack/Swift
+  - Crashlytics
+  - Fabric
   - Firebase/Core
   - iOSTiledViewer (from `https://github.com/moravianlibrary/iOSTiledViewer.git`, branch `master`)
   - SDWebImage
@@ -39,6 +44,8 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   CocoaLumberjack: 9b4aed7073d242f29cc2f62068d995faf67f703a
+  Crashlytics: 79e236942ca1e7fc641df1feb9a275360a78ab6a
+  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   Firebase: 284eea779b73fdff309791817da7c68bff8dd572
   FirebaseAnalytics: 6f08e746f7d66f5452931bc2e822b5df9c66b64a
   FirebaseCore: 85ad466044c2f013cdb167f85d426d15b128114a
@@ -47,6 +54,6 @@ SPEC CHECKSUMS:
   iOSTiledViewer: f0c92e3355cee9ef092498af55ec2442a2b4aea8
   SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
 
-PODFILE CHECKSUM: 51f63cb61a08eb0529087ef0eed5623ed08efba1
+PODFILE CHECKSUM: cf7350acdb9c1058a9583717ee4012d085e2e19f
 
 COCOAPODS: 1.2.0.rc.1

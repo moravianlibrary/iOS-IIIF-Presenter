@@ -9,6 +9,8 @@
 import UIKit
 import SDWebImage
 import CocoaLumberjack
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,6 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // init analytics
         AnalyticsUtil.initAnalytics()
+        
+        // init crashlytics
+        Fabric.with([Crashlytics.self])
         
         initConstants()
         
