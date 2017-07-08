@@ -148,20 +148,17 @@ extension ViewerController: UICollectionViewDataSource {
     }
 }
 
-extension ViewerController: UICollectionViewDelegate {
+
+extension ViewerController: UIScrollViewDelegate {
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        showPageNumber(indexPath.item)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let page = pageNumber.text, let pageNum = Int(page) else {
-            return
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let itemWidth = cellSize.width
+        let offsetX = scrollView.contentOffset.x + scrollView.frame.width/2
+        let index = Int(offsetX / itemWidth)
+        if currentPage != index {
+            currentPage = index
         }
-        
-        if pageNum == indexPath.item + 1, let nextVisible = collectionView.indexPathsForVisibleItems.filter({ abs($0.item - indexPath.item) == 1}).first {
-            currentPage = nextVisible.item
-        }
+        showPageNumber()
     }
 }
 
@@ -169,7 +166,8 @@ extension ViewerController: UICollectionViewDelegate {
 extension ViewerController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return collectionView.frame.size
+        cellSize = collectionView.bounds.size
+        return cellSize
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
