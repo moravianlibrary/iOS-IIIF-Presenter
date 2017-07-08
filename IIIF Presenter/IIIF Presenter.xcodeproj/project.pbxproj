@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0855C4A68F5755E555565A4F /* Pods_IIIF_Presenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B80C97625F9BD361AEA8003 /* Pods_IIIF_Presenter.framework */; };
 		3B0690BB1EB3EF8A00D5FA0A /* ImageUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0690BA1EB3EF8A00D5FA0A /* ImageUtil.swift */; };
+		3B1553261F0406B500FC27E1 /* WelcomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1553251F0406B500FC27E1 /* WelcomeCell.swift */; };
 		3B1B73B51E688E91006F8E00 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B73B41E688E91006F8E00 /* Constants.swift */; };
 		3B2162131EBD064300856837 /* AboutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2162121EBD064300856837 /* AboutController.swift */; };
 		3B35FBF11EE70CAE00902D29 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = 3B35FBF01EE70CAE00902D29 /* data.json */; };
@@ -51,6 +52,7 @@
 		3BBE79241E439B4700F15CF1 /* MultiProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBE79231E439B4700F15CF1 /* MultiProperty.swift */; };
 		3BBE79261E43BAA800F15CF1 /* IIIFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBE79251E43BAA800F15CF1 /* IIIFImage.swift */; };
 		3BBE79281E43BF0300F15CF1 /* IIIFService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBE79271E43BF0300F15CF1 /* IIIFService.swift */; };
+		3BCEB31D1F0195C600D78403 /* WelcomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCEB31C1F0195C600D78403 /* WelcomeController.swift */; };
 		3BE339341E76FC9200BFE46B /* CardDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE339331E76FC9200BFE46B /* CardDelegate.swift */; };
 		3BE339361E76FCAE00BFE46B /* CardListDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE339351E76FCAE00BFE46B /* CardListDelegate.swift */; };
 		3BE339381E76FCDA00BFE46B /* CanvasThumbnailDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE339371E76FCDA00BFE46B /* CanvasThumbnailDelegate.swift */; };
@@ -87,6 +89,7 @@
 		3B0F52D21E69E1EF00EC1B97 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		3B0F52D41E69E1FC00EC1B97 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		3B0F52D61E69E22D00EC1B97 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainInterface.strings; sourceTree = "<group>"; };
+		3B1553251F0406B500FC27E1 /* WelcomeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeCell.swift; sourceTree = "<group>"; };
 		3B1B73B41E688E91006F8E00 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Constants.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		3B2162121EBD064300856837 /* AboutController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutController.swift; sourceTree = "<group>"; };
 		3B35FBF01EE70CAE00902D29 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = SOURCE_ROOT; };
@@ -133,6 +136,7 @@
 		3BBE79231E439B4700F15CF1 /* MultiProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MultiProperty.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		3BBE79251E43BAA800F15CF1 /* IIIFImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IIIFImage.swift; sourceTree = "<group>"; };
 		3BBE79271E43BF0300F15CF1 /* IIIFService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IIIFService.swift; sourceTree = "<group>"; };
+		3BCEB31C1F0195C600D78403 /* WelcomeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeController.swift; sourceTree = "<group>"; };
 		3BE339331E76FC9200BFE46B /* CardDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardDelegate.swift; sourceTree = "<group>"; };
 		3BE339351E76FCAE00BFE46B /* CardListDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardListDelegate.swift; sourceTree = "<group>"; };
 		3BE339371E76FCDA00BFE46B /* CanvasThumbnailDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasThumbnailDelegate.swift; sourceTree = "<group>"; };
@@ -197,6 +201,8 @@
 			isa = PBXGroup;
 			children = (
 				3B98FE681E6767EA0016C1C6 /* MenuController.swift */,
+				3BCEB31C1F0195C600D78403 /* WelcomeController.swift */,
+				3B1553251F0406B500FC27E1 /* WelcomeCell.swift */,
 				3B2162121EBD064300856837 /* AboutController.swift */,
 				3B3E41551E59EE3800969D6C /* ManifestController.swift */,
 				3BBE78FA1E434C4E00F15CF1 /* CardListController.swift */,
@@ -495,6 +501,7 @@
 				3BBE79281E43BF0300F15CF1 /* IIIFService.swift in Sources */,
 				3BBE79201E43995300F15CF1 /* IIIFCollection.swift in Sources */,
 				3BBE79111E4387D400F15CF1 /* CardCell.swift in Sources */,
+				3B1553261F0406B500FC27E1 /* WelcomeCell.swift in Sources */,
 				3B1B73B51E688E91006F8E00 /* Constants.swift in Sources */,
 				3BBE78FB1E434C4E00F15CF1 /* CardListController.swift in Sources */,
 				3BE339361E76FCAE00BFE46B /* CardListDelegate.swift in Sources */,
@@ -511,6 +518,7 @@
 				3BE339381E76FCDA00BFE46B /* CanvasThumbnailDelegate.swift in Sources */,
 				3B5CC5CB1E5B39E900A84A99 /* ViewerController.swift in Sources */,
 				3BBE79221E43997400F15CF1 /* IIIFAnnotationList.swift in Sources */,
+				3BCEB31D1F0195C600D78403 /* WelcomeController.swift in Sources */,
 				3BE339341E76FC9200BFE46B /* CardDelegate.swift in Sources */,
 				3BFCFF6B1EB7C98C00D4FCF2 /* MetadataCell.swift in Sources */,
 				3B98FE691E6767EA0016C1C6 /* MenuController.swift in Sources */,
@@ -738,7 +746,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F888E2C2533E77C2561F7D65 /* Pods-IIIF Presenter.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 873S4GA3KJ;
 				INFOPLIST_FILE = "IIIF Presenter/Info.plist";
@@ -758,7 +766,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 765DA964D21E6E9BB79D35F6 /* Pods-IIIF Presenter.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = 873S4GA3KJ;

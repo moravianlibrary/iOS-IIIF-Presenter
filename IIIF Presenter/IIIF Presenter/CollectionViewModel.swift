@@ -102,6 +102,7 @@ class CollectionViewModel {
         }
         return _session!
     }
+    
     fileprivate func loadAllMembers() {
         request = nil
         guard Thread.current.isMainThread else {
@@ -117,6 +118,7 @@ class CollectionViewModel {
         }
         
         collectionTotalCount = toDownload!.count
+        collectionCountOffset = 0
         let session = allSession
         var url: URL?
         for (index,item) in toDownload!.enumerated() {
@@ -303,5 +305,10 @@ class CollectionViewModel {
         } else {
             delegate?.didFinishLoadingData(error: nil)
         }
+    }
+    
+    func clearData() {
+        collection.members = nil
+        toDownload = []
     }
 }

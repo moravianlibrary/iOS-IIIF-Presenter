@@ -2,24 +2,24 @@ PODS:
   - CocoaLumberjack/Default (3.2.0)
   - CocoaLumberjack/Swift (3.2.0):
     - CocoaLumberjack/Default
-  - Crashlytics (3.8.4):
+  - Crashlytics (3.8.5):
     - Fabric (~> 1.6.3)
-  - Fabric (1.6.11)
-  - Firebase/Core (4.0.0):
-    - FirebaseAnalytics (= 4.0.0)
-    - FirebaseCore (= 4.0.0)
-  - FirebaseAnalytics (4.0.0):
+  - Fabric (1.6.12)
+  - Firebase/Core (4.0.3):
+    - FirebaseAnalytics (= 4.0.2)
+    - FirebaseCore (= 4.0.3)
+  - FirebaseAnalytics (4.0.2):
     - FirebaseCore (~> 4.0)
     - FirebaseInstanceID (~> 2.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseCore (4.0.0):
+  - FirebaseCore (4.0.3):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
   - FirebaseInstanceID (2.0.0):
     - FirebaseCore (~> 4.0)
   - GoogleToolboxForMac/Defines (2.1.1)
   - GoogleToolboxForMac/NSData+zlib (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
-  - iOSTiledViewer (0.2.2)
+  - iOSTiledViewer (0.2.3)
   - SDWebImage (4.0.0):
     - SDWebImage/Core (= 4.0.0)
   - SDWebImage/Core (4.0.0)
@@ -39,19 +39,19 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   iOSTiledViewer:
-    :commit: af93416c27c6080b65ad1a4835a90142819d55e3
+    :commit: 220829e60de841f1601a43162f12faf0912f7901
     :git: https://github.com/moravianlibrary/iOSTiledViewer.git
 
 SPEC CHECKSUMS:
   CocoaLumberjack: 9b4aed7073d242f29cc2f62068d995faf67f703a
-  Crashlytics: 79e236942ca1e7fc641df1feb9a275360a78ab6a
-  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
-  Firebase: 284eea779b73fdff309791817da7c68bff8dd572
-  FirebaseAnalytics: 6f08e746f7d66f5452931bc2e822b5df9c66b64a
-  FirebaseCore: 85ad466044c2f013cdb167f85d426d15b128114a
+  Crashlytics: dfbae35ef22ca189240d230ad501feea4ee85d2d
+  Fabric: f050464eac45a2ce5a8e6e6a07e977c0df32fe28
+  Firebase: 9e33fdfbca37cab635c693883caa90a4475b842b
+  FirebaseAnalytics: ad41720e3e67fc63fbe3d2948d3e26932a8de311
+  FirebaseCore: c709067051de07bdaffdc4e735cd7299a23c463a
   FirebaseInstanceID: 9fbf536668f4d3f0880e7438456dabd1376e294b
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
-  iOSTiledViewer: f0c92e3355cee9ef092498af55ec2442a2b4aea8
+  iOSTiledViewer: 76d234cd131ba2d32451b4aa3f0e0f850ce81848
   SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
 
 PODFILE CHECKSUM: cf7350acdb9c1058a9583717ee4012d085e2e19f

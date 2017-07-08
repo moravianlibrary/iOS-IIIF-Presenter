@@ -30,3 +30,10 @@
 "service" = "Služby";
 "see_also" = "Další";
 "within" = "Obsaženo v";
+
+// tutorial messages
+"welcome" = "Vítejte v aplikaci IIIF Presenter.";
+"extension_tutorial" = "Pomocí rozšíření můžete otevřít jakýkoli veřejně dostupný IIIF dokument, například v Safari.";
+"extension_try" = "Chci to vyzkoušet.";
+"tutorial_bye" = "To je vše. Užijte si aplikaci.";
+"tutorial_end" = "Rozumím.";

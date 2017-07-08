@@ -20,16 +20,14 @@ class ViewerController: UIViewController {
     @IBOutlet weak var controlSlider: UISlider!
     @IBOutlet weak var controlViewBottomConstraint: NSLayoutConstraint!
     
-    fileprivate var showThumbnailsView = false
     fileprivate let sectionInsets = UIEdgeInsets(top: 12.0, left: 12.0, bottom: 12.0, right: 12.0)
+    fileprivate var cellSize: CGSize = .zero
     
     fileprivate var actionBarItem: UIBarButtonItem!
     fileprivate var currentPage: Int = 0 {
         didSet {
-            if !showThumbnailsView {
-                pageNumber.text = String(currentPage + 1) // human readable
-                controlSlider.value = Float(currentPage)
-            }
+            pageNumber.text = String(currentPage + 1) // human readable
+            controlSlider.value = Float(currentPage)
         }
     }
     
@@ -59,11 +57,21 @@ class ViewerController: UIViewController {
         
         // needs to be called to unify offset on ios 9 and 10 versions
         collection.layoutIfNeeded()
+        collection.collectionViewLayout.invalidateLayout()
     }
     
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        // TODO: Test on iPad if is sufficient, or need orientation notifications as well
-        collection.collectionViewLayout.invalidateLayout()
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        let offset = collection?.contentOffset
+        let index = CGFloat(currentPage)
+        let newOffset = CGPoint(x: index * size.width, y: offset!.y)
+        
+        coordinator.animate(alongsideTransition: { (context) in
+            self.collection?.collectionViewLayout.invalidateLayout()
+            self.collection?.setContentOffset(newOffset, animated: false)
+            self.currentPage = Int(index)
+        }, completion: nil)
     }
     
     func showInfo() {
@@ -81,9 +89,8 @@ class ViewerController: UIViewController {
     
     fileprivate let animationLength: TimeInterval = 0.4
     fileprivate let hideDelay: TimeInterval = 2
-    fileprivate func showPageNumber(_ num: Int) {
+    fileprivate func showPageNumber() {
         NSObject.cancelPreviousPerformRequests(withTarget: self)
-        currentPage = num
         UIView.animate(withDuration: animationLength) {
             self.pageNumberView.alpha = 1.0
         }

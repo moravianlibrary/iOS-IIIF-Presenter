@@ -47,6 +47,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             DDLog.add(fileLogger, with: .info)
         #endif
         
+        setInitialViewController()
+        
         if var urlString = (launchOptions?[.url] as? URL)?.absoluteString {
             log("Launch options: \(String(describing: launchOptions)).", level: .Verbose)
             
@@ -155,6 +157,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    func showWelcomeController() {
+        let welcomeId = WelcomeController.storyboardId
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let welcomeController = storyboard.instantiateViewController(withIdentifier: welcomeId)
+        window?.rootViewController = welcomeController
+    }
+    
+    func showApplicationController() {
+        let appVersion = Constants.version.components(separatedBy: " ").first!
+        UserDefaults.standard.set(appVersion, forKey: Constants.tutorialVersion)
+        
+        let navigationId = "rootNavigationController"
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let navigationController = storyboard.instantiateViewController(withIdentifier: navigationId)
+        window?.rootViewController = navigationController
+    }
+    
+    
+    fileprivate func setInitialViewController() {
+        let userVersion = UserDefaults.standard.string(forKey: Constants.tutorialVersion) ?? "0.0"
+        let appVersion = Constants.version.components(separatedBy: " ").first!
+        
+        let userVersionArray = userVersion.components(separatedBy: ".")
+        let appVersionArray = appVersion.components(separatedBy: ".")
+        
+        let userVersionMain = Int(userVersionArray[0])!
+        let appVersionMain = Int(appVersionArray[0])!
+        let userVersionMinor = Int(userVersionArray[1])!
+        let appVersionMinor = Int(appVersionArray[1])!
+        
+        if userVersionMain < appVersionMain || userVersionMinor < appVersionMinor {
+            showWelcomeController()
+        } else {
+            showApplicationController()
+        }
+    }
     
     fileprivate func initConstants() {
         Constants.appDelegate = self

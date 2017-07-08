@@ -21,6 +21,7 @@ class CardListController: UIViewController {
     
     fileprivate var loadingIndicator: UIActivityIndicatorView?
     fileprivate var actionBarItem: UIBarButtonItem?
+    fileprivate let refreshControl = UIRefreshControl()
     
     fileprivate let manifestViewer = "ManifestViewer"
     fileprivate let sectionInsets = UIEdgeInsets(top: 6.0, left: 6.0, bottom: 6.0, right: 6.0)
@@ -50,6 +51,9 @@ class CardListController: UIViewController {
         
         loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
         loadingIndicator?.color = Constants.greenColor
+        
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        collectionView.addSubview(refreshControl)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,6 +98,13 @@ class CardListController: UIViewController {
         } else {
             log("Segue to other controller will never happen.", level: .Warn)
         }
+    }
+    
+    func refreshData() {
+        viewModel?.stopLoading()
+        viewModel?.clearData()
+        collectionView.reloadData()
+        viewModel?.beginLoading()
     }
     
     func orientationDidChange() {
@@ -270,8 +281,9 @@ extension CardListController: CardListDelegate {
             return
         }
         
-        let index = IndexPath(item: count - 1, section: 0)
+        let index = IndexPath(item: knownCount, section: 0)
         collectionView.insertItems(at: [index])
         spinner?.stopAnimating()
+        refreshControl.endRefreshing()
     }
 }

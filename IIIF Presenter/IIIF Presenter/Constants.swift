@@ -36,6 +36,7 @@ struct Constants {
     
     static let historyUrlKey = "history_urls"
     static let historyTypeKey = "history_types"
+    static let tutorialVersion = "tutorial_version"
     
     static func printDescription() {
         log("model: iP\(isIPhone ? "hone" : "ad").")
