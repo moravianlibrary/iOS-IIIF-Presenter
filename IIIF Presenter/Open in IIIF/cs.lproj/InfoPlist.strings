@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  IIIF Presenter
+
+  Created by Jakub Fiser on 15/07/2017.
+  Copyright © 2017 Jakub Fiser. All rights reserved.
+*/
+
+"CFBundleDisplayName" = "Otevřít čtečku";

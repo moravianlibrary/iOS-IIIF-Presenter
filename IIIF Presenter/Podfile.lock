@@ -19,7 +19,7 @@ PODS:
   - GoogleToolboxForMac/Defines (2.1.1)
   - GoogleToolboxForMac/NSData+zlib (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
-  - iOSTiledViewer (0.2.3)
+  - iOSTiledViewer (0.2.4)
   - SDWebImage (4.0.0):
     - SDWebImage/Core (= 4.0.0)
   - SDWebImage/Core (4.0.0)
@@ -39,7 +39,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   iOSTiledViewer:
-    :commit: 220829e60de841f1601a43162f12faf0912f7901
+    :commit: cfc65b38da3bc074bc1a7ffc35639e6ef6941034
     :git: https://github.com/moravianlibrary/iOSTiledViewer.git
 
 SPEC CHECKSUMS:
@@ -51,9 +51,9 @@ SPEC CHECKSUMS:
   FirebaseCore: c709067051de07bdaffdc4e735cd7299a23c463a
   FirebaseInstanceID: 9fbf536668f4d3f0880e7438456dabd1376e294b
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
-  iOSTiledViewer: 76d234cd131ba2d32451b4aa3f0e0f850ce81848
+  iOSTiledViewer: 832981f14d2528214a0034ff574500960399e514
   SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
 
 PODFILE CHECKSUM: cf7350acdb9c1058a9583717ee4012d085e2e19f
 
-COCOAPODS: 1.2.0.rc.1
+COCOAPODS: 1.2.1

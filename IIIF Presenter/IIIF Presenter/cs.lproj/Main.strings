@@ -9,7 +9,7 @@
 "zHL-QU-pVH.text" = "verze";
 
 /* Class = "UILabel"; AboutController.aboutText */
-"5tQ-yg-36G.text" = "Aplikace slouží k procházení dokumentů podporujících standard IIIF. Obsahuje několik ukázkových dokumentů a možnost otevřít libovolný volně dostupný dokument pomocí rozšíření. Aplikace vznikla jako diplomová práce na Fakultě informatiky MU ve spolupráci s Moravskou zemskou knihovnou v Brně.";
+"5tQ-yg-36G.text" = "Aplikace slouží k procházení dokumentů podporujících standard IIIF. Obsahuje několik ukázkových dokumentů a možnost otevřít libovolný volně dostupný dokument pomocí rozšíření. Aplikace vznikla jako diplomová práce na Fakultě informatiky Masarykovy Univerzity ve spolupráci s Moravskou zemskou knihovnou v Brně.";
 
 /* Class = "UIButton"; AboutController.seeIIIF */
 "CUh-yp-YAL.normalTitle" = "Více informací o IIIF.";
@@ -17,8 +17,14 @@
 /* Class = "UIButton"; AboutController.seeMZK */
 "iCB-md-UAm.normalTitle" = "Více informací o MZK.";
 
+/* Class = "UIButton"; AboutController.seeExplanation */
+"oJN-Fy-ELx.normalTitle" = "Nápověda k rozšíření.";
+
 /* Class = "UILabel"; ViewerController.emptyView.messageText */
 "Bh1-kM-sXA.text" = "Manifest je prázdný.";
 
 /* Class = "UILabel"; ManifestController.emptyView.messageText */
 "Vvy-lD-6NH.text" = "Žádné další informace.";
+
+/* Class = "UIButton"; AboutController.seeMZK */
+"4Wl-dk-bVZ.normalTitle" = "Vyzkoušet nyní!";

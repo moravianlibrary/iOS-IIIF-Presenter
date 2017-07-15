@@ -12,13 +12,19 @@
 "5tQ-yg-36G.text" = "The application can browse and display any document implementing the IIIF protocol. It contains few documents for illustration purpose and can open any public document with it's extension. The application has been created as a diploma thesis at Faculty of Informatics at Masaryk University in cooperation with The Moravian Library in Brno.";
 
 /* Class = "UIButton"; AboutController.seeIIIF */
-"CUh-yp-YAL.normalTitle" = "See more information about IIIF.";
+"CUh-yp-YAL.normalTitle" = "More information about IIIF.";
 
 /* Class = "UIButton"; AboutController.seeMZK */
-"iCB-md-UAm.normalTitle" = "See more information about MZK.";
+"iCB-md-UAm.normalTitle" = "More information about MZK.";
+
+/* Class = "UIButton"; AboutController.seeExplanation */
+"oJN-Fy-ELx.normalTitle" = "Extension tutorial.";
 
 /* Class = "UILabel"; ViewerController.emptyView.messageText */
 "Bh1-kM-sXA.text" = "The manifest is empty.";
 
 /* Class = "UILabel"; ManifestController.emptyView.messageText */
 "Vvy-lD-6NH.text" = "No additional information.";
+
+/* Class = "UIButton"; ExplanationController.cellTry */
+"4Wl-dk-bVZ.normalTitle" = "Try it now!";

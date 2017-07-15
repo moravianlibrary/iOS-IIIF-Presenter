@@ -209,7 +209,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Constants.cardsPerRow = 1
         } else {
             var num = Int(ceil(UIScreen.main.bounds.width / 500.0))
-            if UIDevice.current.orientation.isLandscape {
+            if UIApplication.shared.statusBarOrientation.isLandscape {
                 num -= 1
             }
             Constants.cardsPerRow = num

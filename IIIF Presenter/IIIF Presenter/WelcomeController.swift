@@ -26,26 +26,26 @@ class WelcomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let bExtensionTry = {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(self.extensionUrl)
-            } else {
-                UIApplication.shared.openURL(self.extensionUrl)
-            }
-        }
+//        let bExtensionTry = {
+//            if #available(iOS 10.0, *) {
+//                UIApplication.shared.open(self.extensionUrl)
+//            } else {
+//                UIApplication.shared.openURL(self.extensionUrl)
+//            }
+//        }
         let bTutorialEnd = {
             self.endDisplayingController()
         }
         
         let sWelcome = NSLocalizedString("welcome", comment: "")
         let sExtensionTutorial = NSLocalizedString("extension_tutorial", comment: "")
-        let sExtensionTry = NSLocalizedString("extension_try", comment: "")
+//        let sExtensionTry = NSLocalizedString("extension_try", comment: "")
         let sTutorialBye = NSLocalizedString("tutorial_bye", comment: "")
         let sTutorialEnd = NSLocalizedString("tutorial_end", comment: "")
         
         texts = [sWelcome, sExtensionTutorial, sTutorialBye]
         images = [UIImage(named: "icon_iiif"), UIImage(named: "action_extension"), nil]
-        buttons = [nil, (bExtensionTry, sExtensionTry), (bTutorialEnd, sTutorialEnd)]
+        buttons = [nil, nil, (bTutorialEnd, sTutorialEnd)]
         
         pageIndicator?.numberOfPages = texts.count
     }

@@ -33,7 +33,18 @@
 
 // tutorial messages
 "welcome" = "Welcome to the IIIF Presenter application.";
-"extension_tutorial" = "You can open any publicly available IIIF document using the action extension, for example in Safari.";
+"extension_tutorial" = "You can open any publicly available IIIF document using the action extension, for example in Safari. You'll find detailed description in the About section.";
 "extension_try" = "I want to try.";
 "tutorial_bye" = "That's all from us. Enjoy the application.";
 "tutorial_end" = "Got it.";
+
+// extension explanation
+"step_2_img" = "extension_list_before_en";
+"step_3_img" = "extension_off_en";
+"step_4_img" = "extension_on_en";
+"step_5_img" = "extension_list_after_en";
+"step_1" = "You can open any publicly available IIIF document from other applications thanks to our application extension. Most common way to do so is in a browser. In Safari application, for example, you can press the action icon below to access the application extensions list.";
+"step_2" = "You will see two lists of extensions. One containing sharing extensions in the first row and list of the action extensions in the second row. Our extension is an action extension, therefore it will be present in the second row. For applications downloaded from the App Store, you have to allow their extension first before you can use it. You can accomplish that by pressing 'More' option, as seen in the picture.";
+"step_3" = "Once you press the 'More' option, you will see vertical list of your possible action extensions. There will be system provided extensions as well as third applications extensions, that have a switch on the right side. Every new extension is turned off by default. Among all, there will be our extension called 'Open in Viewer' in the list.";
+"step_4" = "In order to be able to use our extension, simply turn on the switch next to our extension. You can also move our extension by holding and dragging it to the very top of the list to make it always easily visible. Then press 'Done' button on top to save your changes.";
+"step_5" = "Now, our extension will be present in the bottom list of action extensions and it will be always available to you from any application, that can work with JSON files.";

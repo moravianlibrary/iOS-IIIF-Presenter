@@ -33,7 +33,18 @@
 
 // tutorial messages
 "welcome" = "Vítejte v aplikaci IIIF Presenter.";
-"extension_tutorial" = "Pomocí rozšíření můžete otevřít jakýkoli veřejně dostupný IIIF dokument, například v Safari.";
+"extension_tutorial" = "Pomocí rozšíření můžete otevřít jakýkoli veřejně dostupný IIIF dokument, například v Safari. Podrobný popis najdete v sekci O aplikaci.";
 "extension_try" = "Chci to vyzkoušet.";
-"tutorial_bye" = "To je vše. Užijte si aplikaci.";
+"tutorial_bye" = "To je od nás vše. Užijte si aplikaci.";
 "tutorial_end" = "Rozumím.";
+
+// extension explanation
+"step_2_img" = "extension_list_before_cz";
+"step_3_img" = "extension_off_cz";
+"step_4_img" = "extension_on_cz";
+"step_5_img" = "extension_list_after_cz";
+"step_1" = "Pomocí našeho rozšíření můžete otevřít kterýkoli veřejně dostupný IIIF dokument i z jiných aplikací. Pravděpodobně nejčastěji jej využijete v internetovém prohlížeči. Například v Safari zobrazíte dostupná rozšíření pomocí této akční ikony.";
+"step_2" = "Uvidíte dva nezávislé seznamy rozšíření. Vrchní seznam je seznam rozšíření pro sdílení a spodní seznam je pro akční rozšíření. Naše rozšíření je akční a bude tedy přístupné ve spodním seznamu. Ovšem rozšíření aplikací stažených z App Store je nutné před jejich použitím nejprve povolit. Pro povolení našeho rozšíření tedy nejdříve zvolte možnost 'Více', která je znázorněna na obrázku zde.";
+"step_3" = "Po zmáčknutí možnosti 'Více' se Vám zobrazí seznam všech Vašich možných akčních rozšíření. Ten obsahuje systémová rozšíření a také rozšíření jiných aplikací, která mají na stejném řádku vpravo zapínání. Každé rozšíření aplikací je nejprve vždy zakázáno. V seznamu najděte naše rozšíření s názvem 'Open in Viewer'.";
+"step_4" = "Abyste mohli používat naše rozšíření, jednoduše jej zapněte pomocí přepínátka. Také můžete naše rozšíření v seznamu přesunout výše, aby Vám bylo později snadněji přístupné. Všechny změny jsou automaticky uloženy, proto již stačí pouze zmáčknout tlačítko 'Hotovo' nad seznamem.";
+"step_5" = "Nyní se naše rozšíření nachází ve spodním seznamu akčních rozšíření a najdete ho zde v každé aplikaci, která umí pracovat se soubory formátu JSON a nabízí výběr akčních rozšíření.";
