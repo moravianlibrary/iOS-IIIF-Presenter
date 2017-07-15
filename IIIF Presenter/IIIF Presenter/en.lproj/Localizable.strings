@@ -34,7 +34,6 @@
 // tutorial messages
 "welcome" = "Welcome to the IIIF Presenter application.";
 "extension_tutorial" = "You can open any publicly available IIIF document using the action extension, for example in Safari. You'll find detailed description in the About section.";
-"extension_try" = "I want to try.";
 "tutorial_bye" = "That's all from us. Enjoy the application.";
 "tutorial_end" = "Got it.";
 
