@@ -84,8 +84,6 @@ class CollectionViewModel {
             }
             
             self.loadingError = err
-//            self.prefetchMembers()
-//            self.downloadMember()
             self.loadAllMembers()
         })
         request?.resume()

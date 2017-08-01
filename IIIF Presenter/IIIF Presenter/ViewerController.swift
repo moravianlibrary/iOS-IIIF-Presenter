@@ -23,6 +23,33 @@ class ViewerController: UIViewController {
     fileprivate let sectionInsets = UIEdgeInsets(top: 12.0, left: 12.0, bottom: 12.0, right: 12.0)
     fileprivate var cellSize: CGSize = .zero
     
+    var keepQuality: String? {
+        didSet {
+            collection.reloadData()
+        }
+    }
+    var keepFormat: String? {
+        didSet {
+            collection.reloadData()
+        }
+    }
+    var currentQuality: String? {
+        didSet {
+            guard currentQuality != nil else {
+                return
+            }
+            updateImageSettings()
+        }
+    }
+    var currentFormat: String? {
+        didSet {
+            guard currentFormat != nil else {
+                return
+            }
+            updateImageSettings()
+        }
+    }
+    
     fileprivate var actionBarItem: UIBarButtonItem!
     fileprivate var currentPage: Int = 0 {
         didSet {
@@ -47,6 +74,8 @@ class ViewerController: UIViewController {
         super.viewDidLoad()
         
         let info = UIButton(type: .infoLight)
+        let settingsImage = UIImage(named: "settings")
+        info.setImage(settingsImage, for: .normal)
         info.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
         actionBarItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareManifest))
         navigationItem.rightBarButtonItems = [actionBarItem,UIBarButtonItem(customView: info)]
@@ -57,6 +86,8 @@ class ViewerController: UIViewController {
         
         // needs to be called to unify offset on ios 9 and 10 versions
         collection.layoutIfNeeded()
+        
+        // just in case any rotation has been done on any other controller
         collection.collectionViewLayout.invalidateLayout()
     }
     
@@ -81,6 +112,14 @@ class ViewerController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? ManifestController {
             controller.viewModel = viewModel
+            controller.viewer = self
+            if let currentCell = collection.cellForItem(at: IndexPath(item: currentPage, section: 0)) as? ViewerCell {
+                controller.keepChanges = keepQuality != nil || keepFormat != nil
+                controller.currentFormat = keepFormat ?? currentCell.viewer?.currentFormat
+                controller.currentQuality = keepQuality ?? currentCell.viewer?.currentQuality
+                controller.imageFormats = currentCell.viewer?.imageFormats
+                controller.imageQualities = currentCell.viewer?.imageQualities
+            }
         } else if let controller = segue.destination as? ThumbnailController {
             controller.viewerController = self
             controller.viewModel = viewModel
@@ -122,6 +161,12 @@ class ViewerController: UIViewController {
         let index = IndexPath(item: item, section: 0)
         collection.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
     }
+    
+    fileprivate func updateImageSettings() {
+        if let currentCell = collection.cellForItem(at: IndexPath(item: currentPage, section: 0)) as? ViewerCell {
+            currentCell.set(quality: currentQuality, format: currentFormat)
+        }
+    }
 }
 
 
@@ -143,6 +188,7 @@ extension ViewerController: UICollectionViewDataSource {
         
         let canvas = viewModel!.manifest.sequences![indexPath.section].canvases[indexPath.item]
         cell.viewModel = CanvasViewModel(canvas)
+        cell.set(quality: keepQuality, format: keepFormat)
         
         return cell
     }

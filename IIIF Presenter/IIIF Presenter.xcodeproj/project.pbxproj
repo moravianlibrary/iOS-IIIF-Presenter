@@ -182,6 +182,20 @@
 			name = Utils;
 			sourceTree = "<group>";
 		};
+		3B557F661F30B7A6008DFD20 /* Reusable */ = {
+			isa = PBXGroup;
+			children = (
+				3B1553251F0406B500FC27E1 /* WelcomeCell.swift */,
+				3BBE79101E4387D400F15CF1 /* CardCell.swift */,
+				3B5CC5C61E5AF88300A84A99 /* PageThumbnailCell.swift */,
+				3B9ED5291E6337B100712ECB /* ViewerCell.swift */,
+				3BFCFF6A1EB7C98C00D4FCF2 /* MetadataCell.swift */,
+				3BAFDDE41EB26E1D0085339A /* ListHeader.swift */,
+				3B3C36931F19137E00FA99D7 /* ExplanationCell.swift */,
+			);
+			name = Reusable;
+			sourceTree = "<group>";
+		};
 		3B68190F1E66F020008157E8 /* Open in IIIF */ = {
 			isa = PBXGroup;
 			children = (
@@ -210,19 +224,13 @@
 			children = (
 				3B98FE681E6767EA0016C1C6 /* MenuController.swift */,
 				3BCEB31C1F0195C600D78403 /* WelcomeController.swift */,
-				3B1553251F0406B500FC27E1 /* WelcomeCell.swift */,
 				3B2162121EBD064300856837 /* AboutController.swift */,
 				3B3E41551E59EE3800969D6C /* ManifestController.swift */,
 				3BBE78FA1E434C4E00F15CF1 /* CardListController.swift */,
 				3B5CC5CA1E5B39E900A84A99 /* ViewerController.swift */,
-				3BBE79101E4387D400F15CF1 /* CardCell.swift */,
-				3B5CC5C61E5AF88300A84A99 /* PageThumbnailCell.swift */,
 				3BA195381EE9A87C00753BF0 /* ThumbnailController.swift */,
-				3B9ED5291E6337B100712ECB /* ViewerCell.swift */,
-				3BFCFF6A1EB7C98C00D4FCF2 /* MetadataCell.swift */,
-				3BAFDDE41EB26E1D0085339A /* ListHeader.swift */,
 				3B3C36911F19135A00FA99D7 /* ExplanationController.swift */,
-				3B3C36931F19137E00FA99D7 /* ExplanationCell.swift */,
+				3B557F661F30B7A6008DFD20 /* Reusable */,
 			);
 			name = View;
 			sourceTree = "<group>";

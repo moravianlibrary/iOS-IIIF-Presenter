@@ -28,3 +28,6 @@
 
 /* Class = "UIButton"; AboutController.seeMZK */
 "4Wl-dk-bVZ.normalTitle" = "Vyzkoušet nyní!";
+
+/* Class = "UILabel"; ManifestController.checkerCell */
+"PxB-zJ-dD5.text" = "Zachovat změny";

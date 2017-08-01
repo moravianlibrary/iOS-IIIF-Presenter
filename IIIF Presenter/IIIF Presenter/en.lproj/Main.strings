@@ -28,3 +28,6 @@
 
 /* Class = "UIButton"; ExplanationController.cellTry */
 "4Wl-dk-bVZ.normalTitle" = "Try it now!";
+
+/* Class = "UILabel"; ManifestController.checkerCell */
+"PxB-zJ-dD5.text" = "Keep changes";

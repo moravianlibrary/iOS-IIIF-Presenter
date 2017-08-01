@@ -96,6 +96,7 @@ class IIIFManifest {
     }
 }
 
+
 extension IIIFManifest: Equatable {
     
     public static func ==(lhs: IIIFManifest, rhs: IIIFManifest) -> Bool {

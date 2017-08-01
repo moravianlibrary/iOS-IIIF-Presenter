@@ -31,6 +31,12 @@
 "see_also" = "SeeAlso";
 "within" = "Within";
 
+// image settings
+"img_quality" = "Quality";
+"img_format" = "Format";
+"img_none" = "Not available";
+"img_keep_hint" = "Changes will apply for all pages of current manifest. They won't be kept after the viewer is closed.";
+
 // tutorial messages
 "welcome" = "Welcome to the IIIF Presenter application.";
 "extension_tutorial" = "You can open any publicly available IIIF document using the action extension, for example in Safari. You'll find detailed description in the About section.";

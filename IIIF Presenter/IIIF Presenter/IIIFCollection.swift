@@ -162,6 +162,7 @@ struct IIIFCollection {
     }
 }
 
+
 extension IIIFCollection: Equatable {
     
     public static func ==(lhs: IIIFCollection, rhs: IIIFCollection) -> Bool {

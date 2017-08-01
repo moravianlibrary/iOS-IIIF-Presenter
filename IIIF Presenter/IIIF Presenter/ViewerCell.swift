@@ -26,6 +26,11 @@ class ViewerCell: UICollectionViewCell {
         }
     }
     
+    func set(quality: String?, format: String?) {
+        viewer?.currentFormat = format
+        viewer?.currentQuality = quality
+    }
+    
     fileprivate func loadImage() {
         if let url = viewModel?.canvas.images?.first?.resource.service?.id {
             spinner?.startAnimating()

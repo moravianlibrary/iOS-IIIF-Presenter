@@ -31,6 +31,12 @@
 "see_also" = "Další";
 "within" = "Obsaženo v";
 
+// image settings
+"img_quality" = "Kvalita";
+"img_format" = "Formát";
+"img_none" = "Nedostupno";
+"img_keep_hint" = "Změny budou použity na všechny stránky aktuálního manifestu. Nezachovávají se po opuštění čtečky.";
+
 // tutorial messages
 "welcome" = "Vítejte v aplikaci IIIF Presenter.";
 "extension_tutorial" = "Pomocí rozšíření můžete otevřít jakýkoli veřejně dostupný IIIF dokument, například v Safari. Podrobný popis najdete v sekci O aplikaci.";
