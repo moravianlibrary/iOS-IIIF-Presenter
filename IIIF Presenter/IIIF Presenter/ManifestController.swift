@@ -40,7 +40,7 @@ class ManifestController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Raw", style: .plain, target: self, action: #selector(showRawJson))
     }
     
-    func showRawJson() {
+    @objc func showRawJson() {
         guard let rawData = viewModel?.manifest.rawJson else {
             return
         }

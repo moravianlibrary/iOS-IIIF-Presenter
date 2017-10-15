@@ -113,14 +113,14 @@ class CardListController: UIViewController {
         }
     }
     
-    func refreshData() {
+    @objc func refreshData() {
         viewModel?.stopLoading()
         viewModel?.clearData()
         collectionView.reloadData()
         viewModel?.beginLoading()
     }
     
-    func orientationDidChange() {
+    @objc func orientationDidChange() {
         collectionView.collectionViewLayout.invalidateLayout()
     }
     
@@ -151,7 +151,7 @@ class CardListController: UIViewController {
         }
     }
     
-    @IBAction func reloadData() {
+    @objc func reloadData() {
         if let url = viewModel?.collection.id {
             URLCache.shared.removeCachedResponse(for: URLRequest(url: url))
         }
@@ -159,7 +159,7 @@ class CardListController: UIViewController {
         viewModel?.beginLoading()
     }
     
-    func shareCollection() {
+    @objc func shareCollection() {
         ShareUtil.share(viewModel?.collection, fromController: self, barItem: actionBarItem)
     }
 }

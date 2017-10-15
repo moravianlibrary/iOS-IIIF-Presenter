@@ -201,7 +201,7 @@ fileprivate class SessionPool {
     private var pool: [(session: URLSession, taskCount: Int)]
     
     private var leastUsedSession: URLSession {
-        return pool.sorted(by: { $0.0.taskCount < $0.1.taskCount }).first!.session
+        return pool.sorted(by: { $0.taskCount < $1.taskCount }).first!.session
     }
     
     private init() {

@@ -178,7 +178,7 @@ class CollectionViewModel {
     }
     
     fileprivate func checkCacheAfter(_ index: Int) {
-        let cached = cachedResponses.filter({ $0.index > index }).sorted(by: { $0.0.index < $0.1.index })
+        let cached = cachedResponses.filter({ $0.index > index }).sorted(by: { $0.index < $1.index })
         for cachedItem in cached {
             if cachedItem.index == itemsCount + collectionCountOffset {
                 collection.members?.append(cachedItem.item)
@@ -254,7 +254,7 @@ class CollectionViewModel {
             collection.members?.append(item)
             delegate?.addDataItem()
         } else {
-            let cached = cachedResponses.filter({ $0.index < index }).sorted(by: { $0.0.index < $0.1.index })
+            let cached = cachedResponses.filter({ $0.index < index }).sorted(by: { $0.index < $1.index })
             for cachedItem in cached {
                 if cachedItem.index == itemsCount + collectionCountOffset {
                     collection.members?.append(cachedItem.item)

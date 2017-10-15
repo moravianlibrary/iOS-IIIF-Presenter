@@ -106,7 +106,7 @@ class ViewerController: UIViewController {
         }, completion: nil)
     }
     
-    func showInfo() {
+    @objc func showInfo() {
         performSegue(withIdentifier: manifestDetail, sender: nil)
     }
     
@@ -137,7 +137,7 @@ class ViewerController: UIViewController {
         perform(#selector(hidePageNumber), with: nil, afterDelay: hideDelay)
     }
     
-    func hidePageNumber() {
+    @objc func hidePageNumber() {
         UIView.animate(withDuration: animationLength) {
             self.pageNumberView.alpha = 0.0
         }
