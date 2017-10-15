@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Bond
 
 class CardListController: UIViewController {
     
@@ -26,28 +25,22 @@ class CardListController: UIViewController {
     
     fileprivate let manifestViewer = "ManifestViewer"
     fileprivate let sectionInsets = UIEdgeInsets(top: 6.0, left: 6.0, bottom: 6.0, right: 6.0)
-    fileprivate var knownCount = 0
     
     var showFirstError = false
     var isHistory = false
     var parentNames: [String]?
-    var data = MutableObservableArray<Any>()
     var viewModel: CollectionViewModel? {
         willSet {
             viewModel?.delegate = nil
         }
         didSet {
             viewModel?.delegate = self
-            data.replace(with: viewModel?.collection.members ?? [])
+            startObserving()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if isHistory {
-            spinner.stopAnimating()
-        }
         
         collectionView.backgroundColor = UIColor.clear
         
@@ -58,7 +51,13 @@ class CardListController: UIViewController {
         collectionView.addSubview(refreshControl)
 
         collectionView.reactive.dataSource.forwardTo = self
-        data.bind(to: collectionView) { (array, index, collectionView) -> UICollectionViewCell in
+        startObserving()
+    }
+
+    private func startObserving() {
+        guard collectionView != nil else { return }
+
+        viewModel?.data.bind(to: collectionView) { (array, index, collectionView) -> UICollectionViewCell in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardCell.reuseId, for: index) as! CardCell
 
             let item = array.array[index.item]
@@ -66,6 +65,15 @@ class CardListController: UIViewController {
             cell.viewModel = CardViewModel.getModel(item, delegate: cell)
 
             return cell
+        }
+
+        _ = viewModel?.data.observeNext { event in
+            if event.source.isEmpty, !self.isHistory {
+                self.spinner.startAnimating()
+            } else {
+                self.spinner.stopAnimating()
+                self.refreshControl.endRefreshing()
+            }
         }
     }
     
@@ -114,10 +122,7 @@ class CardListController: UIViewController {
     }
     
     @objc func refreshData() {
-        viewModel?.stopLoading()
-        viewModel?.clearData()
-        collectionView.reloadData()
-        viewModel?.beginLoading()
+        viewModel?.refreshData()
     }
     
     @objc func orientationDidChange() {
@@ -132,7 +137,7 @@ class CardListController: UIViewController {
     }
     
     fileprivate func handleSectionNumber(_ number: Int) {
-        if !isHistory, let error = viewModel?.loadingError, number == 0 || knownCount == 0 {
+        if !isHistory, let error = viewModel?.loadingError, number == 0 {
             messageView?.isHidden = false
             messageLabel?.text = "\(error.code): \(error.localizedDescription)"
             messageButton?.isHidden = false
@@ -141,8 +146,8 @@ class CardListController: UIViewController {
         }
     }
     
-    fileprivate func handleItemsCount() {
-        if !(viewModel?.isLoading ?? true), knownCount == 0 {
+    fileprivate func handleItemsCount(_ count: Int) {
+        if count == 0 {
             messageView?.isHidden = false
             messageLabel?.text = NSLocalizedString("empty_collection", comment: "")
             messageButton?.isHidden = true
@@ -263,29 +268,12 @@ extension CardListController: CardListDelegate {
     }
     
     func didStartLoadingData() {
-        if knownCount == 0 {
-            spinner?.startAnimating()
-        }
         loadingIndicator?.startAnimating()
     }
     
     func didFinishLoadingData(error: NSError?) {
         spinner?.stopAnimating()
         loadingIndicator?.stopAnimating()
-        collectionView?.reloadData()
-    }
-    
-    func addDataItem() {
-        guard isViewLoaded, let count = viewModel?.itemsCount, count != knownCount else {
-            return
-        }
-
-        if let item = viewModel?.collection.members?.last {
-            data.append(item)
-        }
-//        let index = IndexPath(item: knownCount, section: 0)
-//        collectionView.insertItems(at: [index])
-        spinner?.stopAnimating()
-        refreshControl.endRefreshing()
+        handleItemsCount(viewModel?.data.count ?? 0)
     }
 }

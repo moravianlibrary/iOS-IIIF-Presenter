@@ -19,13 +19,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     fileprivate var wasLaunchedWithUrl = false
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
-        // init analytics
-        AnalyticsUtil.initAnalytics()
-        
-        // init crashlytics
-        Fabric.with([Crashlytics.self])
-        
+
+        #if RELEASE
+            // init analytics
+            AnalyticsUtil.initAnalytics()
+            // init crashlytics
+            Fabric.with([Crashlytics.self])
+        #endif
+
         initConstants()
         
         // init image cache

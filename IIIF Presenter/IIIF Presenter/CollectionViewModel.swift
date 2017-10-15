@@ -7,9 +7,13 @@
 //
 
 import Foundation
+import Bond
 
 class CollectionViewModel {
-    
+
+    // observable data from collection
+    var data = MutableObservableArray<Any>([])
+
     var collection: IIIFCollection
     var delegate: CardListDelegate?
     var loadingError: NSError?
@@ -48,11 +52,6 @@ class CollectionViewModel {
         let url = URL(string: urlString)!
         collection = IIIFCollection.createCollectionWith(url, members: items)
         self.delegate = delegate
-        if let url = URL(string: urlString) {
-//            self.downloadData(url)
-        } else {
-            log("Is not valid url: \(urlString).", level: .Warn)
-        }
     }
     
     
@@ -182,7 +181,7 @@ class CollectionViewModel {
         for cachedItem in cached {
             if cachedItem.index == itemsCount + collectionCountOffset {
                 collection.members?.append(cachedItem.item)
-                delegate?.addDataItem()
+                data.append(cachedItem.item)
             } else {
                 while brokenResponses.contains(collectionCountOffset + itemsCount) {
                     collectionCountOffset += 1
@@ -190,7 +189,7 @@ class CollectionViewModel {
                 
                 if cachedItem.index == itemsCount + collectionCountOffset {
                     collection.members?.append(cachedItem.item)
-                    delegate?.addDataItem()
+                    data.append(cachedItem.item)
                 } else {
                     break
                 }
@@ -241,7 +240,7 @@ class CollectionViewModel {
             collection.members = []
         }
         collection.members?.append(item)
-        delegate?.addDataItem()
+        data.append(item)
     }
     
     // must be run from the main thread
@@ -252,13 +251,13 @@ class CollectionViewModel {
         
         if index == itemsCount + collectionCountOffset {
             collection.members?.append(item)
-            delegate?.addDataItem()
+            data.append(item)
         } else {
             let cached = cachedResponses.filter({ $0.index < index }).sorted(by: { $0.index < $1.index })
             for cachedItem in cached {
                 if cachedItem.index == itemsCount + collectionCountOffset {
                     collection.members?.append(cachedItem.item)
-                    delegate?.addDataItem()
+                    data.append(cachedItem.item)
                 } else {
                     while brokenResponses.contains(collectionCountOffset + itemsCount) {
                         collectionCountOffset += 1
@@ -266,7 +265,7 @@ class CollectionViewModel {
                     
                     if cachedItem.index == itemsCount + collectionCountOffset {
                         collection.members?.append(cachedItem.item)
-                        delegate?.addDataItem()
+                        data.append(cachedItem.item)
                     } else {
                         break
                     }
@@ -275,7 +274,7 @@ class CollectionViewModel {
             
             if index == itemsCount + collectionCountOffset {
                 collection.members?.append(item)
-                delegate?.addDataItem()
+                data.append(item)
             } else {
                 cachedResponses.append((index, item))
             }
@@ -307,6 +306,13 @@ class CollectionViewModel {
     
     func clearData() {
         collection.members = nil
+        data.removeAll()
         toDownload = []
+    }
+
+    func refreshData() {
+        stopLoading()
+        clearData()
+        beginLoading()
     }
 }

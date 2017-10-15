@@ -200,6 +200,7 @@ extension ViewerController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let itemWidth = cellSize.width
+        guard itemWidth > 0 else { return }
         let offsetX = scrollView.contentOffset.x + scrollView.frame.width/2
         let index = Int(offsetX / itemWidth)
         if currentPage != index {
