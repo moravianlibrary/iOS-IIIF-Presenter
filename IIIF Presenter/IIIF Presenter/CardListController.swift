@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Bond
 
 class CardListController: UIViewController {
     
@@ -30,13 +31,14 @@ class CardListController: UIViewController {
     var showFirstError = false
     var isHistory = false
     var parentNames: [String]?
+    var data = MutableObservableArray<Any>()
     var viewModel: CollectionViewModel? {
         willSet {
             viewModel?.delegate = nil
         }
         didSet {
             viewModel?.delegate = self
-            collectionView?.reloadData()
+            data.replace(with: viewModel?.collection.members ?? [])
         }
     }
     
@@ -54,6 +56,17 @@ class CardListController: UIViewController {
         
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         collectionView.addSubview(refreshControl)
+
+        collectionView.reactive.dataSource.forwardTo = self
+        data.bind(to: collectionView) { (array, index, collectionView) -> UICollectionViewCell in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardCell.reuseId, for: index) as! CardCell
+
+            let item = array.array[index.item]
+            cell.collection = self
+            cell.viewModel = CardViewModel.getModel(item, delegate: cell)
+
+            return cell
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -152,34 +165,8 @@ class CardListController: UIViewController {
 }
 
 
-extension CardListController: UICollectionViewDataSource {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        let number = viewModel != nil ? 1 : 0
-        handleSectionNumber(number)
-        return number
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        knownCount = viewModel!.itemsCount
-        handleItemsCount()
-        return knownCount
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardCell.reuseId, for: indexPath) as! CardCell
-        
-        if let item = viewModel!.getItemAtPosition(indexPath.item) {
-            cell.collection = self
-            cell.viewModel = CardViewModel.getModel(item, delegate: cell)
-        } else {
-            cell.collection = nil
-            cell.viewModel = nil
-        }
-        
-        return cell
-    }
-    
+extension CardListController {
+
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if kind == UICollectionElementKindSectionHeader {
@@ -280,9 +267,12 @@ extension CardListController: CardListDelegate {
         guard isViewLoaded, let count = viewModel?.itemsCount, count != knownCount else {
             return
         }
-        
-        let index = IndexPath(item: knownCount, section: 0)
-        collectionView.insertItems(at: [index])
+
+        if let item = viewModel?.collection.members?.last {
+            data.append(item)
+        }
+//        let index = IndexPath(item: knownCount, section: 0)
+//        collectionView.insertItems(at: [index])
         spinner?.stopAnimating()
         refreshControl.endRefreshing()
     }

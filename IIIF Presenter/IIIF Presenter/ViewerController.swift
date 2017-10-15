@@ -19,6 +19,7 @@ class ViewerController: UIViewController {
     @IBOutlet weak var controlView: UIView!
     @IBOutlet weak var controlSlider: UISlider!
     @IBOutlet weak var controlViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var collectionTopConstraint: NSLayoutConstraint!
     
     fileprivate let sectionInsets = UIEdgeInsets(top: 12.0, left: 12.0, bottom: 12.0, right: 12.0)
     fileprivate var cellSize: CGSize = .zero

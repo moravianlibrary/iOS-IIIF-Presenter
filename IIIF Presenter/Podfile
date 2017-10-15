@@ -11,4 +11,5 @@ target 'IIIF Presenter' do
     pod 'Firebase/Core'
     pod 'Fabric'
     pod 'Crashlytics'
+    pod 'Bond'
 end
