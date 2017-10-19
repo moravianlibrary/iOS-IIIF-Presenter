@@ -19,7 +19,12 @@ class ViewerCell: UICollectionViewCell {
             viewer?.itvDelegate = self
         }
     }
-    
+
+    var gestureDelegate: ITVScrollViewGestureDelegate? {
+        didSet {
+            viewer?.itvGestureDelegate = gestureDelegate
+        }
+    }
     var viewModel: CanvasViewModel? {
         didSet {
             loadImage()

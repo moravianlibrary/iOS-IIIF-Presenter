@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import iOSTiledViewer
 
 class ViewerController: UIViewController {
 
@@ -18,8 +19,9 @@ class ViewerController: UIViewController {
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var controlView: UIView!
     @IBOutlet weak var controlSlider: UISlider!
-    @IBOutlet weak var controlViewBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var collectionTopConstraint: NSLayoutConstraint!
+
+    @IBOutlet var nonfullscreenConstraint: NSLayoutConstraint!
+    @IBOutlet var fullScreenConstraint: NSLayoutConstraint!
     
     fileprivate let sectionInsets = UIEdgeInsets(top: 12.0, left: 12.0, bottom: 12.0, right: 12.0)
     fileprivate var cellSize: CGSize = .zero
@@ -80,6 +82,8 @@ class ViewerController: UIViewController {
         info.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
         actionBarItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareManifest))
         navigationItem.rightBarButtonItems = [actionBarItem,UIBarButtonItem(customView: info)]
+
+        switchFullscreen(fullscreen: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -168,6 +172,27 @@ class ViewerController: UIViewController {
             currentCell.set(quality: currentQuality, format: currentFormat)
         }
     }
+
+    func switchFullscreen(fullscreen: Bool?=nil) {
+        let toFullscreen = fullscreen ?? !(navigationController?.navigationBar.isHidden ?? true)
+        UIView.animate(withDuration: 0.25) {
+            self.navigationController?.setNavigationBarHidden(toFullscreen, animated: false)
+            self.view.removeConstraint(toFullscreen ? self.nonfullscreenConstraint : self.fullScreenConstraint)
+            self.view.addConstraint(toFullscreen ? self.fullScreenConstraint : self.nonfullscreenConstraint)
+            self.view.backgroundColor = toFullscreen ? .black : .groupTableViewBackground
+            self.pageNumberView.backgroundColor = (toFullscreen ? UIColor.white : .black).withAlphaComponent(0.5)
+            self.view.layoutIfNeeded()
+        }
+    }
+}
+
+extension ViewerController: ITVScrollViewGestureDelegate {
+
+    func didTap(type: ITVGestureEventType, location: CGPoint) {
+        guard type == .singleTap else { return }
+
+        switchFullscreen()
+    }
 }
 
 
@@ -189,6 +214,7 @@ extension ViewerController: UICollectionViewDataSource {
         
         let canvas = viewModel!.manifest.sequences![indexPath.section].canvases[indexPath.item]
         cell.viewModel = CanvasViewModel(canvas)
+        cell.gestureDelegate = self
         cell.set(quality: keepQuality, format: keepFormat)
         
         return cell
@@ -214,7 +240,7 @@ extension ViewerController: UIScrollViewDelegate {
 extension ViewerController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        cellSize = collectionView.bounds.size
+        cellSize = collectionView.frame.size
         return cellSize
     }
     
