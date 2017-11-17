@@ -152,7 +152,7 @@ class ViewerController: UIViewController {
         controlSlider.maximumValue = Float(count - 1)
     }
     
-    func shareManifest() {
+    @objc func shareManifest() {
         ShareUtil.share(viewModel?.manifest, fromController: self, barItem: actionBarItem)
     }
     

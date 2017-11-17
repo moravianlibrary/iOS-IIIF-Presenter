@@ -26,7 +26,7 @@ class ActionViewController: UIViewController {
                 if provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
                     provider.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil, completionHandler: { (item, error) in
                         if let url = item as? URL {
-                            self.operation = OpenApplication(url.absoluteString, self as? UIResponder)
+                            self.operation = OpenApplication(url.absoluteString, self as UIResponder)
                             OperationQueue.main.addOperation(self.operation!)
                             OperationQueue.main.addOperation({
                                 self.close()

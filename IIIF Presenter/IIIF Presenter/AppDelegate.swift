@@ -53,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if var urlString = (launchOptions?[.url] as? URL)?.absoluteString {
             log("Launch options: \(String(describing: launchOptions)).", level: .Verbose)
             
-            if urlString.hasPrefix("iiif:"), let index = urlString.characters.index(of: ":") {
+            if urlString.hasPrefix("iiif:"), let index = urlString.index(of: ":") {
                 let range = urlString.startIndex...index
                 urlString.replaceSubrange(range, with: "")
             }
@@ -73,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // openURL on iOS 9+
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        let urlString = String(url.absoluteString.characters.dropFirst(5)) // drop application url scheme
+        let urlString = String(url.absoluteString.dropFirst(5)) // drop application url scheme
         
         guard let _ = URL(string: urlString) else {
             log("Url is not valid.", level: .Error)
