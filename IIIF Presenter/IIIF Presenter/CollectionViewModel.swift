@@ -141,9 +141,9 @@ class CollectionViewModel {
                         
                         let json = serialized as! [String:Any]
                         DispatchQueue.main.async {
-                            if let c = IIIFCollection(json) {//, c.members?.first != nil {
+                            if let c = IIIFCollection(json) {
                                 self.addItem(item: c, atIndex: index)
-                            } else if let m = IIIFManifest(json) {//, m.sequences?.first?.canvases.first != nil {
+                            } else if let m = IIIFManifest(json) {
                                 self.addItem(item: m, atIndex: index)
                             } else {
                                 self.brokenResponses.append(index)
@@ -308,6 +308,7 @@ class CollectionViewModel {
         collection.members = nil
         data.removeAll()
         toDownload = []
+        cachedResponses.removeAll()
     }
 
     func refreshData() {

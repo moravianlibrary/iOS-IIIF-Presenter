@@ -32,6 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // init image cache
         SDImageCache.shared().config.shouldCacheImagesInMemory = false
         SDImageCache.shared().config.shouldDecompressImages = false
+        SDImageCache.shared().config.maxCacheAge = 60 * 60 * 24 * 7     // week
+        SDImageCache.shared().deleteOldFiles(completionBlock: nil)
         
         // init logging
         #if DEBUG
