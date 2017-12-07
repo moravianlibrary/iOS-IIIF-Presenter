@@ -40,12 +40,13 @@ class MenuController: UITabBarController {
         
         searchController.viewModel = CollectionViewModel.createWithUrl(Constants.testUrl, delegate: searchController)
         historyController.viewModel = CollectionViewModel(IIIFCollection.createCollectionWith(dummyUrl, members: historyManifests))
-        
+
         setViewControllers([searchController, historyController, aboutController], animated: false)
         
         if showHistory {
             // show search tab if no launch options url available
-            showHistoryTab()
+            selectedIndex = 1
+            selectedViewController = viewControllers?[selectedIndex]
         }
     }
     
@@ -61,8 +62,9 @@ class MenuController: UITabBarController {
         
         historyController.showFirstError = showHistoryError
         let historyManifests = getHistoryItems()
-        if historyController.viewModel?.itemsCount != historyManifests.count {
+        if historyController.viewModel?.collectionTotalCount != historyManifests.count {
             historyController.viewModel = CollectionViewModel(IIIFCollection.createCollectionWith(dummyUrl, members: historyManifests))
+            historyController.viewModel?.beginLoading()
         }
         
         selectedIndex = 1

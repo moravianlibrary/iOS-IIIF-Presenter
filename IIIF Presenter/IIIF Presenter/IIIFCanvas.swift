@@ -78,7 +78,7 @@ struct IIIFCanvas {
             images = nil
         }
         
-        if let other = json["otherContent"] as? [[String:Any]] {
+        if let _ = json["otherContent"] as? [[String:Any]] {
             // Annotation List
             otherContent = nil
         } else {

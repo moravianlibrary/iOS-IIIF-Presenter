@@ -20,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
+//        UserDefaults.standard.removeObject(forKey: Constants.historyTypeKey)
+//        UserDefaults.standard.removeObject(forKey: Constants.historyUrlKey)
+
         #if RELEASE
             // init analytics
             AnalyticsUtil.initAnalytics()
@@ -61,10 +64,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
             addToUserDefaults(urlString)
-            let navController = window?.rootViewController as? UINavigationController
-            let menuController = navController?.topViewController as? MenuController
-            menuController?.showHistory = true
-            menuController?.showHistoryError = true
         } else {
             log("Launch options is empty.", level: .Verbose)
         }
@@ -114,15 +113,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             wasLaunchedWithUrl = false
             let navController = window?.rootViewController as? UINavigationController
             let menuController = navController?.topViewController as? MenuController
-            let wasHistory = menuController?.selectedIndex == MenuController.historyIndex
             menuController?.showHistoryError = true
             menuController?.showHistoryTab()
-            
-            // force loading, because CardListController.viewWillAppear will not be called
-            if wasHistory {
-                let historyController = menuController?.selectedViewController as? CardListController
-                historyController?.viewModel?.beginLoading()
-            }
         }
     }
 

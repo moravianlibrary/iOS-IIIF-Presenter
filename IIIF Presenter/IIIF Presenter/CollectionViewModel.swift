@@ -28,7 +28,7 @@ class CollectionViewModel {
     fileprivate var cachedResponses = [(index: Int, item: Any)]()
     fileprivate var brokenResponses = [Int]()
     fileprivate var collectionCountOffset = 0
-    fileprivate var collectionTotalCount = -1
+    public fileprivate(set) var collectionTotalCount = -1
     
     fileprivate var request: URLSessionDataTask?
     fileprivate var toDownload: [Any]?

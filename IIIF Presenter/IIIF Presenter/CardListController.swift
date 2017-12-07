@@ -55,6 +55,7 @@ class CardListController: UIViewController {
     }
 
     private func startObserving() {
+        bag.dispose()
         guard collectionView != nil else { return }
 
         viewModel?.data.bind(to: collectionView) { (array, index, collectionView) -> UICollectionViewCell in
@@ -65,16 +66,16 @@ class CardListController: UIViewController {
             cell.viewModel = CardViewModel.getModel(item, delegate: cell)
 
             return cell
-        }
+        }.dispose(in: bag)
 
-        _ = viewModel?.data.observeNext { event in
+        viewModel?.data.observeNext { event in
             if event.source.isEmpty, !self.isHistory {
                 self.spinner.startAnimating()
             } else {
                 self.spinner.stopAnimating()
                 self.refreshControl.endRefreshing()
             }
-        }
+        }.dispose(in: bag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
