@@ -8,19 +8,20 @@
 
 import Foundation
 
+
 struct IIIFService {
 
     let id: String
     let profile: String?
-    
-    
-    init?(_ json: [String:Any]?) {
-        
+
+
+    init?(_ json: [String: Any]?) {
+
         guard let json = json,
             let id = json["@id"] as? String else {
             return nil
         }
-        
+
         self.id = id
         profile = json["profile"] as? String
     }

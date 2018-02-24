@@ -8,26 +8,27 @@
 
 import Foundation
 
+
 struct IIIFAnnotationList {
 
     static let type = "sc:AnnotationList"
-    
+
     // required
     let resources: [IIIFAnnotation]
-    
+
     // should have
-    
+
     // optional
     let next: String?
     let previous: String?
     let startIndex: Int?
-    
-    
-    init?(_ json: [String:Any]) {
-        
+
+
+    init?(_ json: [String: Any]) {
+
         // required
         resources = []
-        
+
         // optional
         next = nil
         previous = nil

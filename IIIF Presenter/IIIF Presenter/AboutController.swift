@@ -8,37 +8,38 @@
 
 import UIKit
 
+
 class AboutController: UIViewController {
 
     @IBOutlet weak var appTitle: UILabel!
     @IBOutlet weak var author: UILabel!
     @IBOutlet weak var version: UILabel!
     @IBOutlet weak var aboutText: UILabel!
-    
+
     static let id = "aboutController"
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         version.text! += " " + Constants.version
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         if let menu = parent as? MenuController {
             menu.navigationItem.rightBarButtonItem = nil
             menu.navigationItem.rightBarButtonItems = nil
         }
     }
-    
+
     @IBAction func showIiif() {
         let urlString = "http://iiif.io"
         if let url = URL(string: urlString) {
             UIApplication.shared.openURL(url)
         }
     }
-    
+
     @IBAction func showMzk() {
         let urlString = "http://www.mzk.cz"
         if let url = URL(string: urlString) {

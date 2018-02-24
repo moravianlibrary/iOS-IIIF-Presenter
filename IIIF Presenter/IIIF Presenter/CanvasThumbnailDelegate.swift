@@ -8,7 +8,8 @@
 
 import Foundation
 
-protocol CanvasThumbnailDelegate {
+
+protocol CanvasThumbnailDelegate: class {
     func showImage(data: Data?)
     func showTitle(_ title: String?)
 }

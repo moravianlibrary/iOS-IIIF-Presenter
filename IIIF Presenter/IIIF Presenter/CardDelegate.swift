@@ -9,7 +9,8 @@
 import Foundation
 import UIKit
 
-protocol CardDelegate {
+
+protocol CardDelegate: class {
     func loadingDidStart()
     func set(title: String)
     func set(image: UIImage?)

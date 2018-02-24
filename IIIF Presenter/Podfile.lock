@@ -1,25 +1,26 @@
 PODS:
-  - Bond (6.5.2):
+  - Bond (6.6.0):
     - Differ (~> 1.0)
     - ReactiveKit (~> 3.8)
-  - CocoaLumberjack/Default (3.3.0)
-  - CocoaLumberjack/Swift (3.3.0):
+  - CocoaLumberjack/Default (3.4.1)
+  - CocoaLumberjack/Swift (3.4.1):
     - CocoaLumberjack/Default
-  - Crashlytics (3.9.3):
-    - Fabric (~> 1.7.2)
+  - Crashlytics (3.10.0):
+    - Fabric (~> 1.7.3)
   - Differ (1.0.3)
-  - Fabric (1.7.2)
-  - Firebase/Core (4.7.0):
-    - FirebaseAnalytics (= 4.0.5)
-    - FirebaseCore (= 4.0.12)
-  - FirebaseAnalytics (4.0.5):
+  - Fabric (1.7.3)
+  - Firebase/Core (4.9.0):
+    - FirebaseAnalytics (= 4.0.9)
+    - FirebaseCore (= 4.0.15)
+  - FirebaseAnalytics (4.0.9):
     - FirebaseCore (~> 4.0)
     - FirebaseInstanceID (~> 2.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - nanopb (~> 0.3)
-  - FirebaseCore (4.0.12):
+  - FirebaseCore (4.0.15):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseInstanceID (2.0.7)
+  - FirebaseInstanceID (2.0.9):
+    - FirebaseCore (~> 4.0)
   - GoogleToolboxForMac/Defines (2.1.3)
   - GoogleToolboxForMac/NSData+zlib (2.1.3):
     - GoogleToolboxForMac/Defines (= 2.1.3)
@@ -55,11 +56,11 @@ PODS:
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
   - ReactiveKit (3.8.2)
-  - SDWebImage (4.2.2):
-    - SDWebImage/Core (= 4.2.2)
-  - SDWebImage/Core (4.2.2)
-  - SDWebImage/WebP (4.2.2):
-    - libwebp
+  - SDWebImage (4.3.0):
+    - SDWebImage/Core (= 4.3.0)
+  - SDWebImage/Core (4.3.0)
+  - SDWebImage/WebP (4.3.0):
+    - libwebp (~> 0.5)
     - SDWebImage/Core
 
 DEPENDENCIES:
@@ -76,22 +77,22 @@ EXTERNAL SOURCES:
     :path: ../../iOSTiledViewer
 
 SPEC CHECKSUMS:
-  Bond: 2b8c1070674fe8ba908ae11dc4e7607377d17bab
-  CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
-  Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
+  Bond: 181d6ff061f17fe87a84b12d6f0c4d76d5456ce4
+  CocoaLumberjack: 2e258a064cacc8eb9a2aca318e24d02a0a7fd56d
+  Crashlytics: a989ef242b66605577a425733797f810bd2725eb
   Differ: 0c220ac75542f5f17f91b1303b85bf07d871ecd7
-  Fabric: 9cd6a848efcf1b8b07497e0b6a2e7d336353ba15
-  Firebase: dbfb98ccec2dcfcd21ab9cc1b4981a3f3c8c5e26
-  FirebaseAnalytics: 5b02a63ead2c3f0259cfc7f15e053e440587ecf8
-  FirebaseCore: 6cf108b63997bc08c04a1ffa55a3ac0d71a59ffc
-  FirebaseInstanceID: 148c25c986c8699e67304b114e365713dce467f2
+  Fabric: bb495bb9a7a7677c6d03a1f8b83d95bc49b47e41
+  Firebase: 632216af3ed7f31e3be34776947fdc7546cfb572
+  FirebaseAnalytics: 388b630c15713f5dbf364071f5f3d6077fb52f4e
+  FirebaseCore: 3bd047463058fa6b5d312c97502c52e45401cdfb
+  FirebaseInstanceID: d2058a35e9bebda1b6dd42486b84917bde552a9d
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
-  iOSTiledViewer: f9eef857e61d3a8235c5f94b33ea40c77e5d73c1
+  iOSTiledViewer: 02cdf443143e6e32d00e7fe458fba4841c11b62a
   libwebp: 1d5a07c2eb97f9c31bd5f154bb82efc0ea67c6a2
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   ReactiveKit: d2fe54503e0b6d0fa48b2cc6e0b0f99869f13ee6
-  SDWebImage: 89a9d32cd520bbb46eb14e541d5109b3564af198
+  SDWebImage: 6da6c8bca115addc4de8613362e1b15f66333825
 
-PODFILE CHECKSUM: 4ebf546e4d366b50cfee5eb18865c4941a8ff3bf
+PODFILE CHECKSUM: 5ca5b32558d0d8656157f6e8b26b4c479bae7033
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.4.0

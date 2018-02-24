@@ -8,18 +8,19 @@
 
 import Foundation
 
+
 struct IIIFCanvas {
 
     static let type = "sc:Canvas"
-    
+
     // required fields
     let id: URL
     let title: MultiProperty
     let height: Int
     let width: Int
-    
+
     // should have
-    
+
     // optional fields
     let description: MultiProperty?
     let thumbnail: MultiProperty?
@@ -35,10 +36,10 @@ struct IIIFCanvas {
     let within: MultiProperty?
     let images: [IIIFAnnotation]?
     let otherContent: [IIIFAnnotationList]?
-    
-    
+
+
     init?(_ json: [String: Any]) {
-        
+
         guard let idString = json["@id"] as? String,
             let id = URL(string: idString),
             let title = MultiProperty(json["label"]),
@@ -46,12 +47,12 @@ struct IIIFCanvas {
             let width = json["width"] as? Int else {
                 return nil
         }
-        
+
         self.id = id
         self.title = title
         self.height = height
         self.width = width
-        
+
         // optional fields
         description = MultiProperty(json["description"])
         metadata = Metadata(json["metadata"])
@@ -65,8 +66,8 @@ struct IIIFCanvas {
         service = MultiProperty(json["service"])
         seeAlso = MultiProperty(json["seeAlso"])
         within = MultiProperty(json["within"])
-        
-        if let imgs = json["images"] as? [[String:Any]] {
+
+        if let imgs = json["images"] as? [[String: Any]] {
             var array = [IIIFAnnotation]()
             for img in imgs {
                 if let a = IIIFAnnotation(img) {
@@ -77,8 +78,8 @@ struct IIIFCanvas {
         } else {
             images = nil
         }
-        
-        if let _ = json["otherContent"] as? [[String:Any]] {
+
+        if let _ = json["otherContent"] as? [[String: Any]] {
             // Annotation List
             otherContent = nil
         } else {

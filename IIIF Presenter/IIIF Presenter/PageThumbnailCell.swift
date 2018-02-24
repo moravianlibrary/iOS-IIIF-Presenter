@@ -8,13 +8,14 @@
 
 import UIKit
 
+
 class PageThumbnailCell: UICollectionViewCell {
-    
+
     static let reuseId = "pageThumbnail"
-    
+
     @IBOutlet weak var thumbnail: UIImageView?
     @IBOutlet weak var title: UILabel?
-    
+
     var viewModel: CanvasViewModel? {
         willSet {
             viewModel?.delegate = nil
@@ -26,14 +27,15 @@ class PageThumbnailCell: UICollectionViewCell {
     }
 }
 
+
 extension PageThumbnailCell: CanvasThumbnailDelegate {
-    
+
     func showImage(data: Data?) {
         if data != nil {
             thumbnail?.image = UIImage(data: data!)
         }
     }
-    
+
     func showTitle(_ title: String?) {
         self.title?.text = title
     }

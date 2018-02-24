@@ -7,17 +7,18 @@
 //
 
 import Foundation
-import UIKit
 import SDWebImage
+import UIKit
+
 
 class ImageUtil {
-    
+
     fileprivate let TAG = "ImageUtil: "
     fileprivate var request: URLSessionDataTask?
-    
+
     fileprivate var visited = Set<String>()
     fileprivate var cacheKey = "default"
-    
+
     func getFirstImage(_ resource: Any?, completion: @escaping ((UIImage?) -> Swift.Void)) {
         stopLoading()
         if let m = resource as? IIIFManifest {
@@ -28,14 +29,14 @@ class ImageUtil {
             assertionFailure(TAG + "Unsupported resource type: \(resource ?? "nil"))")
         }
     }
-    
+
     func stopLoading() {
         cacheKey = "default"
         request?.cancel()
         request = nil
         visited.removeAll()
     }
-    
+
     fileprivate func getFirstImage(manifest: IIIFManifest, completion: @escaping ((UIImage?) -> Swift.Void)) {
         if let img = getCachedImage(manifest.id.absoluteString) {
             completion(img)
@@ -45,7 +46,7 @@ class ImageUtil {
             downloadThumbnail(thumbnails, key: cacheKey, completion: completion)
         }
     }
-    
+
     fileprivate func getFirstImage(collection: IIIFCollection, completion: @escaping ((UIImage?) -> Swift.Void)) {
         if let img = getCachedImage(collection.id.absoluteString) {
             completion(img)
@@ -55,27 +56,27 @@ class ImageUtil {
             downloadThumbnail(thumbnails, key: cacheKey, completion: completion)
         }
     }
-    
+
     // Try to download thumbnail from first url in list. If it fails, keep continue until the list is empty. Return first result with success or nil in completion block.
     fileprivate func downloadThumbnail(_ list: [String], key: String, completion: @escaping ((UIImage?) -> Swift.Void)) {
         guard !list.isEmpty, cacheKey == key else {
             completion(nil)
             return
         }
-        
+
         var array = list
         let urlString = IIIFImageApi.cropImageUrl(urlString: array.remove(at: 0))
-        
+
         guard !visited.contains(urlString) else {
             downloadThumbnail(array, key: key, completion: completion)
             return
         }
-        
+
         visited.insert(urlString)
 //        log("Try thumbnail at \(urlString).")
         if let url = URL(string: urlString) {
-            request = SessionPool.shared.dataTask(with: url, completionHandler: { (data, response, error) in
-                
+            request = SessionPool.shared.dataTask(with: url, completionHandler: { (data, _, error) in
+
                 if (error as NSError?)?.code == NSURLErrorCancelled {
                     completion(nil)
                     return
@@ -85,15 +86,15 @@ class ImageUtil {
                         completion(img)
                         return
                     } else {
-                        if data!.count > 1000000 {
+                        if data!.count > 1_000_000 {
                             // don't you dare to parse files over 1MB
                             log("Size of thumbnail data exceeded (\(data!.count)).", level: .Warn)
                             self.downloadThumbnail(array, key: key, completion: completion)
                             return
                         }
-                        
+
                         let serialized = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments)
-                        if let json = serialized as? [String:Any] {
+                        if let json = serialized as? [String: Any] {
                             if let img = IIIFImageApi(json) {
                                 let sUrl = img.getThumbnailUrl()
                                 if !self.visited.contains(sUrl) && !array.contains(sUrl) {
@@ -113,7 +114,7 @@ class ImageUtil {
                         }
                     }
                 }
-                
+
                 self.downloadThumbnail(array, key: key, completion: completion)
             })
             request?.resume()
@@ -121,15 +122,15 @@ class ImageUtil {
             downloadThumbnail(array, key: key, completion: completion)
         }
     }
-    
+
     // Gather all possible thumbnail url (thumbnail or manifest) for collection
     fileprivate func getCollectionThumbnails(_ collection: IIIFCollection) -> [String] {
         var listOfThumbnailUrls = [String]()
-        
+
         if let thumbnail = collection.thumbnail {
             listOfThumbnailUrls.append(thumbnail.id)
         }
-        
+
         if let items = collection.members {
             // try manifests first as it may laed to faster image result 
             for case let item as IIIFManifest in items {
@@ -142,35 +143,35 @@ class ImageUtil {
             // collection needs to be loaded first
             listOfThumbnailUrls.append(collection.id.absoluteString)
         }
-        
+
         return listOfThumbnailUrls
     }
-    
+
     // Gather all possible thumbnail url (thumbnail or canvas) for manifest
     fileprivate func getManifestThumbnails(_ manifest: IIIFManifest) -> [String] {
         var listOfThumbnailUrls = [String]()
-        
+
         if let thumbnail = manifest.thumbnail {
             listOfThumbnailUrls.append(thumbnail.id)
         }
-        
+
         if let sequences = manifest.sequences {
             for sequence in sequences {
                 if let thumbnails = sequence.thumbnail?.getValueList() {
                     listOfThumbnailUrls.append(contentsOf: thumbnails)
                 }
-                
+
                 for canvas in sequence.canvases {
                     if let thumbnails = canvas.thumbnail?.getValueList() {
                         listOfThumbnailUrls.append(contentsOf: thumbnails)
                     }
-                    
+
                     if let images = canvas.images {
                         for image in images {
                             if let value = image.resource.service?.id {
                                 listOfThumbnailUrls.append(value)
                             }
-                            
+
                             listOfThumbnailUrls.append(image.resource.id)
                         }
                     }
@@ -180,30 +181,30 @@ class ImageUtil {
             // manifest needs to be loaded first
             listOfThumbnailUrls.append(manifest.id.absoluteString)
         }
-        
+
         return listOfThumbnailUrls
     }
-    
+
     fileprivate func getCachedImage(_ imgKey: String) -> UIImage? {
         return SDImageCache.shared().imageFromMemoryCache(forKey: imgKey) ?? SDImageCache.shared().imageFromDiskCache(forKey: imgKey) ?? nil
     }
 }
 
 
-fileprivate class SessionPool {
-    
+private class SessionPool {
+
     private static let instance = SessionPool()
     static var shared: SessionPool {
         return instance
     }
-    
+
     private final let capacity = 4
     private var pool: [(session: URLSession, taskCount: Int)]
-    
+
     private var leastUsedSession: URLSession {
-        return pool.sorted(by: { $0.taskCount < $1.taskCount }).first!.session
+        return pool.min(by: { $0.taskCount <= $1.taskCount })!.session
     }
-    
+
     private init() {
         var pool_ = [(URLSession, Int)]()
         for _ in 1...capacity {
@@ -211,17 +212,17 @@ fileprivate class SessionPool {
             config.urlCache = nil
             config.httpCookieStorage = nil
             config.urlCredentialStorage = nil
-            pool_.append((URLSession(configuration: config),0))
+            pool_.append((URLSession(configuration: config), 0))
         }
         pool = pool_
     }
-    
+
     private func changeTaskCount(_ session: URLSession, _ value: Int) {
         for (index, tuple) in pool.enumerated() where tuple.session === session {
             pool[index].taskCount += value
         }
     }
-    
+
     func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Swift.Void) -> URLSessionDataTask {
         let session = leastUsedSession
         changeTaskCount(session, 1)

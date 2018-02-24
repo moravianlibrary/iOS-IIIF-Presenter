@@ -8,13 +8,14 @@
 
 import UIKit
 
+
 struct ShareUtil {
-    
+
     static func share(_ item: Any?, fromController controller: UIViewController, barItem: UIBarButtonItem?) {
         guard item != nil, !Constants.isIPad || barItem != nil else {
             return
         }
-        
+
         let itemUrl: URL!
         let title: String?
         var isCollection = false
@@ -31,9 +32,9 @@ struct ShareUtil {
         } else {
             return
         }
-        
+
         AnalyticsUtil.logShare(item!)
-        
+
         let start = NSLocalizedString("share_msg_start", comment: "")
         let collection = NSLocalizedString("share_msg_collection", comment: "")
         let manifest = NSLocalizedString("share_msg_manifest", comment: "")
@@ -41,10 +42,10 @@ struct ShareUtil {
         let link = NSLocalizedString("share_msg_link", comment: "")
         let unknown = NSLocalizedString("share_msg_unknown", comment: "")
         let message = "\(start) \(isCollection ? collection : manifest)! \(name) '\(title ?? unknown)' \(link):\n"
-        
+
         let activityController = UIActivityViewController(activityItems: [message, itemUrl], applicationActivities: nil)
         activityController.excludedActivityTypes = [.assignToContact, .print, .saveToCameraRoll]
-        
+
         if Constants.isIPad {
             activityController.modalPresentationStyle = .popover
             activityController.popoverPresentationController?.barButtonItem = barItem

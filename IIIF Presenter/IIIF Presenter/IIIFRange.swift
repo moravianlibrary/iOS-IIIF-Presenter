@@ -8,16 +8,17 @@
 
 import Foundation
 
+
 struct IIIFRange {
 
     static let type = "sc:Range"
-    
+
     // required
     let id: URL
     let title: MultiProperty
-    
+
     // should have
-    
+
     // optional
     let metadata: Metadata?
     let description: MultiProperty?
@@ -34,19 +35,19 @@ struct IIIFRange {
     let within: MultiProperty?
     let startCanvas: String?
     let contentLayer: String?
-    
-    
-    init?(_ json: [String:Any]) {
-        
+
+
+    init?(_ json: [String: Any]) {
+
         guard let idString = json["@id"] as? String,
             let id = URL(string: idString),
             let title = MultiProperty(json["label"]) else {
                 return nil
         }
-        
+
         self.id = id
         self.title = title
-        
+
         // optional fields
         description = MultiProperty(json["description"])
         metadata = Metadata(json["metadata"])

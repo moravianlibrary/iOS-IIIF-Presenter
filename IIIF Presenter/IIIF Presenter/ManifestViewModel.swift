@@ -8,8 +8,9 @@
 
 import Foundation
 
+
 class ManifestViewModel {
-    
+
     var manifest: IIIFManifest
     var delegate: CardDelegate? {
         didSet {
@@ -20,18 +21,18 @@ class ManifestViewModel {
             }
         }
     }
-    
+
     var metaInfoCount: Int {
         return manifestInfo.count
     }
-    
-    fileprivate var manifestInfo = [(String,Any)]()
+
+    fileprivate var manifestInfo = [(String, Any)]()
     fileprivate var imageUtil = ImageUtil()
-    
+
     init(_ manifest: IIIFManifest, delegate: CardDelegate?=nil) {
         self.manifest = manifest
         self.delegate = delegate
-        
+
         if let value = manifest.description {
             manifestInfo.append((NSLocalizedString("description", comment: ""), value))
         }
@@ -66,21 +67,21 @@ class ManifestViewModel {
             manifestInfo.append((NSLocalizedString("within", comment: ""), value))
         }
     }
-    
+
     func getMetaInfoKey(at index: Int) -> String? {
         guard case 0..<metaInfoCount = index else {
             return nil
         }
-        
+
         let (key, _) = manifestInfo[index]
         return key
     }
-    
+
     func getMetaInfo(at index: Int, forLanguage lang: String) -> String? {
         guard case 0..<metaInfoCount = index else {
             return nil
         }
-        
+
         let (_, item) = manifestInfo[index]
         if let val = item as? MultiProperty {
             return val.getValueTranslated(lang: lang) ?? val.getSingleValue()
@@ -91,7 +92,7 @@ class ManifestViewModel {
         }
         return nil
     }
-    
+
     fileprivate func loadThumbnail() {
         delegate?.loadingDidStart()
         imageUtil.getFirstImage(manifest) { (image) in
@@ -100,14 +101,14 @@ class ManifestViewModel {
             }
         }
     }
-    
+
     // notify delegate with new data
     fileprivate func notifyDelegate() {
         guard delegate != nil else {
             // no need for any action when there is no delegate anymore
             return
         }
-        
+
         guard Thread.current.isMainThread else {
             // ensure calling delegate on the main thread
             DispatchQueue.main.async {
@@ -115,7 +116,7 @@ class ManifestViewModel {
             }
             return
         }
-        
+
         delegate?.set(title: manifest.title.getSingleValue()!)
         delegate?.set(date: manifest.date)
         loadThumbnail()

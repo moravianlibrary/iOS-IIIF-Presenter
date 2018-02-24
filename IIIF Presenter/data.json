@@ -6,6 +6,11 @@
 
   "members": [
     {
+      "@id": "http://ryanfb.github.io/iiif-universe/iiif-universe.json",
+      "@type": "sc:Collection",
+      "label": "IIIF Universe"
+    },
+    {
       "@id": "https://kramerius.mzk.cz/search/iiif-presentation/uuid:9ebcb206-24b7-4dc7-b367-3d9ad7179c23/manifest",
       "@type": "sc:Manifest",
       "label": "Sachy"
@@ -44,11 +49,6 @@
       "@id":"https://damsssl.llgc.org.uk/iiif/2.0/4398332/manifest.json",
       "@type": "sc:Manifest",
       "label": "Papyri"
-    },
-    {
-      "@id": "http://ryanfb.github.io/iiif-universe/iiif-universe.json",
-      "@type": "sc:Collection",
-      "label": "IIIF Universe"
     }
   ]
 }

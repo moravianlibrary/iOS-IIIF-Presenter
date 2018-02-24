@@ -8,10 +8,11 @@
 
 import UIKit
 
+
 class WelcomeCell: UICollectionViewCell {
 
     static let reuseId = "welcomeCell"
-    
+
     @IBOutlet weak var descriptionLabel: UILabel? {
         didSet {
             if Constants.isIPad {
@@ -25,9 +26,10 @@ class WelcomeCell: UICollectionViewCell {
             button?.layer.cornerRadius = 4
         }
     }
-    
+
     var welcomeController: WelcomeController?
-    
+
+
     @IBAction func buttonPressed() {
         welcomeController?.didPressButton()
     }

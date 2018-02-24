@@ -6,13 +6,14 @@
 //  Copyright © 2017 Jakub Fiser. All rights reserved.
 //
 
-import UIKit
 import iOSTiledViewer
+import UIKit
+
 
 class ViewerCell: UICollectionViewCell {
-    
+
     static let reuseId = "viewer"
-    
+
     @IBOutlet weak var spinner: UIActivityIndicatorView?
     @IBOutlet weak var viewer: ITVScrollView? {
         didSet {
@@ -30,12 +31,12 @@ class ViewerCell: UICollectionViewCell {
             loadImage()
         }
     }
-    
+
     func set(quality: String?, format: String?) {
         viewer?.currentFormat = format
         viewer?.currentQuality = quality
     }
-    
+
     fileprivate func loadImage() {
         if let url = viewModel?.canvas.images?.first?.resource.service?.id {
             spinner?.startAnimating()
@@ -45,14 +46,14 @@ class ViewerCell: UICollectionViewCell {
 }
 
 extension ViewerCell: ITVScrollViewDelegate {
-    
+
     func didFinishLoading(error: NSError?) {
         spinner?.stopAnimating()
         if let error = error {
             errorDidOccur(error: error)
         }
     }
-    
+
     func errorDidOccur(error: NSError) {
         spinner?.stopAnimating()
         log("error: \(error)")

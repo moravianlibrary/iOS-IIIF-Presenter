@@ -6,8 +6,9 @@
 //  Copyright © 2017 Jakub Fiser. All rights reserved.
 //
 
-import Foundation
 import Bond
+import Foundation
+
 
 class CollectionViewModel {
 
@@ -15,29 +16,31 @@ class CollectionViewModel {
     var data = MutableObservableArray<Any>([])
 
     var collection: IIIFCollection
-    var delegate: CardListDelegate?
+    weak var delegate: CardListDelegate?
     var loadingError: NSError?
-    
+
     var itemsCount: Int {
         return collection.members?.count ?? 0
     }
     var isLoading: Bool {
         return request != nil || (toDownload != nil && !toDownload!.isEmpty)
     }
-    
+
     fileprivate var cachedResponses = [(index: Int, item: Any)]()
     fileprivate var brokenResponses = [Int]()
     fileprivate var collectionCountOffset = 0
     public fileprivate(set) var collectionTotalCount = -1
-    
+
     fileprivate var request: URLSessionDataTask?
     fileprivate var toDownload: [Any]?
     fileprivate let session: URLSession = URLSession.shared
-    
+
+
     static func createWithUrl(_ url: String, delegate: CardListDelegate?, items: [Any]?=nil) -> CollectionViewModel {
         return CollectionViewModel(url, delegate, items)
     }
-    
+
+
     init(_ collection: IIIFCollection) {
         self.collection = collection
         if collection.members == nil {
@@ -47,23 +50,23 @@ class CollectionViewModel {
             self.collection.members = nil
         }
     }
-    
+
     fileprivate init(_ urlString: String, _ delegate: CardListDelegate?, _ items: [Any]?) {
         let url = URL(string: urlString)!
         collection = IIIFCollection.createCollectionWith(url, members: items)
         self.delegate = delegate
     }
-    
-    
+
+
     fileprivate func downloadData(_ url: URL) {
         delegate?.didStartLoadingData()
-        request = session.dataTask(with: url, completionHandler: { (data, response, error) in
+        request = session.dataTask(with: url, completionHandler: { (data, _, error) in
             var err: NSError? = nil
             if (error as NSError?)?.code == NSURLErrorCancelled {
                 return
             } else if data != nil,
                 let serialization = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) {
-                let json = serialization as! [String:Any]
+                let json = serialization as! [String: Any]
                 if let c = IIIFCollection(json) {
                     self.collection = c
                     self.toDownload = self.collection.members
@@ -71,7 +74,7 @@ class CollectionViewModel {
                 } else if let m = IIIFManifest(json) {
                     self.collection.members!.insert(m, at: 0)
                 } else {
-                    err = NSError(domain: "cz.mzk", code: 102, userInfo: [NSLocalizedDescriptionKey: ["en":"Parsing error", "cz":"Chyba parsovani"]])
+                    err = NSError(domain: "cz.mzk", code: 102, userInfo: [NSLocalizedDescriptionKey: ["en": "Parsing error", "cz": "Chyba parsovani"]])
                     log("Unknown IIIF structure at \(url.absoluteString).", level: .Error)
                 }
             } else if error != nil {
@@ -81,13 +84,13 @@ class CollectionViewModel {
                 err = NSError(domain: "cz.mzk", code: 101, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("intern_error", comment: "")])
                 log("Parsing error from \(url.absoluteString).", level: .Error)
             }
-            
+
             self.loadingError = err
             self.loadAllMembers()
         })
         request?.resume()
     }
-    
+
     fileprivate var _session: URLSession?
     fileprivate var allSession: URLSession {
         if _session == nil {
@@ -99,7 +102,7 @@ class CollectionViewModel {
         }
         return _session!
     }
-    
+
     fileprivate func loadAllMembers() {
         request = nil
         guard Thread.current.isMainThread else {
@@ -108,17 +111,17 @@ class CollectionViewModel {
             }
             return
         }
-        
+
         guard toDownload != nil, !toDownload!.isEmpty else {
             delegate?.didFinishLoadingData(error: loadingError)
             return
         }
-        
+
         collectionTotalCount = toDownload!.count
         collectionCountOffset = 0
         let session = allSession
         var url: URL?
-        for (index,item) in toDownload!.enumerated() {
+        for (index, item) in toDownload!.enumerated() {
             if let m = item as? IIIFManifest {
                 url = m.id
             } else if let c = item as? IIIFCollection {
@@ -129,17 +132,17 @@ class CollectionViewModel {
                 toDownload!.remove(at: index)
                 url = nil
             }
-            
+
             if let _url = url {
                 session.dataTask(with: _url, completionHandler: { (data, _, error) in
                     if (error as NSError?)?.code == NSURLErrorCancelled {
                         return
                     }
-                    
+
                     self.deleteItem(_url.absoluteString)
                     if data != nil, let serialized = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) {
-                        
-                        let json = serialized as! [String:Any]
+
+                        let json = serialized as! [String: Any]
                         DispatchQueue.main.async {
                             if let c = IIIFCollection(json) {
                                 self.addItem(item: c, atIndex: index)
@@ -147,12 +150,12 @@ class CollectionViewModel {
                                 self.addItem(item: m, atIndex: index)
                             } else {
                                 self.brokenResponses.append(index)
-                            
+
                                 if index == self.itemsCount {
                                     self.collectionCountOffset += 1
                                     self.checkCacheAfter(index)
                                 }
-                                
+
                                 if self.toDownload!.isEmpty {
                                     self.delegate?.didFinishLoadingData(error: self.loadingError)
                                 }
@@ -165,7 +168,7 @@ class CollectionViewModel {
                                 self.collectionCountOffset += 1
                                 self.checkCacheAfter(index)
                             }
-                            
+
                             if self.toDownload!.isEmpty {
                                 self.delegate?.didFinishLoadingData(error: self.loadingError)
                             }
@@ -175,7 +178,7 @@ class CollectionViewModel {
             }
         }
     }
-    
+
     fileprivate func checkCacheAfter(_ index: Int) {
         let cached = cachedResponses.filter({ $0.index > index }).sorted(by: { $0.index < $1.index })
         for cachedItem in cached {
@@ -186,7 +189,7 @@ class CollectionViewModel {
                 while brokenResponses.contains(collectionCountOffset + itemsCount) {
                     collectionCountOffset += 1
                 }
-                
+
                 if cachedItem.index == itemsCount + collectionCountOffset {
                     collection.members?.append(cachedItem.item)
                     data.append(cachedItem.item)
@@ -196,10 +199,10 @@ class CollectionViewModel {
             }
         }
     }
-    
+
     fileprivate func deleteItem(_ urlString: String) {
         var indexToDelete = -1
-        for (index,item) in toDownload!.enumerated() {
+        for (index, item) in toDownload!.enumerated() {
             if let m = item as? IIIFManifest, m.id.absoluteString == urlString {
                 indexToDelete = index
                 break
@@ -211,21 +214,21 @@ class CollectionViewModel {
                 break
             }
         }
-        
+
         if indexToDelete >= 0 {
             toDownload!.remove(at: indexToDelete)
         }
     }
-    
-    func getItemAtPosition(_ i: Int) -> Any? {
-        return collection.members?[i]
+
+    func getItemAtPosition(_ index: Int) -> Any? {
+        return collection.members?[index]
     }
-    
+
     func selectItemAt(_ index: Int) {
         guard let item = getItemAtPosition(index) else {
             return
         }
-        
+
         AnalyticsUtil.logSelect(item)
         if let m = item as? IIIFManifest {
             delegate?.showViewer(manifest: m)
@@ -233,7 +236,7 @@ class CollectionViewModel {
             delegate?.showCollection(collection: c)
         }
     }
-    
+
     // must be run from the main thread
     fileprivate func addItem(item: Any) {
         if collection.members == nil {
@@ -242,13 +245,13 @@ class CollectionViewModel {
         collection.members?.append(item)
         data.append(item)
     }
-    
+
     // must be run from the main thread
     fileprivate func addItem(item: Any, atIndex index: Int) {
         if collection.members == nil {
             collection.members = []
         }
-        
+
         if index == itemsCount + collectionCountOffset {
             collection.members?.append(item)
             data.append(item)
@@ -262,7 +265,7 @@ class CollectionViewModel {
                     while brokenResponses.contains(collectionCountOffset + itemsCount) {
                         collectionCountOffset += 1
                     }
-                    
+
                     if cachedItem.index == itemsCount + collectionCountOffset {
                         collection.members?.append(cachedItem.item)
                         data.append(cachedItem.item)
@@ -271,7 +274,7 @@ class CollectionViewModel {
                     }
                 }
             }
-            
+
             if index == itemsCount + collectionCountOffset {
                 collection.members?.append(item)
                 data.append(item)
@@ -279,20 +282,20 @@ class CollectionViewModel {
                 cachedResponses.append((index, item))
             }
         }
-        
+
         checkCacheAfter(index)
-        
+
         if toDownload!.isEmpty {
             delegate?.didFinishLoadingData(error: self.loadingError)
         }
     }
-    
+
     func stopLoading() {
         request?.cancel()
         _session?.invalidateAndCancel()
         _session = nil
     }
-    
+
     func beginLoading() {
         delegate?.didStartLoadingData()
         if collection.members == nil && (toDownload == nil || toDownload!.isEmpty) {
@@ -303,7 +306,7 @@ class CollectionViewModel {
             delegate?.didFinishLoadingData(error: nil)
         }
     }
-    
+
     func clearData() {
         collection.members = nil
         data.removeAll()

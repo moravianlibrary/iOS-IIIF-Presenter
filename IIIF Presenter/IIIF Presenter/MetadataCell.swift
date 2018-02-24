@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class MetadataCell: UITableViewCell {
 
     @IBOutlet weak var title: UILabel!

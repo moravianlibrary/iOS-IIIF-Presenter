@@ -8,17 +8,18 @@
 
 import UIKit
 
+
 class CardCell: UICollectionViewCell {
-    
+
     static let reuseId = "card"
-    
+
     @IBOutlet weak var image: UIImageView?
     @IBOutlet weak var title: UILabel?
     @IBOutlet weak var date: UILabel?
     @IBOutlet weak var type: UILabel?
     @IBOutlet weak var grayline: UIView?
     @IBOutlet weak var loadingSpinner: UIActivityIndicatorView?
-    
+
     weak var collection: CardListController?
     var viewModel: CardViewModel? {
         willSet {
@@ -33,17 +34,17 @@ class CardCell: UICollectionViewCell {
 
 
 extension CardCell: CardDelegate {
-    
+
     func loadingDidStart() {
         // activity indicator stops spinning on reuse, so we need to start it again
         image?.backgroundColor = UIColor.black.withAlphaComponent(0.15)
         loadingSpinner?.startAnimating()
     }
-    
+
     func set(title: String) {
         self.title?.text = title
     }
-    
+
     func set(image: UIImage?) {
         if let img = image {
             self.image?.image = img
@@ -51,7 +52,7 @@ extension CardCell: CardDelegate {
         }
         loadingSpinner?.stopAnimating()
     }
-    
+
     func set(date: Date?) {
         if date != nil {
             self.date?.text = Constants.dateFormatter.string(from: date!)
@@ -59,7 +60,7 @@ extension CardCell: CardDelegate {
             self.date?.text = nil
         }
     }
-    
+
     func set(type: String?) {
         if type != nil {
             self.type?.text = type

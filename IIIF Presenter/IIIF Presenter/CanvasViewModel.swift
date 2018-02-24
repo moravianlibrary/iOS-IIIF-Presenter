@@ -8,8 +8,9 @@
 
 import Foundation
 
+
 class CanvasViewModel {
-    
+
     let canvas: IIIFCanvas
     var delegate: CanvasThumbnailDelegate? {
         didSet {
@@ -17,20 +18,20 @@ class CanvasViewModel {
                 request?.cancel()
                 return
             }
-            
+
             notifyDelegate()
         }
     }
-    
+
     fileprivate var request: URLSessionDataTask?
-    
+
     init(_ canvas: IIIFCanvas) {
         self.canvas = canvas
     }
-    
+
     fileprivate func loadThumbnail() {
         if let imageUrl = canvas.images?.first?.resource.service?.id, let url = CanvasViewModel.getThumbnailUrl(imageUrl) {
-            request = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            request = URLSession.shared.dataTask(with: url) { (data, _, _) in
                 DispatchQueue.main.async {
                     self.delegate?.showImage(data: data)
                 }
@@ -40,7 +41,7 @@ class CanvasViewModel {
             self.delegate?.showImage(data: nil)
         }
     }
-    
+
     static func getThumbnailUrl(_ url: String) -> URL? {
         var imageUrl = url
         if imageUrl.lowercased().hasSuffix("default.jpg") {
@@ -53,7 +54,7 @@ class CanvasViewModel {
         }
         return URL(string: imageUrl)
     }
-    
+
     fileprivate func notifyDelegate() {
         guard Thread.current.isMainThread else {
             DispatchQueue.main.async {
@@ -61,7 +62,7 @@ class CanvasViewModel {
             }
             return
         }
-        
+
         let title = canvas.title.getValueTranslated(lang: Constants.lang, defaultLanguage: "en") ?? canvas.title.getSingleValue()
         delegate?.showTitle(title)
         loadThumbnail()

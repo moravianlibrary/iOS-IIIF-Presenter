@@ -8,7 +8,8 @@
 
 import Foundation
 
-protocol CardListDelegate {
+
+protocol CardListDelegate: class {
     func didStartLoadingData()
     func showViewer(manifest: IIIFManifest)
     func showCollection(collection: IIIFCollection)

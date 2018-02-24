@@ -8,14 +8,15 @@
 
 import Foundation
 
+
 struct IIIFLayer {
 
     static let type = "sc:Layer"
-    
+
     // required
     let id: URL
     let title: MultiProperty
-    
+
     // optional
     let metadata: Metadata?
     let description: MultiProperty?
@@ -33,19 +34,19 @@ struct IIIFLayer {
     let first: String?
     let last: String?
     let total: Int?
-    
-    
-    init?(_ json: [String:Any]) {
+
+
+    init?(_ json: [String: Any]) {
 
         guard let idString = json["@id"] as? String,
             let id = URL(string: idString),
             let title = MultiProperty(json["label"]) else {
                 return nil
         }
-        
+
         self.id = id
         self.title = title
-        
+
         // optional fields
         description = MultiProperty(json["description"])
         metadata = Metadata(json["metadata"])

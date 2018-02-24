@@ -6,13 +6,14 @@
 //  Copyright © 2017 Jakub Fiser. All rights reserved.
 //
 
-import UIKit
 import iOSTiledViewer
+import UIKit
+
 
 class ViewerController: UIViewController {
 
     fileprivate let manifestDetail = "ManifestDetail"
-    
+
     @IBOutlet weak var collection: UICollectionView!
     @IBOutlet weak var pageNumber: UILabel!
     @IBOutlet weak var pageNumberView: UIView!
@@ -22,10 +23,10 @@ class ViewerController: UIViewController {
 
     @IBOutlet var nonfullscreenConstraint: NSLayoutConstraint!
     @IBOutlet var fullScreenConstraint: NSLayoutConstraint!
-    
+
     fileprivate let sectionInsets = UIEdgeInsets(top: 12.0, left: 12.0, bottom: 12.0, right: 12.0)
     fileprivate var cellSize: CGSize = .zero
-    
+
     var keepQuality: String? {
         didSet {
             collection.reloadData()
@@ -52,7 +53,7 @@ class ViewerController: UIViewController {
             updateImageSettings()
         }
     }
-    
+
     fileprivate var actionBarItem: UIBarButtonItem!
     fileprivate var currentPage: Int = 0 {
         didSet {
@@ -60,60 +61,61 @@ class ViewerController: UIViewController {
             controlSlider.value = Float(currentPage)
         }
     }
-    
+
     fileprivate var hideStatusBar = false
     override var prefersStatusBarHidden: Bool {
         return hideStatusBar
     }
-    
+
     var viewModel: ManifestViewModel? {
         didSet {
             collection?.reloadData()
             title = viewModel?.manifest.title.getSingleValue()
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let info = UIButton(type: .infoLight)
         let settingsImage = UIImage(named: "settings")
         info.setImage(settingsImage, for: .normal)
         info.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
         actionBarItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareManifest))
-        navigationItem.rightBarButtonItems = [actionBarItem,UIBarButtonItem(customView: info)]
+        navigationItem.rightBarButtonItems = [actionBarItem, UIBarButtonItem(customView: info)]
 
         switchFullscreen(fullscreen: false)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         // needs to be called to unify offset on ios 9 and 10 versions
         collection.layoutIfNeeded()
-        
+
         // just in case any rotation has been done on any other controller
         collection.collectionViewLayout.invalidateLayout()
     }
-    
+
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        
+
         let offset = collection?.contentOffset
         let index = CGFloat(currentPage)
         let newOffset = CGPoint(x: index * size.width, y: offset!.y)
-        
-        coordinator.animate(alongsideTransition: { (context) in
+
+        coordinator.animate(alongsideTransition: { _ in
             self.collection?.collectionViewLayout.invalidateLayout()
             self.collection?.setContentOffset(newOffset, animated: false)
             self.currentPage = Int(index)
         }, completion: nil)
     }
-    
-    @objc func showInfo() {
+
+    @objc
+    func showInfo() {
         performSegue(withIdentifier: manifestDetail, sender: nil)
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? ManifestController {
             controller.viewModel = viewModel
@@ -130,7 +132,7 @@ class ViewerController: UIViewController {
             controller.viewModel = viewModel
         }
     }
-    
+
     fileprivate let animationLength: TimeInterval = 0.4
     fileprivate let hideDelay: TimeInterval = 2
     fileprivate func showPageNumber() {
@@ -140,33 +142,37 @@ class ViewerController: UIViewController {
         }
         perform(#selector(hidePageNumber), with: nil, afterDelay: hideDelay)
     }
-    
-    @objc func hidePageNumber() {
+
+    @objc
+    func hidePageNumber() {
         UIView.animate(withDuration: animationLength) {
             self.pageNumberView.alpha = 0.0
         }
     }
-    
+
+    // swiftlint:disable empty_count
     fileprivate func handleCanvasesCount(_ count: Int) {
         emptyView.isHidden = (count > 0)
         controlSlider.maximumValue = Float(count - 1)
     }
-    
-    @objc func shareManifest() {
+    // swiftlint:enable empty_count
+
+    @objc
+    func shareManifest() {
         ShareUtil.share(viewModel?.manifest, fromController: self, barItem: actionBarItem)
     }
-    
+
     @IBAction func sliderMoved() {
         let pageNum = Int(controlSlider.value)
         let index = IndexPath(item: pageNum, section: 0)
         collection.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
     }
-    
+
     func showItem(at item: Int) {
         let index = IndexPath(item: item, section: 0)
         collection.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
     }
-    
+
     fileprivate func updateImageSettings() {
         if let currentCell = collection.cellForItem(at: IndexPath(item: currentPage, section: 0)) as? ViewerCell {
             currentCell.set(quality: currentQuality, format: currentFormat)
@@ -197,33 +203,33 @@ extension ViewerController: ITVScrollViewGestureDelegate {
 
 
 extension ViewerController: UICollectionViewDataSource {
-    
+
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         let number = viewModel?.manifest.sequences?.count
         return number ?? 0
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let num = viewModel!.manifest.sequences![section].canvases.count
         handleCanvasesCount(num)
         return num
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ViewerCell.reuseId, for: indexPath) as! ViewerCell
-        
+
         let canvas = viewModel!.manifest.sequences![indexPath.section].canvases[indexPath.item]
         cell.viewModel = CanvasViewModel(canvas)
         cell.gestureDelegate = self
         cell.set(quality: keepQuality, format: keepFormat)
-        
+
         return cell
     }
 }
 
 
 extension ViewerController: UIScrollViewDelegate {
-    
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let itemWidth = cellSize.width
         guard itemWidth > 0 else { return }
@@ -238,16 +244,16 @@ extension ViewerController: UIScrollViewDelegate {
 
 
 extension ViewerController: UICollectionViewDelegateFlowLayout {
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         cellSize = collectionView.frame.size
         return cellSize
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return .zero
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0.0
     }
